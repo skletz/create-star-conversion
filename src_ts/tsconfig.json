@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "outDir": "../js/generated",
+    // "outFile": "../../build/fullProject.js", // would create ONE file
+    "module": "commonjs",
+    "target": "es5",
+    "sourceMap": true
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}

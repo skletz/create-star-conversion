@@ -1,0 +1,23 @@
+
+@font-face {
+    font-family: arcadeFont;
+    src: url('../assets/fonts/arcadeclassic.regular.ttf');
+}
+
+body
+{
+    margin: 0;
+    background-color: #000000;
+}
+
+
+#content
+{
+    margin-left: auto;
+    margin-right: auto;
+    /*width: 1024px;
+    height: 768px;*/
+
+    background-color: #FFFFFF;
+}
+
