@@ -49,9 +49,6 @@ module Main
             this.game.state.add("EndState", State.End, false);
         }
 
-
-
-
         public getGame()
         {
             return this.game;
