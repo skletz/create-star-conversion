@@ -19,6 +19,7 @@
 #ifndef __Utils_h__
 #define __Utils_h__
 
+#include <boost/filesystem.hpp>
 #include "Chamfer.hpp"
 
 //#define min(a,b) a < b ? a : b
@@ -43,15 +44,22 @@ float getAngle(const cv::Point &prev, const cv::Point &next);
 bool getLineEquation(const cv::Point &pt1, const cv::Point &pt2, double &a, double &b);
 
 void getPolarLineEquation(const double a, const double b, double &theta, double &rho);
+
 void getPolarLineEquation(const cv::Point &pt1, const cv::Point &pt2, double &theta, double &rho);
+
 void getPolarLineEquation(const cv::Point &pt1, const cv::Point &pt2, double &theta, double &rho, double &length);
 
 float getMinAngleError(const float angle1, const float angle2, const bool fast);
+
 float getMinAngleError(const float angle1, const float angle2, const bool degree, const bool customPolarAngle);
 
-static cv::Scalar randomColor(cv::RNG& rng) {
-  int icolor = (unsigned) rng;
-  return cv::Scalar(icolor & 255, (icolor >> 8) & 255, (icolor >> 16) & 255);
+static cv::Scalar randomColor(cv::RNG &rng)
+{
+    int icolor = (unsigned) rng;
+    return cv::Scalar(icolor & 255, (icolor >> 8) & 255, (icolor >> 16) & 255);
 }
+
+bool getAllFilesWithExtensions(const std::string &path, const std::vector<std::string> &exts, std::vector<boost::filesystem::path> &list);
+
 
 #endif
