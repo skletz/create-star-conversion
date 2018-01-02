@@ -192,8 +192,8 @@ int testFastDirectionalChamfer(const std::string &templateFileName, const std::s
 
     LFLineFitter lf;
     LMLineMatcher lm;
-    lf.Configure("para_line_fitter.txt");
-    lm.Configure("para_line_matcher.txt");
+    lf.Configure("../src/cfg/para_line_fitter.txt");
+    lm.Configure("../src/cfg/para_line_matcher.txt");
 
 
     //Image *inputImage=NULL;
@@ -319,7 +319,7 @@ int testFastDirectionalChamfer(const std::string &templateFileName, const std::s
     cvShowImage("edge", edgeImage);
     cvShowImage("output", dispImage);
     cvSaveImage("result.png", dispImage);
-    //cvWaitKey(0);
+    cvWaitKey(0);
 
     cvDestroyWindow("edge");
     cvDestroyWindow("output");
@@ -349,18 +349,18 @@ int main()
 //    // test original implementation (chamfer folder) -> https://github.com/s-trinh/Chamfer-Matching
 //    testOriginalChamfer();
 
-    // test original implementation with query image and database
-    std::vector<std::pair<int, boost::filesystem::path>> detectionsMap; // detections -> path
-    getDetections(sketchPath, files, detectionsMap);
+//    // test original implementation with query image and database
+//    std::vector<std::pair<int, boost::filesystem::path>> detectionsMap; // detections -> path
+//    getDetections(sketchPath, files, detectionsMap);
 
-//    // fast directional chamfer matching -> https://github.com/CognitiveRobotics/object_tracking_2D/tree/master/3rdparty/Fdcm
+    // fast directional chamfer matching -> https://github.com/CognitiveRobotics/object_tracking_2D/tree/master/3rdparty/Fdcm
 //    if(!(argc == 3 || argc == 4))
 //    {
 //        std::cerr<<"[Syntax] fdcm template.txt input_edgeMap.pgm input_realImage.jpg [OR]"<<std::endl;
 //        std::cerr<<"[Syntax] fdcm template.txt input_realImage.jpg"<<std::endl;
 //        exit(0);
 //    }
-//    testFastDirectionalChamfer("", sketchPath);
+    testFastDirectionalChamfer("../src/cfg/hingeTemplate.txt", sketchPath);
 
 }
 
