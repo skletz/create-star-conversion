@@ -15,7 +15,7 @@
 #include <opencv2/opencv.hpp>
 #include "chamfer/Chamfer.hpp"
 #include "chamfer/Utils.hpp"
-#include "Timer.hpp"
+#include "Utils/Timer.hpp"
 
 //std::string DATA_LOCATION_PREFIX = "../data/";
 std::string DATA_LOCATION_PREFIX = "../../cv.sketch/cv.sketch/data/sketch_sample/";

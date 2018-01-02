@@ -23,7 +23,7 @@ OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 
 #include "LMDistanceImage.h"
-#include "../Timer.h"
+#include "../Utils/Timer.h"
 #include <omp.h> // openmp
 
 LMDistanceImage::LMDistanceImage()

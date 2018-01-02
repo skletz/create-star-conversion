@@ -18,7 +18,7 @@
  *****************************************************************************/
 #include "Chamfer.hpp"
 #include "Utils.hpp"
-#include "../Timer.hpp"
+#include "../Utils/Timer.hpp"
 #include <limits>
 #include <fstream>
 #include <opencv2/highgui/highgui.hpp>

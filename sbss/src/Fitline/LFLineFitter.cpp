@@ -22,7 +22,7 @@ OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 */
 
 #include "LFLineFitter.h"
-#include "../Timer.h"
+#include "../Utils/Timer.h"
 #include <omp.h> // openmp
 
 LFLineFitter::LFLineFitter()
