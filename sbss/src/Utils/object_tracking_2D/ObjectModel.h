@@ -96,6 +96,7 @@ protected:
   void generateSamplePoints(std::vector<CvPoint3D32f>& sample_points, std::vector<int>& edge_index, std::vector<std::pair<CvPoint3D32f, CvPoint3D32f> >& edges);
   void determineSharpEdges(GLMmodel* model, float th_sharp, std::vector<std::pair<CvPoint3D32f, CvPoint3D32f> >& sharp_edges, std::vector<std::pair<CvPoint3D32f, CvPoint3D32f> >& dull_edges, std::vector<std::pair<CvPoint3D32f, CvPoint3D32f> >& dull_normals);
   void determineSharpEdges_slow(GLMmodel* model, float th_sharp, std::vector<std::pair<CvPoint3D32f, CvPoint3D32f> >& sharp_edges, std::vector<std::pair<CvPoint3D32f, CvPoint3D32f> >& dull_edges, std::vector<std::pair<CvPoint3D32f, CvPoint3D32f> >& dull_normals);
+  void copyKeypointVectorToSeq(vector<cv::KeyPoint> &sourceKeypoints, CvSeq *targetSeq);
 
   void Cross(float* u, float* v, float* n)
   {

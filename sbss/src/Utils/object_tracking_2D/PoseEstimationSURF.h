@@ -10,12 +10,13 @@
 #include <opencv/cv.h>
 #include <opencv/highgui.h>
 #include <opencv2/features2d/features2d.hpp>
-#include <opencv2/nonfree/nonfree.hpp>
+#include "opencv2/xfeatures2d.hpp"
+//#include <opencv2/nonfree/nonfree.hpp>
 
-#include "Image/Image.h"
-#include "Image/ImageIO.h"
-#include "Fitline/LFLineFitter.h"
-#include "Fdcm/LMLineMatcher.h"
+#include "../../Image/Image.h"
+#include "../../Image/ImageIO.h"
+#include "../../Fitline/LFLineFitter.h"
+#include "../../Fdcm/LMLineMatcher.h"
 
 using namespace std;
 
@@ -31,6 +32,7 @@ public:
   void setImage(IplImage* img);
   void buildKdTree(vector<IplImage*>& keyframe, vector<CvMat*>& pose, vector<CvMat*>& keypoint2D, vector<CvMat*>& keypoint3D, vector<CvMat*>& descriptor);  
   IplImage* getImage() { return img_result_; }
+
 
 protected:
   void findCorrespondenceNN_FLANN(const CvSeq* imageKeypoints, const CvSeq* imageDescriptors, vector<int>& ptpairs, int numOfKeyframes); // FLANN (approximate nearest neighbor) search
@@ -64,7 +66,8 @@ protected:
     cvLine(image, cvPoint(x+detWindWidth,y), cvPoint(x+detWindWidth, y+detWindHeight), scalar, thickness);
     cvLine(image, cvPoint(x+detWindWidth,y+detWindHeight), cvPoint(x, y+detWindHeight), scalar, thickness);
     cvLine(image, cvPoint(x, y+detWindHeight), cvPoint( x, y), scalar, thickness);
-  }
+  };
+  void copyKeypointVectorToSeq(vector<cv::KeyPoint> &sourceKeypoints, CvSeq *targetSeq);
 
   CvMemStorage* ms_;
   CvSeq *seq_keypoints_;
@@ -83,7 +86,9 @@ protected:
   vector<CvPoint2D32f> inliers_img_2d_;
   vector<CvPoint2D32f> inliers_obj_2d_;  
   vector<CvPoint3D32f> inliers_obj_3d_;
-  CvSURFParams surf_params_;
+  //CvSURFParams surf_params_;
+  int surf_min_hessian_;
+  cv::Ptr<cv::xfeatures2d::SURF> surfDetector_;
   CObjectModel* obj_model_;
   CvMat* intrinsic_;
   CvMat* distortion_;

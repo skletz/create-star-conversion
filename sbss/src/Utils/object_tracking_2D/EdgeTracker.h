@@ -4,11 +4,11 @@
 #include <string>
 #include <vector>
 #include "opencv/cv.h"
-#include "TooN/TooN.h"
-#include "TooN/SVD.h"       // for SVD
-#include "TooN/so3.h"       // for special orthogonal group
-#include "TooN/se3.h"       // for special Euclidean group
-#include "TooN/wls.h"       // for weighted least square
+#include "../../TooN/TooN.h"
+#include "../../TooN/SVD.h"       // for SVD
+#include "../../TooN/so3.h"       // for special orthogonal group
+#include "../../TooN/se3.h"       // for special Euclidean group
+#include "../../TooN/wls.h"       // for weighted least square
 
 #include "ObjectModel.h"
 

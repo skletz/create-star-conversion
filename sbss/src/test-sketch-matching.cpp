@@ -17,6 +17,9 @@
 #include "chamfer/Utils.hpp"
 #include "Utils/Timer.hpp"
 
+//TODO: create template  (currently not properly working)
+#include "Utils/edge_templates_generator.h"
+
 //std::string DATA_LOCATION_PREFIX = "../data/";
 std::string DATA_LOCATION_PREFIX = "../../cv.sketch/cv.sketch/data/sketch_sample/";
 
@@ -360,6 +363,10 @@ int main()
 //        std::cerr<<"[Syntax] fdcm template.txt input_realImage.jpg"<<std::endl;
 //        exit(0);
 //    }
+//    const char *argv[] = {"edge_templates_generator", "arg1", "arg2", NULL};
+//    int argc = sizeof(argv) / sizeof(char*) - 1;
+//    EdgeTemplatesGenerator edgeTemplatesGenerator;
+//    edgeTemplatesGenerator.generateTemplate(argc, argv);
     testFastDirectionalChamfer("../src/cfg/hingeTemplate.txt", sketchPath);
 
 }
