@@ -7,10 +7,10 @@
 
 #include <opencv/cv.h>
 #include <opencv/highgui.h>
-#include "Image/Image.h"
-#include "Image/ImageIO.h"
-#include "Fitline/LFLineFitter.h"
-#include "Fdcm/LMLineMatcher.h"
+#include "FDCM_1/Image/Image.h"
+#include "FDCM_1/Image/ImageIO.h"
+#include "FDCM_1/Fitline/LFLineFitter.h"
+#include "FDCM_1/Fdcm/LMLineMatcher.h"
 
 #include <opencv2/opencv.hpp>
 #include "chamfer/Chamfer.hpp"
@@ -18,10 +18,11 @@
 #include "Utils/Timer.hpp"
 
 //TODO: create template  (currently not properly working)
-#include "Utils/edge_templates_generator.h"
+#include "FDCM_1/Utils/edge_templates_generator.h"
 
 //std::string DATA_LOCATION_PREFIX = "../data/";
 std::string DATA_LOCATION_PREFIX = "../../cv.sketch/cv.sketch/data/sketch_sample/";
+std::string OUT_DIR_PREFIX = "../out";
 
 
 int testOriginalChamfer()
@@ -356,18 +357,17 @@ int main()
 //    std::vector<std::pair<int, boost::filesystem::path>> detectionsMap; // detections -> path
 //    getDetections(sketchPath, files, detectionsMap);
 
-    // fast directional chamfer matching -> https://github.com/CognitiveRobotics/object_tracking_2D/tree/master/3rdparty/Fdcm
-//    if(!(argc == 3 || argc == 4))
-//    {
-//        std::cerr<<"[Syntax] fdcm template.txt input_edgeMap.pgm input_realImage.jpg [OR]"<<std::endl;
-//        std::cerr<<"[Syntax] fdcm template.txt input_realImage.jpg"<<std::endl;
-//        exit(0);
-//    }
-//    const char *argv[] = {"edge_templates_generator", "arg1", "arg2", NULL};
+//    // fast directional chamfer matching 1 -> https://github.com/CognitiveRobotics/object_tracking_2D/tree/master/3rdparty/Fdcm
+//    // [Syntax] fdcm template.txt input_edgeMap.pgm input_realImage.jpg [OR]
+//    // [Syntax] fdcm template.txt input_realImage.jpg
+//    //const char *argv[] = {"edge_templates_generator", "-h", NULL};
+//    const char *argv[] = {"edge_templates_generator", "-o", sketchPath.c_str(), "-p", OUT_DIR_PREFIX.c_str(), NULL };
 //    int argc = sizeof(argv) / sizeof(char*) - 1;
 //    EdgeTemplatesGenerator edgeTemplatesGenerator;
 //    edgeTemplatesGenerator.generateTemplate(argc, argv);
-    testFastDirectionalChamfer("../src/cfg/hingeTemplate.txt", sketchPath);
+//    testFastDirectionalChamfer("../src/cfg/hingeTemplate.txt", sketchPath);
+
+    // fast directional chamfer matching 2 (https://github.com/whitelok/fast-directional-chamfer-matching)
 
 }
 
