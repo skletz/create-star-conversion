@@ -30,6 +30,38 @@ OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 using namespace std;
 
+void Fitline::fitlineToLineRep(const cv::Mat &templateEdgemap, const string &outFileName)
+{
+    cv::Size s = templateEdgemap.size();
+    int templeateCols = s.width;
+    int templateRows = s.height;
+
+    // input Mat to 1D double
+    double * testData1D = (double*)templateEdgemap; // Direct convert from 2D array to 1D array:
+
+    // outputs
+//    lineRep // prhs[0]
+//    lineMap // prhs[1]
+
+
+    // Create Image
+    Image<uchar> inputImage;
+    inputImage.Resize(templeateCols,templateRows,false);
+
+    size_t index1,index2;
+    index2 = 0;
+    int    row,col;
+    for (col=0; col < templeateCols; col++)
+    {
+        for (row=0; row < templateRows; row++)
+        {
+            inputImage.Access(col,row) = testData1D[row+col*templateRows];
+        }
+    }
+
+
+}
+
 // Andi: renamed main method
 void Fitline::fitline(int argc, char *argv[])
 {

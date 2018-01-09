@@ -9,6 +9,7 @@
 #include <opencv/highgui.h>
 
 #include <opencv2/opencv.hpp>
+#include <Fitline/fitline.h>
 #include "chamfer/Chamfer.hpp"
 #include "chamfer/Utils.hpp"
 #include "Utils/Timer.hpp"
@@ -209,21 +210,23 @@ void myCanny(const cv::Mat &inputImg, cv::Mat &resultEdgeMap, int lowerthresh)
     //imshow( window_name, dst );
 }
 
-void testFDCM(const std::string &sourceImgPath, const std::string &targetImgPath)
+void testFDCM(const boost::filesystem::path sourceImgPath, const boost::filesystem::path &targetImgPath)
 {
     // template
-    cv::Mat sourceImg = cv::imread(sourceImgPath);
+    cv::Mat sourceImg = cv::imread(sourceImgPath.string());
     cv::Mat templateImg;
     cv::cvtColor( sourceImg, templateImg, cv::COLOR_BGR2GRAY );
     cv::Mat templateEdgeMap;
     myCanny(templateImg, templateEdgeMap, 40);
 
     // query
-    cv::Mat targetImageColor = cv::imread(targetImgPath);
+    cv::Mat targetImageColor = cv::imread(targetImgPath.string());
     cv::Mat targetImgEdgeMap;
     cv::cvtColor( targetImageColor, targetImgEdgeMap, cv::COLOR_BGR2GRAY );
     myCanny(targetImgEdgeMap, targetImgEdgeMap, 40);
 
+    Fitline fl;
+    fl.fitlineToLineRep(templateEdgeMap, OUT_DIR_PREFIX + sourceImgPath.stem().string());
 
 //    const char *argv[] = {"fdcm", sourceImgPath.c_str(), "-p", OUT_DIR_PREFIX.c_str(), NULL };
 //    int argc = sizeof(argv) / sizeof(char*) - 1;
@@ -244,7 +247,7 @@ int main()
 {
 
     // query image path
-    std::string sketchPath = DATA_LOCATION_PREFIX + "sketches/0.png";
+    boost::filesystem::path sketchPath{DATA_LOCATION_PREFIX + "sketches/0.png"};
 
     // database paths
     std::vector<boost::filesystem::path> files;
@@ -262,7 +265,7 @@ int main()
 
 
     // fast directional chamfer matching 2 (https://github.com/whitelok/fast-directional-chamfer-matching)
-    testFDCM(sketchPath, files.at(5).string());
+    testFDCM(sketchPath, files.at(5));
 }
 
 
