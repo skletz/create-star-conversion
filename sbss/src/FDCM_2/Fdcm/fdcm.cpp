@@ -28,9 +28,92 @@ OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 #include "Image/ImageIO.h"
 #include "Fitline/LFLineFitter.h"
 #include "LMLineMatcher.h"
+#include "../../Utils/Timer.hpp"
 
 #include <iostream>
 #include <string>
+
+void FDCM::fdcm_detect(const std::string &templateTxt, const std::string &targetImagePath, const cv::Mat &targetEdgeMap, const std::string &resultOutPath)
+{
+
+    cv::Size s = targetEdgeMap.size();
+    int templateCols = s.width;
+    int templateRows = s.height;
+
+    Timer timer(true);
+    // Create Image
+    Image<uchar> inputImage;
+    inputImage.Resize(templateCols,templateRows,false);
+
+    int channels = targetEdgeMap.channels();
+    int nRows = targetEdgeMap.rows;
+    int nCols = targetEdgeMap.cols * channels;
+    if (targetEdgeMap.isContinuous())
+    {
+        nCols *= nRows;
+        nRows = 1;
+    }
+    int i,j;
+    const uchar* p;
+    for( i = 0; i < nRows; ++i)
+    {
+        p = targetEdgeMap.ptr<uchar>(i);
+        for ( j = 0; j < nCols; ++j)
+        {
+            inputImage.Access(j, i) = p[j];
+        }
+    }
+    timer.printTime("FDCM: Image Creation");
+    // Load Image
+    //inputImage = ImageIO::LoadPGM(edgeMapName.c_str());
+
+
+    LFLineFitter lf;
+    LMLineMatcher lm;
+    lf.Configure("../cfg/para_line_fitter_target.txt");
+    lm.Configure("../cfg/para_line_matcher.txt");
+
+
+    lf.Init();
+    // Line Fitting
+    lf.FitLine(&inputImage);
+    timer.printTime("FDCM: Fitline");
+
+
+
+    lm.Init(templateTxt.c_str());
+    timer.printTime("FDCM: LM init");
+    vector< vector<LMDetWind> > detWindArrays;
+    detWindArrays.clear();
+    lm.SingleShapeDetectionWithVaryingQuerySize(lf, 0.12, detWindArrays);
+    int last = detWindArrays.size()-1;
+    int nDetWindows = detWindArrays[last].size();
+    timer.printTime("FDCM: LM Shape Detection");
+
+
+
+    cv::Mat debugImage;
+    debugImage = cv::imread(targetImagePath.c_str(), cv::IMREAD_COLOR); // Read the file
+    for(int i=0;i<nDetWindows;i++)
+    {
+//        out[i+0*nDetWindows] = 1.0*detWindArrays[last][i].x_;
+//        out[i+1*nDetWindows] = 1.0*detWindArrays[last][i].y_;
+//        out[i+2*nDetWindows] = 1.0*detWindArrays[last][i].width_;
+//        out[i+3*nDetWindows] = 1.0*detWindArrays[last][i].height_;
+//        out[i+4*nDetWindows] = 1.0*detWindArrays[last][i].cost_;
+//        out[i+5*nDetWindows] = 1.0*detWindArrays[last][i].count_;
+
+        std::cout << "x " + std::to_string(detWindArrays[last][i].x_) + " Y " + std::to_string(detWindArrays[last][i].y_) + ", " +  std::to_string(detWindArrays[last][i].width_) + " x " + std::to_string(detWindArrays[last][i].height_)  << std::endl;
+
+        cv::rectangle(debugImage, cv::Point( detWindArrays[last][i].x_, detWindArrays[last][i].y_ ), cv::Point(detWindArrays[last][i].x_ + detWindArrays[last][i].width_, detWindArrays[last][i].y_ + detWindArrays[last][i].height_),cv::Scalar( 0, 255, 0 ),3);
+
+    }
+//    cv::namedWindow( "Display window", cv::WINDOW_AUTOSIZE ); // Create a window for display.
+//    cv::imshow( "Display window", debugImage );                // Show our image inside it.
+//    cv::waitKey(0);
+    cv::imwrite(resultOutPath, debugImage);
+    debugImage.release();
+}
 
 // Andi: renamed main method
 void FDCM::fdcm(int argc, const char *argv[])
@@ -45,8 +128,8 @@ void FDCM::fdcm(int argc, const char *argv[])
 
 	LFLineFitter lf;
 	LMLineMatcher lm;
-	lf.Configure("para_line_fitter.txt");
-	lm.Configure("para_line_matcher.txt");
+	lf.Configure("../cfg/para_line_fitter_target.txt");
+	lm.Configure("../cfg/para_line_matcher.txt");
 
 	
 	//Image *inputImage=NULL;
@@ -78,32 +161,44 @@ void FDCM::fdcm(int argc, const char *argv[])
 		std::cerr<<"[ERROR] Fail in reading image "<<edgeMapName<<std::endl;
 		exit(0);
 	}
-	
 
 	lf.Init();
-	
+
 	lm.Init(templateFileName.c_str());
 
-	
 	// Line Fitting
 	lf.FitLine(inputImage);
 
-
-	
-	// FDCM Matching
+	// FDCM Matching (original)
 	vector<LMDetWind> detWind;
 	lm.Match(lf,detWind);
+    std::cout << "Found Matches: " + std::to_string(detWind.size()) << std::endl;
+    std::cout << "x " + std::to_string(detWind[0].x_) + " Y " + std::to_string(detWind[0].y_) + ", " +  std::to_string(detWind[0].width_) + " x " + std::to_string(detWind[0].height_)  << std::endl;
+
+
 	//lm.MatchCostMap(lf,outputCostMapName.c_str());
 	// Display best matcher in edge map
 	if(displayImageName.c_str())
 	{
-		Image<RGBMap> *debugImage = ImageIO::LoadPPM(displayImageName.c_str());
-		LMDisplay::DrawDetWind(debugImage,detWind[0].x_,detWind[0].y_,detWind[0].width_,detWind[0].height_,RGBMap(0,255,0),4);
-		char outputname[256];
-		sprintf(outputname,"%s.output.ppm",displayImageName.c_str());
-		ImageIO::SavePPM(debugImage,outputname);
-		delete debugImage;
+//		Image<RGBMap> *debugImage = ImageIO::LoadPPM(displayImageName.c_str());
+//		LMDisplay::DrawDetWind(debugImage,detWind[0].x_,detWind[0].y_,detWind[0].width_,detWind[0].height_,RGBMap(0,255,0),4);
+//		char outputname[256];
+//		sprintf(outputname,"../out/%s.output.ppm",displayImageName.c_str());
+//		ImageIO::SavePPM(debugImage,outputname);
+//        delete debugImage;
+
+        cv::Mat debugImage;
+        debugImage = cv::imread(displayImageName.c_str(), cv::IMREAD_COLOR); // Read the file
+        cv::rectangle(debugImage, cv::Point( detWind[0].x_, detWind[0].y_ ), cv::Point(detWind[0].x_+detWind[0].width_,detWind[0].y_+detWind[0].height_),cv::Scalar( 0, 255, 0 ),3);
+
+        cv::namedWindow( "Display window", cv::WINDOW_AUTOSIZE ); // Create a window for display.
+        cv::imshow( "Display window", debugImage );                // Show our image inside it.
+        cv::waitKey(0);
+        debugImage.release();
+
 	}
+
+
 
 	//cvReleaseImage(&inputImage);
 	delete inputImage;

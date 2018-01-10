@@ -225,13 +225,38 @@ void testFDCM(const boost::filesystem::path sourceImgPath, const boost::filesyst
     cv::cvtColor( targetImageColor, targetImgEdgeMap, cv::COLOR_BGR2GRAY );
     myCanny(targetImgEdgeMap, targetImgEdgeMap, 40);
 
-    Fitline fl;
-    fl.fitlineToLineRep(templateEdgeMap, OUT_DIR_PREFIX + sourceImgPath.stem().string());
+//    cv::namedWindow( "as window", cv::WINDOW_AUTOSIZE ); // Create a window for display.
+//    cv::imshow( "as window", targetImgEdgeMap );                // Show our image inside it.
+//    cv::waitKey(0);
 
-//    const char *argv[] = {"fdcm", sourceImgPath.c_str(), "-p", OUT_DIR_PREFIX.c_str(), NULL };
-//    int argc = sizeof(argv) / sizeof(char*) - 1;
-//    FDCM fdcm;
+    // convert edge map into line representation (template)
+    Fitline fl;
+    std::string outFileName = OUT_DIR_PREFIX + "/" + sourceImgPath.stem().string();
+    std::string fdcmTemplatePgm = outFileName + ".pgm";
+    fl.fitlineToLineRep(templateEdgeMap, outFileName );
+    cv::imwrite(fdcmTemplatePgm, templateEdgeMap);
+    // write template file (should contain enumerated references to contours?)
+    std::ofstream templateFile;
+    std::string fdcmTemplateTxt = outFileName + "_template.txt";
+    templateFile.open (fdcmTemplateTxt);
+    templateFile << "1\n";
+    templateFile << outFileName + "_lf.txt" + "\n";
+    templateFile.close();
+
+    // convert edge map into line representation (target)
+    std::string outFileNameTarget = OUT_DIR_PREFIX + "/" + targetImgPath.stem().string();
+    std::string fdcmTargetPgm = outFileNameTarget + ".pgm";
+//    fl.fitlineToLineRep(targetImgEdgeMap, outFileNameTarget );
+    cv::imwrite(fdcmTargetPgm, targetImgEdgeMap);
+
+
+    const char *argv[] = {"fdcm", fdcmTemplateTxt.c_str(), fdcmTargetPgm.c_str(), targetImgPath.c_str(), NULL };
+    int argc = sizeof(argv) / sizeof(char*) - 1;
+    FDCM fdcm;
 //    fdcm.fdcm(argc, argv);
+    const std::string resultOutpath = OUT_DIR_PREFIX + "/results/"+ targetImgPath.stem().string() + "_result.jpg";
+    std::cout << "out" <<resultOutpath << std::endl;
+    fdcm.fdcm_detect(fdcmTemplateTxt, targetImgPath.string(), targetImgEdgeMap, resultOutpath);
 
     // cleanup
     sourceImg.release();
@@ -248,6 +273,10 @@ int main()
 
     // query image path
     boost::filesystem::path sketchPath{DATA_LOCATION_PREFIX + "sketches/0.png"};
+    boost::filesystem::path temptargetPath{DATA_LOCATION_PREFIX + "images/0/1429542167.jpg"};
+//    boost::filesystem::path sketchPath{"../../sbss/src/FDCM_2/DemoImg/template.png"};
+//    boost::filesystem::path temptargetPath{"../../sbss/src/FDCM_2/DemoImg/matching_target.jpg"};
+
 
     // database paths
     std::vector<boost::filesystem::path> files;
@@ -259,13 +288,17 @@ int main()
 //    // test original implementation (chamfer folder) -> https://github.com/s-trinh/Chamfer-Matching
 //    testOriginalChamfer();
 
+    // original fast directioonal chamfer matching FDCM -> https://github.com/mingyuliutw/FastDirectionalChamferMatching
+
+
 //    // test original implementation with query image and database
 //    std::vector<std::pair<int, boost::filesystem::path>> detectionsMap; // detections -> path
-//    getDetections(sketchPath, files, detectionsMap);
+//    getDetections(sketchPath.string(), files, detectionsMap);
 
 
     // fast directional chamfer matching 2 (https://github.com/whitelok/fast-directional-chamfer-matching)
-    testFDCM(sketchPath, files.at(5));
+//    testFDCM(sketchPath, files.at(5));
+    testFDCM(sketchPath, temptargetPath);
 }
 
 

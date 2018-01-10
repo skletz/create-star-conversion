@@ -196,8 +196,8 @@ int testFastDirectionalChamfer(const std::string &templateFileName, const std::s
 
     LFLineFitter lf;
     LMLineMatcher lm;
-    lf.Configure("../src/cfg/para_line_fitter.txt");
-    lm.Configure("../src/cfg/para_line_matcher.txt");
+    lf.Configure("../cfg/para_line_fitter_template.txt");
+    lm.Configure("../cfg/para_line_matcher.txt");
 
 
     //Image *inputImage=NULL;

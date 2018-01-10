@@ -11,6 +11,7 @@
 const double SIGMA_FIT_A_LINE = 0.5;
 const double SIGMA_FIND_SUPPORT = 0.5;
 const double MAX_GAP = 2.0;
+const int N_TRIALS_PER_LINE_IN_STAGE_1 = 100;
 const int N_LINES_TO_FIT_IN_STAGE_1 = 300;
 const int N_LINES_TO_FIT_IN_STAGE_2  = 100000;
 const int N_TRIALS_PER_LINE_IN_STAGE_2 = 1;

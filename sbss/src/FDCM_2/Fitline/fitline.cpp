@@ -27,37 +27,94 @@ OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 #include "Image/Image.h"
 #include "Image/ImageIO.h"
 #include "LFLineFitter.h"
+#include "../../Utils/Timer.hpp"
 
 using namespace std;
 
 void Fitline::fitlineToLineRep(const cv::Mat &templateEdgemap, const string &outFileName)
 {
     cv::Size s = templateEdgemap.size();
-    int templeateCols = s.width;
+    int templateCols = s.width;
     int templateRows = s.height;
 
-    // input Mat to 1D double
-    double * testData1D = (double*)templateEdgemap; // Direct convert from 2D array to 1D array:
+    // input Mat to 1D double vector
+//    std::vector<double> template1D;
+//    if (templateEdgemap.isContinuous()) {
+//        template1D.assign(templateEdgemap.datastart, templateEdgemap.dataend);
+//    } else {
+//        for (int i = 0; i < templateEdgemap.rows; ++i) {
+//            template1D.insert(template1D.end(), templateEdgemap.ptr<uchar>(i), templateEdgemap.ptr<uchar>(i)+templateEdgemap.cols);
+//        }
+//    }
+
+    //float * testData1D = (float*)templateEdgemap; // Direct convert from 2D array to 1D array:
 
     // outputs
 //    lineRep // prhs[0]
 //    lineMap // prhs[1]
 
+    Timer timer(true);
 
     // Create Image
     Image<uchar> inputImage;
-    inputImage.Resize(templeateCols,templateRows,false);
+    inputImage.Resize(templateCols,templateRows,false);
 
-    size_t index1,index2;
-    index2 = 0;
-    int    row,col;
-    for (col=0; col < templeateCols; col++)
+    int channels = templateEdgemap.channels();
+    int nRows = templateEdgemap.rows;
+    int nCols = templateEdgemap.cols * channels;
+    if (templateEdgemap.isContinuous())
     {
-        for (row=0; row < templateRows; row++)
+        nCols *= nRows;
+        nRows = 1;
+    }
+    int i,j;
+    const uchar* p;
+    for( i = 0; i < nRows; ++i)
+    {
+        p = templateEdgemap.ptr<uchar>(i);
+        for ( j = 0; j < nCols; ++j)
         {
-            inputImage.Access(col,row) = testData1D[row+col*templateRows];
+            inputImage.Access(j, i) = p[j];
         }
     }
+    timer.printTime("Fitline: Image Creation");
+
+
+//    int    row,col;
+//    for (col=0; col < templateCols; col++)
+//    {
+//        for (row=0; row < templateRows; row++)
+//        {
+////            inputImage.Access(col,row) = template1D.at(row+col*templateRows);
+////            inputImage.Access(col,row) = templateEdgemap.at<uchar>(col, row);
+//        }
+//    }
+
+//    int nLayer = 2;
+//    int nLinesToFitInStage[2];
+//    int nTrialsPerLineInStage[2];
+//    nLinesToFitInStage[0] = (int)floor(N_LINES_TO_FIT_IN_STAGE_1);
+//    nLinesToFitInStage[1] = (int)floor(N_LINES_TO_FIT_IN_STAGE_2);
+//    nTrialsPerLineInStage[0] = (int)floor(N_TRIALS_PER_LINE_IN_STAGE_1);
+//    nTrialsPerLineInStage[1] = (int)floor(N_TRIALS_PER_LINE_IN_STAGE_2);
+
+    LFLineFitter lf;
+//    lf.Configure(SIGMA_FIT_A_LINE,SIGMA_FIND_SUPPORT,MAX_GAP,nLayer,nLinesToFitInStage,nTrialsPerLineInStage);
+    lf.Configure("../cfg/para_line_fitter_template.txt");
+    lf.Init();
+    lf.FitLine(&inputImage);
+    timer.printTime("Fitline: Line Fitting");
+
+    std::string outFilename = outFileName + "_lf.txt";
+
+    lf.SaveEdgeMap(outFilename.c_str());
+
+    // debug
+//    std::string outputImageName = outFileName + ".pgm";
+//    Image<uchar> *debugImage = lf.ComputeOuputLineImage(&inputImage);
+//    lf.DisplayEdgeMap(debugImage,outputImageName.c_str());
+//    delete debugImage;
+
 
 
 }
@@ -94,7 +151,7 @@ void Fitline::fitline(int argc, char *argv[])
 	
 	lf.Init();
 	
-	lf.Configure("para_template_line_fitter.txt");
+	lf.Configure("../../cfg/para_template_line_fitter.txt");
 	
 	lf.FitLine(inputImage);
 

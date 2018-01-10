@@ -49,7 +49,7 @@ CPoseEstimationSURF::CPoseEstimationSURF(int width, int height, std::string& img
   if(file.is_open())
   {
     file.close();
-    lf_.Configure("para_line_fitter.txt");
+    lf_.Configure("para_line_fitter_template.txt");
     lm_.Configure("para_line_matcher.txt");
     lf_.Init();
     lm_.Init(templateFileName.c_str());
