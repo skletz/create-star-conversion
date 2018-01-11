@@ -35,14 +35,17 @@ double Timer::getTimeMS()
 
 };
 
-void Timer::printTime(std::string msg)
-{
-    std::cout << "Time - " << msg << ": " << getTimeMS() << " ms" << std::endl;
-}
-
 void Timer::reset()
 {
     startTickCount  = cv::getTickCount();
 };
+
+void Timer::printTime(std::string msg, bool reset)
+{
+    std::cout << "[TIME] ---------------------------------------------------------- " << msg << ": " << getTimeMS() << " ms" << std::endl;
+    if (reset) Timer::reset();
+}
+
+
 
 

@@ -17,8 +17,9 @@
 
 // PATHS
 //std::string DATA_LOCATION_PREFIX = "../data/";
-std::string DATA_LOCATION_PREFIX = "../../cv.sketch/cv.sketch/data/sketch_sample/";
-std::string OUT_DIR_PREFIX = "../out";
+std::string SKETCH_DATA_LOCATION_PREFIX = "../../cv.sketch/cv.sketch/data/sketch_sample/";
+std::string ETHZ_DATA_LOCATION_PREFIX = "../../cv.sketch/cv.sketch/data/ETHZShapeClasses-V1.2/";
+std::string OUT_DIR_PREFIX = "../out/";
 
 // CANNY CFG
 //a. We establish a ratio of lower:upper threshold of 3:1 (with the variable *ratio*)
@@ -26,19 +27,20 @@ std::string OUT_DIR_PREFIX = "../out";
 //c. We set a maximum value for the lower Threshold of :math:`100`.
 const int CANNY_KERNEL_SIZE = 3;
 const int CANNY_RATIO = 3; // 1:3
+const int CANNY_THRESH = 40;
 
 
 int testOriginalChamfer()
 {
-//    cv::Mat img_template = cv::imread(DATA_LOCATION_PREFIX + "Inria_logo_template.jpg");
-//  cv::Mat img_query = cv::imread(DATA_LOCATION_PREFIX + "Inria_scene.jpg");
-//  cv::Mat img_query = cv::imread(DATA_LOCATION_PREFIX + "Inria_scene2.jpg");
-//  cv::Mat img_query = cv::imread(DATA_LOCATION_PREFIX + "Inria_scene3.jpg");
-//  cv::Mat img_query = cv::imread(DATA_LOCATION_PREFIX + "Inria_scene4.jpg");
-//    cv::Mat img_query = cv::imread(DATA_LOCATION_PREFIX + "Inria_scene5.jpg");
+//    cv::Mat img_template = cv::imread(SKETCH_DATA_LOCATION_PREFIX + "Inria_logo_template.jpg");
+//  cv::Mat img_query = cv::imread(SKETCH_DATA_LOCATION_PREFIX + "Inria_scene.jpg");
+//  cv::Mat img_query = cv::imread(SKETCH_DATA_LOCATION_PREFIX + "Inria_scene2.jpg");
+//  cv::Mat img_query = cv::imread(SKETCH_DATA_LOCATION_PREFIX + "Inria_scene3.jpg");
+//  cv::Mat img_query = cv::imread(SKETCH_DATA_LOCATION_PREFIX + "Inria_scene4.jpg");
+//    cv::Mat img_query = cv::imread(SKETCH_DATA_LOCATION_PREFIX + "Inria_scene5.jpg");
 
-    cv::Mat img_template = cv::imread(DATA_LOCATION_PREFIX + "sketches/0.png");
-    cv::Mat img_query = cv::imread(DATA_LOCATION_PREFIX + "images/0/641602006.jpg");
+    cv::Mat img_template = cv::imread(SKETCH_DATA_LOCATION_PREFIX + "sketches/0.png");
+    cv::Mat img_query = cv::imread(SKETCH_DATA_LOCATION_PREFIX + "images/0/641602006.jpg");
 
     Timer timer(true);
 
@@ -210,6 +212,15 @@ void myCanny(const cv::Mat &inputImg, cv::Mat &resultEdgeMap, int lowerthresh)
     //imshow( window_name, dst );
 }
 
+void saveImage(std::string &path, cv::Mat &img)
+{
+    if(cv::imwrite(path, img))
+    {
+        std::cout << "Saved " << path << std::endl;
+    }
+
+}
+
 void testFDCM(const boost::filesystem::path sourceImgPath, const boost::filesystem::path &targetImgPath)
 {
     // template
@@ -217,13 +228,13 @@ void testFDCM(const boost::filesystem::path sourceImgPath, const boost::filesyst
     cv::Mat templateImg;
     cv::cvtColor( sourceImg, templateImg, cv::COLOR_BGR2GRAY );
     cv::Mat templateEdgeMap;
-    myCanny(templateImg, templateEdgeMap, 40);
+    myCanny(templateImg, templateEdgeMap, CANNY_THRESH);
 
     // query
     cv::Mat targetImageColor = cv::imread(targetImgPath.string());
     cv::Mat targetImgEdgeMap;
     cv::cvtColor( targetImageColor, targetImgEdgeMap, cv::COLOR_BGR2GRAY );
-    myCanny(targetImgEdgeMap, targetImgEdgeMap, 40);
+    myCanny(targetImgEdgeMap, targetImgEdgeMap, CANNY_THRESH);
 
 //    cv::namedWindow( "as window", cv::WINDOW_AUTOSIZE ); // Create a window for display.
 //    cv::imshow( "as window", targetImgEdgeMap );                // Show our image inside it.
@@ -231,10 +242,10 @@ void testFDCM(const boost::filesystem::path sourceImgPath, const boost::filesyst
 
     // convert edge map into line representation (template)
     Fitline fl;
-    std::string outFileName = OUT_DIR_PREFIX + "/" + sourceImgPath.stem().string();
+    std::string outFileName = OUT_DIR_PREFIX + sourceImgPath.stem().string();
     std::string fdcmTemplatePgm = outFileName + ".pgm";
     fl.fitlineToLineRep(templateEdgeMap, outFileName );
-    cv::imwrite(fdcmTemplatePgm, templateEdgeMap);
+    saveImage(fdcmTemplatePgm, templateEdgeMap);
     // write template file (should contain enumerated references to contours?)
     std::ofstream templateFile;
     std::string fdcmTemplateTxt = outFileName + "_template.txt";
@@ -242,20 +253,32 @@ void testFDCM(const boost::filesystem::path sourceImgPath, const boost::filesyst
     templateFile << "1\n";
     templateFile << outFileName + "_lf.txt" + "\n";
     templateFile.close();
+    std::cout << "Saved " << fdcmTemplateTxt << std::endl;
 
     // convert edge map into line representation (target)
-    std::string outFileNameTarget = OUT_DIR_PREFIX + "/" + targetImgPath.stem().string();
+    std::string outFileNameTarget = OUT_DIR_PREFIX + targetImgPath.stem().string();
     std::string fdcmTargetPgm = outFileNameTarget + ".pgm";
 //    fl.fitlineToLineRep(targetImgEdgeMap, outFileNameTarget );
-    cv::imwrite(fdcmTargetPgm, targetImgEdgeMap);
+    saveImage(fdcmTargetPgm, targetImgEdgeMap);
 
 
     const char *argv[] = {"fdcm", fdcmTemplateTxt.c_str(), fdcmTargetPgm.c_str(), targetImgPath.c_str(), NULL };
     int argc = sizeof(argv) / sizeof(char*) - 1;
     FDCM fdcm;
 //    fdcm.fdcm(argc, argv);
-    const std::string resultOutpath = OUT_DIR_PREFIX + "/results/"+ targetImgPath.stem().string() + "_result.jpg";
+    const std::string resultOutpath = OUT_DIR_PREFIX + "results/"+ targetImgPath.stem().string() + "_result.jpg";
     std::cout << "out" <<resultOutpath << std::endl;
+//    cv::Mat tempEdge;
+//    cv::imread(OUT_DIR_PREFIX + "black2_edges.tif");
+//    cv::cvtColor( tempEdge, tempEdge, CV_BGR2GRAY );
+//    cv::Mat binaryMat(tempEdge.size(), tempEdge.type());
+//    cv::threshold(tempEdge, binaryMat, 100, 255, cv::THRESH_BINARY);
+//    cv::namedWindow("Output", cv::WINDOW_AUTOSIZE);
+//    cv::imshow("Output", binaryMat);
+//
+//    cv::waitKey(0);
+
+
     fdcm.fdcm_detect(fdcmTemplateTxt, targetImgPath.string(), targetImgEdgeMap, resultOutpath);
 
     // cleanup
@@ -266,23 +289,44 @@ void testFDCM(const boost::filesystem::path sourceImgPath, const boost::filesyst
     targetImgEdgeMap.release();
 }
 
-
+void createDir(boost::filesystem::path path)
+{
+    if (!boost::filesystem::is_directory(path))
+    {
+        if (boost::filesystem::create_directories(path))
+        {
+            std::cout << "Created dir: " + path.string() << std::endl;
+        }
+        else
+        {
+            std::cout << "Failed to create dir: " + path.string() << std::endl;
+        }
+    }
+}
 
 int main()
 {
 
-    // query image path
-    boost::filesystem::path sketchPath{DATA_LOCATION_PREFIX + "sketches/0.png"};
-    boost::filesystem::path temptargetPath{DATA_LOCATION_PREFIX + "images/0/1429542167.jpg"};
-//    boost::filesystem::path sketchPath{"../../sbss/src/FDCM_2/DemoImg/template.png"};
-//    boost::filesystem::path temptargetPath{"../../sbss/src/FDCM_2/DemoImg/matching_target.jpg"};
+    // create out paths
+    boost::filesystem::path out{OUT_DIR_PREFIX};
+    boost::filesystem::path out_results{OUT_DIR_PREFIX + "results/"};
+    createDir(out);
+    createDir(out_results);
 
+
+    // query image path
+//    boost::filesystem::path sketchPath{SKETCH_DATA_LOCATION_PREFIX + "sketches/0.png"};
+//    boost::filesystem::path temptargetPath{SKETCH_DATA_LOCATION_PREFIX + "images/0/1429542167.jpg"};
+    boost::filesystem::path sketchPath{"../../sbss/src/FDCM_2/DemoImg/template.png"};
+    boost::filesystem::path temptargetPath{"../../sbss/src/FDCM_2/DemoImg/matching_target.jpg"};
+//    boost::filesystem::path sketchPath{ETHZ_DATA_LOCATION_PREFIX + "Swans/big_swans_outlines.png"};
+//    boost::filesystem::path temptargetPath{ETHZ_DATA_LOCATION_PREFIX + "Swans/big.jpg"};
 
     // database paths
     std::vector<boost::filesystem::path> files;
     static const std::string extArray[] = {".PNG", ".png", ".JPG", ".jpg", ".JPEG", ".jpeg", ".BMP", ".bmp"};
     std::vector<std::string> extVector(extArray, extArray + sizeof(extArray) / sizeof(extArray[0]));
-    getAllFilesWithExtensions(DATA_LOCATION_PREFIX + "images/", extVector, files);
+    getAllFilesWithExtensions(SKETCH_DATA_LOCATION_PREFIX + "images/", extVector, files);
 
 
 //    // test original implementation (chamfer folder) -> https://github.com/s-trinh/Chamfer-Matching

@@ -22,7 +22,7 @@ public:
 
     double getTimeMS();
 
-    void printTime(std::string msg);
+    void printTime(std::string msg, bool reset = false);
 
     void reset();
 

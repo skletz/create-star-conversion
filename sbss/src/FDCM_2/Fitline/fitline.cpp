@@ -77,7 +77,7 @@ void Fitline::fitlineToLineRep(const cv::Mat &templateEdgemap, const string &out
             inputImage.Access(j, i) = p[j];
         }
     }
-    timer.printTime("Fitline: Image Creation");
+    timer.printTime("Fitline: Image Creation", true);
 
 
 //    int    row,col;
@@ -103,11 +103,12 @@ void Fitline::fitlineToLineRep(const cv::Mat &templateEdgemap, const string &out
     lf.Configure("../cfg/para_line_fitter_template.txt");
     lf.Init();
     lf.FitLine(&inputImage);
-    timer.printTime("Fitline: Line Fitting");
+    timer.printTime("Fitline: Line Fitting", true);
 
     std::string outFilename = outFileName + "_lf.txt";
 
     lf.SaveEdgeMap(outFilename.c_str());
+    std::cout << "Saved " << outFilename.c_str() << std::endl;
 
     // debug
 //    std::string outputImageName = outFileName + ".pgm";

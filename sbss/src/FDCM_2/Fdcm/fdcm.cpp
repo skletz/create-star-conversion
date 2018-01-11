@@ -63,7 +63,8 @@ void FDCM::fdcm_detect(const std::string &templateTxt, const std::string &target
             inputImage.Access(j, i) = p[j];
         }
     }
-    timer.printTime("FDCM: Image Creation");
+    timer.printTime("FDCM: Image Creation", true);
+
     // Load Image
     //inputImage = ImageIO::LoadPGM(edgeMapName.c_str());
 
@@ -77,18 +78,17 @@ void FDCM::fdcm_detect(const std::string &templateTxt, const std::string &target
     lf.Init();
     // Line Fitting
     lf.FitLine(&inputImage);
-    timer.printTime("FDCM: Fitline");
+    timer.printTime("FDCM: Fitline", true);
 
 
 
     lm.Init(templateTxt.c_str());
-    timer.printTime("FDCM: LM init");
     vector< vector<LMDetWind> > detWindArrays;
     detWindArrays.clear();
     lm.SingleShapeDetectionWithVaryingQuerySize(lf, 0.12, detWindArrays);
     int last = detWindArrays.size()-1;
     int nDetWindows = detWindArrays[last].size();
-    timer.printTime("FDCM: LM Shape Detection");
+    timer.printTime("FDCM: LM Shape Detection", true);
 
 
 
@@ -112,6 +112,7 @@ void FDCM::fdcm_detect(const std::string &templateTxt, const std::string &target
 //    cv::imshow( "Display window", debugImage );                // Show our image inside it.
 //    cv::waitKey(0);
     cv::imwrite(resultOutPath, debugImage);
+    std::cout << "Saved " << resultOutPath << std::endl;
     debugImage.release();
 }
 
