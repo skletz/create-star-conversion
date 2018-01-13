@@ -34,7 +34,7 @@ namespace vbs
 		static std::map<cv::Vec3b, int, lessVec3b> getPalette(const cv::Mat3b& src);
 
 		//Utils for superpixels
-		cv::Mat meanImage(cv::Mat& labels, cv::Mat& image, int numberOfSuperpixels);
+		static void meanImage(cv::Mat& labels, cv::Mat& image, int numberOfSuperpixels, cv::Mat& output);
 	};
 }
 

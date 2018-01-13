@@ -80,7 +80,7 @@ std::map<cv::Vec3b, int, vbs::lessVec3b> vbs::Segmentation::getPalette(const cv:
 	return palette;
 }
 
-cv::Mat vbs::Segmentation::meanImage(cv::Mat & labels, cv::Mat & image, int numberOfSuperpixels)
+void vbs::Segmentation::meanImage(cv::Mat & labels, cv::Mat & image, int numberOfSuperpixels, cv::Mat& output)
 {
 	//int colorTable[8][3] = {
 	//	{ 230,25,75 },{ 60,180,75 },{ 230,25,75 },{ 60,180,75 },{ 230,25,75 },{ 60,180,75 },{ 60,180,75 },{ 60,180,75 }
@@ -133,5 +133,6 @@ cv::Mat vbs::Segmentation::meanImage(cv::Mat & labels, cv::Mat & image, int numb
 			}
 		}
 	}
-	return newImage;
+
+	newImage.copyTo(output);
 }
