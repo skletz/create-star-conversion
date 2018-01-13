@@ -1,0 +1,144 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\cvsketch\cvsketch_demo.cpp" />
+    <ClCompile Include="..\..\..\cvsketch\libs\imageSegmentation\color.cpp" />
+    <ClCompile Include="..\..\..\cvsketch\libs\imageSegmentation\histogram.cpp" />
+    <ClCompile Include="..\..\..\cvsketch\libs\imageSegmentation\texture.cpp" />
+    <ClCompile Include="..\..\..\cvsketch\libs\seeds-revised\lib\SeedsRevised.cpp" />
+    <ClCompile Include="..\..\..\cvsketch\libs\seeds-revised\lib\Tools.cpp" />
+    <ClCompile Include="..\..\..\cvsketch\src\cvsketch.cpp" />
+    <ClCompile Include="..\..\..\cvsketch\src\matching.cpp" />
+    <ClCompile Include="..\..\..\cvsketch\src\segmentation.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\cvsketch\libs\imageSegmentation\header.h" />
+    <ClInclude Include="..\..\..\cvsketch\libs\imageSegmentation\imageSegmentation.hpp" />
+    <ClInclude Include="..\..\..\cvsketch\libs\seeds-revised\lib\SeedsRevised.h" />
+    <ClInclude Include="..\..\..\cvsketch\libs\seeds-revised\lib\Tools.h" />
+    <ClInclude Include="..\..\..\cvsketch\src\cvsketch.hpp" />
+    <ClInclude Include="..\..\..\cvsketch\src\matching.hpp" />
+    <ClInclude Include="..\..\..\cvsketch\src\segmentation.hpp" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{4EC0631F-4C48-4EA8-9802-4985077F7552}</ProjectGuid>
+    <RootNamespace>cvsketch</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(Boost_DIR)\include;$(OpenCV_DIR)\include</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(OpenCV_DIR)\x64\vc14\lib;$(Boost_DIR)\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opencv_aruco331d.lib;opencv_bgsegm331d.lib;opencv_bioinspired331d.lib;opencv_calib3d331d.lib;opencv_ccalib331d.lib;opencv_core331d.lib;opencv_datasets331d.lib;opencv_dnn331d.lib;opencv_dpm331d.lib;opencv_face331d.lib;opencv_features2d331d.lib;opencv_flann331d.lib;opencv_fuzzy331d.lib;opencv_highgui331d.lib;opencv_img_hash331d.lib;opencv_imgcodecs331d.lib;opencv_imgproc331d.lib;opencv_line_descriptor331d.lib;opencv_ml331d.lib;opencv_objdetect331d.lib;opencv_optflow331d.lib;opencv_phase_unwrapping331d.lib;opencv_photo331d.lib;opencv_plot331d.lib;opencv_reg331d.lib;opencv_rgbd331d.lib;opencv_saliency331d.lib;opencv_shape331d.lib;opencv_stereo331d.lib;opencv_stitching331d.lib;opencv_structured_light331d.lib;opencv_superres331d.lib;opencv_surface_matching331d.lib;opencv_text331d.lib;opencv_tracking331d.lib;opencv_video331d.lib;opencv_videoio331d.lib;opencv_videostab331d.lib;opencv_xfeatures2d331d.lib;opencv_ximgproc331d.lib;opencv_xobjdetect331d.lib;opencv_xphoto331d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(Boost_DIR)\include;$(OpenCV_DIR)\include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>$(OpenCV_DIR)\x64\vc14\lib;$(Boost_DIR)\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opencv_aruco331.lib;opencv_bgsegm331.lib;opencv_bioinspired331.lib;opencv_calib3d331.lib;opencv_ccalib331.lib;opencv_core331.lib;opencv_datasets331.lib;opencv_dnn331.lib;opencv_dpm331.lib;opencv_face331.lib;opencv_features2d331.lib;opencv_flann331.lib;opencv_fuzzy331.lib;opencv_highgui331.lib;opencv_img_hash331.lib;opencv_imgcodecs331.lib;opencv_imgproc331.lib;opencv_line_descriptor331.lib;opencv_ml331.lib;opencv_objdetect331.lib;opencv_optflow331.lib;opencv_phase_unwrapping331.lib;opencv_photo331.lib;opencv_plot331.lib;opencv_reg331.lib;opencv_rgbd331.lib;opencv_saliency331.lib;opencv_shape331.lib;opencv_stereo331.lib;opencv_stitching331.lib;opencv_structured_light331.lib;opencv_superres331.lib;opencv_surface_matching331.lib;opencv_text331.lib;opencv_tracking331.lib;opencv_video331.lib;opencv_videoio331.lib;opencv_videostab331.lib;opencv_xfeatures2d331.lib;opencv_ximgproc331.lib;opencv_xobjdetect331.lib;opencv_xphoto331.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

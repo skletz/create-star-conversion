@@ -1,0 +1,1 @@
+Shape samples are available here: [OpenCV Shape Sample Data](https://github.com/opencv/opencv/tree/master/samples/data/shape_sample)
