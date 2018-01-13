@@ -97,12 +97,14 @@ void on_trackbar_colorReduction_kMeans(const int kvalue, void* data)
 
 std::string winname2 = "Superpixel using SEEDS";
 cv::Ptr<cv::ximgproc::SuperpixelSEEDS> seeds;
-int num_iterations = 4;
-int prior = 5;
-bool double_step = false;
 int num_superpixels = 400;
+int prior = 5;
 int num_levels = 4;
+bool double_step = false;
+int num_iterations = 4;
 int num_histogram_bins = 5;
+
+cv::Mat dst_superpixel;
 void on_trackbar_superpixel_SEEDS(const int kvalue, void* data)
 {
 	const cv::Mat src = *static_cast<cv::Mat*>(data);
@@ -114,13 +116,12 @@ void on_trackbar_superpixel_SEEDS(const int kvalue, void* data)
 	printf("SEEDS segmentation took %i ms with %3i superpixels\n", int(t * 1000), seeds->getNumberOfSuperpixels());
 
 	Mat labels, mask, result;
-
 	seeds->getLabels(labels);
 	seeds->getLabelContourMask(mask, false);
-	vbs::Segmentation::meanImage(labels, dst_crimagebgr, seeds->getNumberOfSuperpixels(), result);
+	vbs::Segmentation::meanImage(labels, dst_crimagebgr, seeds->getNumberOfSuperpixels(), dst_superpixel);
 
-	result.setTo(Scalar(0, 0, 255), mask);
-	cv::imshow(winname2, result);
+	dst_superpixel.setTo(Scalar(0, 0, 255), mask);
+	cv::imshow(winname2, dst_superpixel);
 }
 
 void vbs::cvSketch::run()
@@ -181,8 +182,17 @@ void vbs::cvSketch::run()
 	{
 		if (c == 's')
 		{
-			std::string append = "_reduced_kmeans_rgb_k=" + std::to_string(kvalue_init);
-			storeImage(input, append, ".png", dst_crimagebgr);
+			std::string append1 = "_reduced_kmeans_lab_k=" + std::to_string(kvalue_init);
+			storeImage(input, append1, ".png", dst_crimagebgr);
+
+			std::string append2 = "_superpixel_lab_num=" + std::to_string(num_superpixels);
+			append2 = append2 + "_prior=" + std::to_string(prior);
+			append2 = append2 + "_levels=" + std::to_string(num_levels);
+			append2 = append2 + "_iter=" + std::to_string(num_iterations);
+			append2 = append2 + "_bins=" + std::to_string(num_histogram_bins);
+
+			storeImage(input, append1, ".png", dst_crimagebgr);
+			storeImage(input, append2, ".png", dst_superpixel);
 		}
 		c = waitKey(0);
 	}
