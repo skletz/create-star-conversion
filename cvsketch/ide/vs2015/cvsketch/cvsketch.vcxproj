@@ -20,6 +20,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\cvsketch\cvsketch_demo.cpp" />
+    <ClCompile Include="..\..\..\cvsketch\libs\Chamfer\Chamfer\Chamfer.cpp" />
+    <ClCompile Include="..\..\..\cvsketch\libs\Chamfer\Chamfer\Utils.cpp" />
     <ClCompile Include="..\..\..\cvsketch\libs\CIEDE2000\CIEDE2000.cpp" />
     <ClCompile Include="..\..\..\cvsketch\libs\imageSegmentation\color.cpp" />
     <ClCompile Include="..\..\..\cvsketch\libs\imageSegmentation\histogram.cpp" />
@@ -31,6 +33,8 @@
     <ClCompile Include="..\..\..\cvsketch\src\segmentation.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\cvsketch\libs\Chamfer\Chamfer\Chamfer.hpp" />
+    <ClInclude Include="..\..\..\cvsketch\libs\Chamfer\Chamfer\Utils.hpp" />
     <ClInclude Include="..\..\..\cvsketch\libs\CIEDE2000\CIEDE2000.h" />
     <ClInclude Include="..\..\..\cvsketch\libs\imageSegmentation\header.h" />
     <ClInclude Include="..\..\..\cvsketch\libs\imageSegmentation\imageSegmentation.hpp" />
