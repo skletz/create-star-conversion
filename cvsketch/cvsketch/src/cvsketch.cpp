@@ -97,14 +97,14 @@ void on_trackbar_colorReduction_kMeans(const int kvalue, void* data)
 
 std::string winname2 = "Superpixel using SEEDS";
 cv::Ptr<cv::ximgproc::SuperpixelSEEDS> seeds;
-int num_superpixels = 400;
-int prior = 5;
-int num_levels = 4;
+int num_superpixels = 1;
+int prior = 1;
+int num_levels = 1;
 bool double_step = false;
-int num_iterations = 4;
-int num_histogram_bins = 5;
+int num_iterations = 1;
+int num_histogram_bins = 1;
 
-cv::Mat dst_superpixel;
+cv::Mat dst_superpixel, labels;
 void on_trackbar_superpixel_SEEDS(const int kvalue, void* data)
 {
 	const cv::Mat src = *static_cast<cv::Mat*>(data);
@@ -115,10 +115,12 @@ void on_trackbar_superpixel_SEEDS(const int kvalue, void* data)
 	t = (double(getTickCount()) - t) / getTickFrequency();
 	printf("SEEDS segmentation took %i ms with %3i superpixels\n", int(t * 1000), seeds->getNumberOfSuperpixels());
 
-	Mat labels, mask, result;
+	Mat mask, result;
 	seeds->getLabels(labels);
 	seeds->getLabelContourMask(mask, false);
-	vbs::Segmentation::meanImage(labels, dst_crimagebgr, seeds->getNumberOfSuperpixels(), dst_superpixel);
+
+	cv::cvtColor(src, result, COLOR_Lab2BGR);
+	vbs::Segmentation::meanImage(labels, result, seeds->getNumberOfSuperpixels(), dst_superpixel);
 
 	dst_superpixel.setTo(Scalar(0, 0, 255), mask);
 	cv::imshow(winname2, dst_superpixel);
@@ -143,32 +145,60 @@ void vbs::cvSketch::run()
 	std::cout << "Convert colors to LAB ..." << std::endl;
 	t = double(getTickCount());
 	cv::cvtColor(image, image, COLOR_BGR2Lab);
+
 	t = (double(getTickCount()) - t) / getTickFrequency();
 	printf("Color conversion took %i ms with %3ix%3i resoultion \n",int(t * 1000), width, height);
 
 	std::cout << "Reduce colors using k-means ..." << std::endl;
-	int kvalue_init = 8;
+	int kvalue_init = 5;
 	const int kMean_max = 16;
 	cv::namedWindow(winname1, 1);
 	const std::string trackbarname1 = "Number of Colors" + std::to_string(kMean_max) + ": ";
 	cv::createTrackbar(trackbarname1, winname1, &kvalue_init, kMean_max, on_trackbar_colorReduction_kMeans, &image);
 	on_trackbar_colorReduction_kMeans(kvalue_init, &image);
 
+	std::map<cv::Vec3b, int, lessVec3b> palette = vbs::Segmentation::getPalette(dst_crimagelab);
+
+	// Print palette
+	int area = image.rows * image.cols;
+	int bar_width = 300;
+	cv::Mat barchart(50, bar_width, CV_8UC3);
+	int coloridx = 0;
+	int maxidx = 0;
+	for (auto color : palette)
+	{
+		std::cout << "Color: " << color.first << " \t - Area: " << 100.f * float(color.second) / float(area) << "%" << std::endl;
+		int max_width = bar_width * (float(color.second) / float(area));
+		maxidx += max_width;
+		for(int i = 0; i <  barchart.rows; i++)
+		{
+			for (int j = coloridx; j < maxidx; j++)
+			{
+				cv::Vec3b lab = color.first;
+				cv::Scalar bgr = vbs::Segmentation::ScalarLAB2BGR(color.first[0], color.first[1], color.first[2]);
+				barchart.at<Vec3b>(i, j) = cv::Vec3b(bgr[0], bgr[1], bgr[2]);
+			}
+		}
+		coloridx = coloridx + max_width;
+	}
+
+	cv::imshow("Color Bar Chart", barchart);
+
 	std::cout << "Create superpixels using SEEDS ..." << std::endl;
 	//SEED Superpixels
-	num_superpixels = 400;
+	num_superpixels = 1000;
 	prior = 5;
-	num_levels = 4;
-	num_iterations = 4;
+	num_levels = 10;
+	num_iterations = 12;
 	double_step = false;
-	num_histogram_bins = 5;
+	num_histogram_bins = 10;
 	cv::namedWindow(winname2, 1);
 
 	const std::string trackbarname2 = "Number of Superpixels " + std::to_string(1000) + ": ";
 	const std::string trackbarname3 = "Smoothing Prior " + std::to_string(5) + ": ";
 	const std::string trackbarname4 = "Number of Levels " + std::to_string(10) + ": ";
 	const std::string trackbarname5 = "Iterations " + std::to_string(12) + ": ";
-	const std::string trackbarname6 = "Number of Histogram Bins " + std::to_string(10) + ": ";
+	const std::string trackbarname6 = "Number of Histogram Bins " + std::to_string(255) + ": ";
 	cv::createTrackbar(trackbarname2, winname2, &num_superpixels, 1000, on_trackbar_superpixel_SEEDS, &image);
 	cv::createTrackbar(trackbarname3, winname2, &prior, 5, on_trackbar_superpixel_SEEDS, &image);
 	cv::createTrackbar(trackbarname4, winname2, &num_levels, 10, on_trackbar_superpixel_SEEDS, &image);
@@ -176,6 +206,13 @@ void vbs::cvSketch::run()
 	cv::createTrackbar(trackbarname6, winname2, &num_histogram_bins, 10, on_trackbar_superpixel_SEEDS, &image);
 	on_trackbar_superpixel_SEEDS(0, &image);
 
+	//cv::cvtColor(src, result, COLOR_Lab2BGR);
+	cv::Mat quant_superpixel, quant_superpixel_rgb;
+	std::map<cv::Vec3b, int, lessVec3b> empty;
+	//cv::cvtColor(dst_superpixel, dst_superpixel_rgb, cv::COLOR_Lab2BGR);
+	vbs::Segmentation::paletteImage(labels, dst_crimagelab, seeds->getNumberOfSuperpixels(), palette, quant_superpixel);
+	cv::cvtColor(quant_superpixel, quant_superpixel_rgb, cv::COLOR_Lab2BGR);
+	cv::imshow("Qunatized Superpixels", quant_superpixel_rgb);
 
 	int c = waitKey(0);
 	while((c & 255) != 'q' && c != 'Q' && (c & 255) != 27)
@@ -187,12 +224,15 @@ void vbs::cvSketch::run()
 
 			std::string append2 = "_superpixel_lab_num=" + std::to_string(num_superpixels);
 			append2 = append2 + "_prior=" + std::to_string(prior);
-			append2 = append2 + "_levels=" + std::to_string(num_levels);
+			//////append2 = append2 + "_levels=" + std::to_string(num_levels);
 			append2 = append2 + "_iter=" + std::to_string(num_iterations);
 			append2 = append2 + "_bins=" + std::to_string(num_histogram_bins);
 
+			std::string append3 = "_barchart_lab_num=" + std::to_string(8);
+
 			storeImage(input, append1, ".png", dst_crimagebgr);
-			storeImage(input, append2, ".png", dst_superpixel);
+			storeImage(input, append2, ".png", quant_superpixel_rgb);
+			storeImage(input, append3, ".png", barchart);
 		}
 		c = waitKey(0);
 	}

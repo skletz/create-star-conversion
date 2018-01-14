@@ -22,6 +22,9 @@
     <Filter Include="libs\seeds-revised">
       <UniqueIdentifier>{1f5142a8-1813-4999-a22a-84a447fb544d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="libs\CIEDE2000">
+      <UniqueIdentifier>{206147a9-eba3-4a99-a2fc-4f9df6d60c3a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\cvsketch\src\cvsketch.cpp">
@@ -51,6 +54,9 @@
     <ClCompile Include="..\..\..\cvsketch\src\matching.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\cvsketch\libs\CIEDE2000\CIEDE2000.cpp">
+      <Filter>libs\CIEDE2000</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\cvsketch\src\cvsketch.hpp">
@@ -73,6 +79,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\cvsketch\src\matching.hpp">
       <Filter>Quelldateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cvsketch\libs\CIEDE2000\CIEDE2000.h">
+      <Filter>libs\CIEDE2000</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
