@@ -7,7 +7,7 @@
 //  cvsketch
 //
 //  Created by Sabrina Kletz on 12.01.18.
-//  Copyright © 2018 Sabrina Kletz. All rights reserved.
+//  Copyright ï¿½ 2018 Sabrina Kletz. All rights reserved.
 //
 
 #include <opencv2/opencv.hpp>
@@ -60,7 +60,7 @@ namespace vbs
 
 		//Utils for superpixels
 		static void meanImage(cv::Mat& labels, cv::Mat& image, int numberOfSuperpixels, cv::Mat& output);
-		static void paletteImage(cv::Mat& labels, cv::Mat& image, int numberOfSuperpixels, std::map<cv::Vec3b, int, lessVec3b> palette, cv::Mat& output);
+		static void quantizedImage(cv::Mat& labels, cv::Mat& image, int numberOfSuperpixels, std::map<cv::Vec3b, int, lessVec3b> palette, cv::Mat& output);
 
 		static cv::Scalar ScalarHSV2BGR(uchar H, uchar S, uchar V);
 		static cv::Scalar ScalarRGB2LAB(uchar R, uchar G, uchar B);

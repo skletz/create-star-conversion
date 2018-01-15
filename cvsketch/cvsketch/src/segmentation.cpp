@@ -155,7 +155,7 @@ cv::Scalar vbs::Segmentation::ScalarLAB2BGR(uchar L, uchar A, uchar B) {
 	return cv::Scalar(bgr.data[0], bgr.data[1], bgr.data[2]);
 }
 
-void vbs::Segmentation::paletteImage(cv::Mat& labels, cv::Mat& image, int numberOfSuperpixels,
+void vbs::Segmentation::quantizedImage(cv::Mat& labels, cv::Mat& image, int numberOfSuperpixels,
 	std::map<cv::Vec3b, int, lessVec3b> palette, cv::Mat& output)
 {
 
