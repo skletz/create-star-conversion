@@ -1,13 +1,17 @@
 #include "cvsketch.hpp"
-#include "opencv2/opencv.hpp"
 
-#include "../libs/imageSegmentation/imageSegmentation.hpp"
+//Third-Party libraries
+#include <opencv2/opencv.hpp>
 #include <opencv2/ximgproc.hpp>
+#include <boost/filesystem.hpp>
 
-#include "../libs/seeds-revised/lib/SeedsRevised.h"
-#include "../libs/seeds-revised/lib/Tools.h"
+//Project dependencies
 #include "segmentation.hpp"
-#include "../libs/Chamfer/Chamfer/Chamfer.hpp"
+#include "matching.hpp"
+
+//External source code
+#include "../libs/imageSegmentation/imageSegmentation.hpp"
+//#include "../libs/Chamfer/Chamfer/chamfer_pistoledetection.hpp"
 
 vbs::cvSketch::cvSketch()
 {
@@ -83,15 +87,15 @@ void on_trackbar_colorReduction_kMeans(const int kvalue, void* data)
 
 	if(kvalue > 0)
 	{
-		double t = double(getTickCount());
+        double t = double(cv::getTickCount());
 		vbs::Segmentation::reduceColor_kmeans(src, dst_crimagelab, kvalue);
-		t = (double(getTickCount()) - t) / getTickFrequency();
+        t = (double(cv::getTickCount()) - t) / cv::getTickFrequency();
 		printf("Color reduciton took %i ms with %3i colors\n", int(t * 1000), kvalue);
 
-		cv::cvtColor(dst_crimagelab, dst_crimagebgr, COLOR_Lab2BGR);
+        cv::cvtColor(dst_crimagelab, dst_crimagebgr, cv::COLOR_Lab2BGR);
 	}else
 	{
-		cv::cvtColor(src, dst_crimagebgr, COLOR_Lab2BGR);
+        cv::cvtColor(src, dst_crimagebgr, cv::COLOR_Lab2BGR);
 	}
 	cv::imshow(winname1, dst_crimagebgr);
 }
@@ -111,19 +115,19 @@ void on_trackbar_superpixel_SEEDS(const int kvalue, void* data)
 	const cv::Mat src = *static_cast<cv::Mat*>(data);
 	seeds = cv::ximgproc::createSuperpixelSEEDS(src.cols, src.rows, src.channels(), num_superpixels, num_levels, prior, num_histogram_bins, double_step);
 
-	double t = double(getTickCount());
+    double t = double(cv::getTickCount());
 	seeds->iterate(src, num_iterations);
-	t = (double(getTickCount()) - t) / getTickFrequency();
+    t = (double(cv::getTickCount()) - t) / cv::getTickFrequency();
 	printf("SEEDS segmentation took %i ms with %3i superpixels\n", int(t * 1000), seeds->getNumberOfSuperpixels());
 
-	Mat mask, result;
+    cv::Mat mask, result;
 	seeds->getLabels(labels);
 	seeds->getLabelContourMask(mask, false);
 
-	cv::cvtColor(src, result, COLOR_Lab2BGR);
+    cv::cvtColor(src, result, cv::COLOR_Lab2BGR);
 	vbs::Segmentation::meanImage(labels, result, seeds->getNumberOfSuperpixels(), dst_superpixel);
 
-	dst_superpixel.setTo(Scalar(0, 0, 255), mask);
+    dst_superpixel.setTo(cv::Scalar(0, 0, 255), mask);
 	cv::imshow(winname2, dst_superpixel);
 }
 
@@ -141,13 +145,13 @@ void vbs::cvSketch::run()
 	const int width = image.cols;
 	const int height = image.rows;
 
-	cv::putText(source, "Original", cvPoint(30, 30), FONT_HERSHEY_COMPLEX_SMALL, 0.8, cvScalar(200, 200, 250), 1, CV_AA);
+    cv::putText(source, "Original", cvPoint(30, 30), cv::FONT_HERSHEY_COMPLEX_SMALL, 0.8, cv::Scalar(200, 200, 250), 1, CV_AA);
 
 	std::cout << "Convert colors to LAB ..." << std::endl;
-	t = double(getTickCount());
-	cv::cvtColor(image, image, COLOR_BGR2Lab);
+    t = double(cv::getTickCount());
+    cv::cvtColor(image, image, cv::COLOR_BGR2Lab);
 
-	t = (double(getTickCount()) - t) / getTickFrequency();
+    t = (double(cv::getTickCount()) - t) / cv::getTickFrequency();
 	printf("Color conversion took %i ms with %3ix%3i resoultion \n",int(t * 1000), width, height);
 
 	std::cout << "Reduce colors using k-means ..." << std::endl;
@@ -177,7 +181,7 @@ void vbs::cvSketch::run()
 			{
 				cv::Vec3b lab = color.first;
 				cv::Scalar bgr = vbs::Segmentation::ScalarLAB2BGR(color.first[0], color.first[1], color.first[2]);
-				barchart.at<Vec3b>(i, j) = cv::Vec3b(bgr[0], bgr[1], bgr[2]);
+                barchart.at<cv::Vec3b>(i, j) = cv::Vec3b(bgr[0], bgr[1], bgr[2]);
 			}
 		}
 		coloridx = coloridx + max_width;
@@ -219,59 +223,77 @@ void vbs::cvSketch::run()
 	//cv::Canny(quant_superpixel_rgb, cannyrgb, 5, 500, 3);
 	//cv::imshow("Canny Img", cannyrgb);
 
-	cv::Mat img_template, img_query;
-	img_template = quant_superpixel_rgb;
+	//cv::Mat img_template, img_query;
+	//img_template = quant_superpixel_rgb;
 
-	img_query = quant_superpixel_rgb;
+	//img_query = quant_superpixel_rgb;
+
+	//std::vector<std::vector<cv::Point> > results;
+	//std::vector<float> costs;
+	//int best = cv::chamerMatching(img_template, img_query, results, costs);
+	//if (best < 0)
+	//{
+	//	std::cout << "matching not found" << std::endl;
+	//}
+
+	//size_t i, n = results[best].size();
+	//for (i = 0; i < n; i++)
+	//{
+	//	cv::Point pt = results[best][i];
+	//	if (pt.inside(cv::Rect(0, 0, img_template.cols, img_template.rows)))
+	//		img_template.at<cv::Vec3b>(pt) = cv::Vec3b(0, 255, 0);
+	//}
+
+	//cv::imshow("result", img_template);
 
 	//Mat ROI(img_template, Rect(0, 0, int(width / 2.0), int(height / 2.0)));
 	//ROI.copyTo(img_query);
 
-	std::map<int, cv::Mat> mapOfTemplates;
-	std::map<int, std::pair<cv::Rect, cv::Rect> > mapOfTemplateRois;
-	mapOfTemplates[1] = img_template;
-	mapOfTemplateRois[1] = std::pair<cv::Rect, cv::Rect>(cv::Rect(0, 0, -1, -1), cv::Rect(0, 0, -1, -1));
+	//std::map<int, cv::Mat> mapOfTemplates;
+	//std::map<int, std::pair<cv::Rect, cv::Rect> > mapOfTemplateRois;
+	//mapOfTemplates[1] = img_template;
+	//mapOfTemplateRois[1] = std::pair<cv::Rect, cv::Rect>(cv::Rect(0, 0, -1, -1), cv::Rect(0, 0, -1, -1));
 
-	ChamferMatcher chamfer(mapOfTemplates, mapOfTemplateRois);
-	std::vector<Detection_t> detections;
-	bool useOrientation = true;
-	float distanceThreshold = 100.0, lambda = 100.0f;
-	float weight_forward = 1.0f, weight_backward = 1.0f;
-	bool useNonMaximaSuppression = true, useGroupDetections = true;
-	chamfer.setCannyThreshold(70.0);
-	chamfer.setMatchingType(ChamferMatcher::fullMatching);
+	//ChamferMatcher chamfer(mapOfTemplates, mapOfTemplateRois);
+	//std::vector<Detection_t> detections;
+	//bool useOrientation = true;
+	//float distanceThreshold = 100.0, lambda = 100.0f;
+	//float weight_forward = 1.0f, weight_backward = 1.0f;
+	//bool useNonMaximaSuppression = true, useGroupDetections = true;
+	//chamfer.setCannyThreshold(70.0);
+	//chamfer.setMatchingType(ChamferMatcher::fullMatching);
 
-	t = (double)cv::getTickCount();
-	chamfer.detectMultiScale(img_query, detections, useOrientation, distanceThreshold, lambda, weight_forward,
-		weight_backward, useNonMaximaSuppression, useGroupDetections);
-	t = ((double)cv::getTickCount() - t) / cv::getTickFrequency() * 1000.0;
-	std::cout << "Processing time=" << t << " ms" << std::endl;
+	//t = (double)cv::getTickCount();
+	//chamfer.detectMultiScale(img_query, detections, useOrientation, distanceThreshold, lambda, weight_forward,
+	//	weight_backward, useNonMaximaSuppression, useGroupDetections);
+	//t = ((double)cv::getTickCount() - t) / cv::getTickFrequency() * 1000.0;
+	//std::cout << "Processing time=" << t << " ms" << std::endl;
 
 
-	cv::Mat result;
-	img_query.convertTo(result, CV_8UC3);
+	//cv::Mat result;
+	//img_query.convertTo(result, CV_8UC3);
 
-	std::cout << "detections=" << detections.size() << std::endl;
-	for (std::vector<Detection_t>::const_iterator it = detections.begin(); it != detections.end(); ++it) {
-		cv::rectangle(result, it->m_boundingBox, cv::Scalar(0, 0, 255), 2);
+	//std::cout << "detections=" << detections.size() << std::endl;
+	//for (std::vector<Detection_t>::const_iterator it = detections.begin(); it != detections.end(); ++it) {
+	//	cv::rectangle(result, it->m_boundingBox, cv::Scalar(0, 0, 255), 2);
 
-		std::stringstream ss;
-		//Chamfer distance
-		ss << it->m_chamferDist;
-		cv::Point ptText = it->m_boundingBox.tl() + cv::Point(10, 20);
-		cv::putText(result, ss.str(), ptText, cv::FONT_HERSHEY_SIMPLEX, 0.45, cv::Scalar(255, 0, 0), 2);
+	//	std::stringstream ss;
+	//	//Chamfer distance
+	//	ss << it->m_chamferDist;
+	//	cv::Point ptText = it->m_boundingBox.tl() + cv::Point(10, 20);
+	//	cv::putText(result, ss.str(), ptText, cv::FONT_HERSHEY_SIMPLEX, 0.45, cv::Scalar(255, 0, 0), 2);
 
-		//Scale
-		ss.str("");
-		ss << it->m_scale;
-		ptText = it->m_boundingBox.tl() + cv::Point(10, 40);
-		cv::putText(result, ss.str(), ptText, cv::FONT_HERSHEY_SIMPLEX, 0.45, cv::Scalar(255, 0, 0), 2);
+	//	//Scale
+	//	ss.str("");
+	//	ss << it->m_scale;
+	//	ptText = it->m_boundingBox.tl() + cv::Point(10, 40);
+	//	cv::putText(result, ss.str(), ptText, cv::FONT_HERSHEY_SIMPLEX, 0.45, cv::Scalar(255, 0, 0), 2);
 
-		cv::imshow("result", result);
-		cv::waitKey(0);
-	}
+	//	cv::imshow("result", result);
+	//	cv::waitKey(0);
+	//}
 
-	int c = waitKey(0);
+    int c = cv::waitKey(0);
 	while((c & 255) != 'q' && c != 'Q' && (c & 255) != 27)
 	{
 		if (c == 's')
@@ -291,7 +313,7 @@ void vbs::cvSketch::run()
 			storeImage(input, append2, ".png", quant_superpixel_rgb);
 			storeImage(input, append3, ".png", barchart);
 		}
-		c = waitKey(0);
+        c = cv::waitKey(0);
 	}
 
 }
@@ -320,7 +342,7 @@ cv::Mat vbs::cvSketch::makeCanvas(std::vector<cv::Mat>& vecMat, int windowHeight
 		}
 	}
 	int windowWidth = maxRowLength;
-	cv::Mat canvasImage(windowHeight, windowWidth, CV_8UC3, Scalar(0, 0, 0));
+    cv::Mat canvasImage(windowHeight, windowWidth, CV_8UC3, cv::Scalar(0, 0, 0));
 
 	for (int k = 0, i = 0; i < nRows; i++) {
 		int y = i * resizeHeight + (i + 1) * edgeThickness;

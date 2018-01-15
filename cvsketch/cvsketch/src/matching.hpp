@@ -26,7 +26,7 @@ namespace vbs
 		bool compareMatchesByDist(const Match &a, const Match &b);
 		static std::vector<cv::Point> getSimpleContours(const cv::Mat& currentQuery, int points = 1500);
 		static void drawPoints(cv::Mat bg, std::vector<cv::Point> cont, cv::Mat& output);
-
+		 
 	};
 }
 

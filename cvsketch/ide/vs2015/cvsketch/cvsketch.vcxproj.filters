@@ -66,6 +66,9 @@
     <ClCompile Include="..\..\..\cvsketch\libs\Chamfer\Chamfer\Utils.cpp">
       <Filter>libs\Chamfer</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\cvsketch\libs\Chamfer\Chamfer\chamfer_pistoledetection.hpp">
+      <Filter>libs\Chamfer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\cvsketch\src\cvsketch.hpp">

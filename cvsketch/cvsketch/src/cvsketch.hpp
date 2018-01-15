@@ -35,10 +35,35 @@ namespace vbs {
 		std::string output;
 
         cvSketch();
+        
+        /**
+         *
+         *
+         */
         std::string getInfo();
+        
+        /**
+         *
+         *
+         */
         std::string help(const boost::program_options::options_description& desc);
+        
+        /**
+         *
+         *
+         */
         boost::program_options::variables_map processProgramOptions(const int argc, const char *const argv[]);
+        
+        /**
+         *
+         *
+         */
         bool init(boost::program_options::variables_map _args);
+        
+        /**
+        *
+        *
+        */
         void run();
 
 		/**

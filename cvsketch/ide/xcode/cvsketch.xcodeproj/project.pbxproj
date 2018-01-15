@@ -19,6 +19,12 @@
 		7E2E7F782008F66F000F6F08 /* SeedsRevised.h in Sources */ = {isa = PBXBuildFile; fileRef = 7E2E7F742008F66F000F6F08 /* SeedsRevised.h */; };
 		7E2E7F792008F66F000F6F08 /* Tools.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E2E7F752008F66F000F6F08 /* Tools.cpp */; };
 		7E2E7F7A2008F66F000F6F08 /* Tools.h in Sources */ = {isa = PBXBuildFile; fileRef = 7E2E7F762008F66F000F6F08 /* Tools.h */; };
+		7E2E7F7F200C8D85000F6F08 /* matching.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E2E7F7B200C8D85000F6F08 /* matching.cpp */; };
+		7E2E7F80200C8D85000F6F08 /* matching.hpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E2E7F7C200C8D85000F6F08 /* matching.hpp */; };
+		7E2E7F81200C8D85000F6F08 /* segmentation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E2E7F7D200C8D85000F6F08 /* segmentation.cpp */; };
+		7E2E7F82200C8D85000F6F08 /* segmentation.hpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E2E7F7E200C8D85000F6F08 /* segmentation.hpp */; };
+		7E2E7F85200C8DB5000F6F08 /* CIEDE2000.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E2E7F83200C8DB5000F6F08 /* CIEDE2000.cpp */; };
+		7E2E7F86200C8DB5000F6F08 /* CIEDE2000.h in Sources */ = {isa = PBXBuildFile; fileRef = 7E2E7F84200C8DB5000F6F08 /* CIEDE2000.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -50,6 +56,12 @@
 		7E2E7F742008F66F000F6F08 /* SeedsRevised.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SeedsRevised.h; path = "../../cvsketch/libs/seeds-revised/lib/SeedsRevised.h"; sourceTree = "<group>"; };
 		7E2E7F752008F66F000F6F08 /* Tools.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Tools.cpp; path = "../../cvsketch/libs/seeds-revised/lib/Tools.cpp"; sourceTree = "<group>"; };
 		7E2E7F762008F66F000F6F08 /* Tools.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Tools.h; path = "../../cvsketch/libs/seeds-revised/lib/Tools.h"; sourceTree = "<group>"; };
+		7E2E7F7B200C8D85000F6F08 /* matching.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = matching.cpp; path = ../../cvsketch/src/matching.cpp; sourceTree = "<group>"; };
+		7E2E7F7C200C8D85000F6F08 /* matching.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = matching.hpp; path = ../../cvsketch/src/matching.hpp; sourceTree = "<group>"; };
+		7E2E7F7D200C8D85000F6F08 /* segmentation.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = segmentation.cpp; path = ../../cvsketch/src/segmentation.cpp; sourceTree = "<group>"; };
+		7E2E7F7E200C8D85000F6F08 /* segmentation.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = segmentation.hpp; path = ../../cvsketch/src/segmentation.hpp; sourceTree = "<group>"; };
+		7E2E7F83200C8DB5000F6F08 /* CIEDE2000.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = CIEDE2000.cpp; path = ../../cvsketch/libs/CIEDE2000/CIEDE2000.cpp; sourceTree = "<group>"; };
+		7E2E7F84200C8DB5000F6F08 /* CIEDE2000.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CIEDE2000.h; path = ../../cvsketch/libs/CIEDE2000/CIEDE2000.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +78,12 @@
 		7E0C52A52008ABB8004EE083 = {
 			isa = PBXGroup;
 			children = (
+				7E2E7F83200C8DB5000F6F08 /* CIEDE2000.cpp */,
+				7E2E7F84200C8DB5000F6F08 /* CIEDE2000.h */,
+				7E2E7F7B200C8D85000F6F08 /* matching.cpp */,
+				7E2E7F7C200C8D85000F6F08 /* matching.hpp */,
+				7E2E7F7D200C8D85000F6F08 /* segmentation.cpp */,
+				7E2E7F7E200C8D85000F6F08 /* segmentation.hpp */,
 				7E2E7F732008F66F000F6F08 /* SeedsRevised.cpp */,
 				7E2E7F742008F66F000F6F08 /* SeedsRevised.h */,
 				7E2E7F752008F66F000F6F08 /* Tools.cpp */,
@@ -159,6 +177,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7E2E7F85200C8DB5000F6F08 /* CIEDE2000.cpp in Sources */,
+				7E2E7F86200C8DB5000F6F08 /* CIEDE2000.h in Sources */,
+				7E2E7F7F200C8D85000F6F08 /* matching.cpp in Sources */,
+				7E2E7F80200C8D85000F6F08 /* matching.hpp in Sources */,
+				7E2E7F81200C8D85000F6F08 /* segmentation.cpp in Sources */,
+				7E2E7F82200C8D85000F6F08 /* segmentation.hpp in Sources */,
 				7E2E7F772008F66F000F6F08 /* SeedsRevised.cpp in Sources */,
 				7E2E7F782008F66F000F6F08 /* SeedsRevised.h in Sources */,
 				7E2E7F792008F66F000F6F08 /* Tools.cpp in Sources */,
@@ -375,6 +399,53 @@
 		7E0C52B62008ABB8004EE083 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				OTHER_LDFLAGS = (
+					"-lboost_program_options",
+					"-lboost_system",
+					"-lboost_filesystem",
+					"-lopencv_stitching",
+					"-lopencv_superres",
+					"-lopencv_videostab",
+					"-lopencv_aruco",
+					"-lopencv_bgsegm",
+					"-lopencv_bioinspired",
+					"-lopencv_ccalib",
+					"-lopencv_dpm",
+					"-lopencv_face",
+					"-lopencv_photo",
+					"-lopencv_fuzzy",
+					"-lopencv_img_hash",
+					"-lopencv_line_descriptor",
+					"-lopencv_optflow",
+					"-lopencv_reg",
+					"-lopencv_rgbd",
+					"-lopencv_saliency",
+					"-lopencv_stereo",
+					"-lopencv_structured_light",
+					"-lopencv_phase_unwrapping",
+					"-lopencv_surface_matching",
+					"-lopencv_tracking",
+					"-lopencv_datasets",
+					"-lopencv_text",
+					"-lopencv_dnn",
+					"-lopencv_plot",
+					"-lopencv_xfeatures2d",
+					"-lopencv_shape",
+					"-lopencv_video",
+					"-lopencv_ml",
+					"-lopencv_ximgproc",
+					"-lopencv_calib3d",
+					"-lopencv_features2d",
+					"-lopencv_highgui",
+					"-lopencv_videoio",
+					"-lopencv_flann",
+					"-lopencv_xobjdetect",
+					"-lopencv_imgcodecs",
+					"-lopencv_objdetect",
+					"-lopencv_xphoto",
+					"-lopencv_imgproc",
+					"-lopencv_core",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -382,6 +453,53 @@
 		7E0C52B72008ABB8004EE083 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				OTHER_LDFLAGS = (
+					"-lboost_program_options",
+					"-lboost_system",
+					"-lboost_filesystem",
+					"-lopencv_stitching",
+					"-lopencv_superres",
+					"-lopencv_videostab",
+					"-lopencv_aruco",
+					"-lopencv_bgsegm",
+					"-lopencv_bioinspired",
+					"-lopencv_ccalib",
+					"-lopencv_dpm",
+					"-lopencv_face",
+					"-lopencv_photo",
+					"-lopencv_fuzzy",
+					"-lopencv_img_hash",
+					"-lopencv_line_descriptor",
+					"-lopencv_optflow",
+					"-lopencv_reg",
+					"-lopencv_rgbd",
+					"-lopencv_saliency",
+					"-lopencv_stereo",
+					"-lopencv_structured_light",
+					"-lopencv_phase_unwrapping",
+					"-lopencv_surface_matching",
+					"-lopencv_tracking",
+					"-lopencv_datasets",
+					"-lopencv_text",
+					"-lopencv_dnn",
+					"-lopencv_plot",
+					"-lopencv_xfeatures2d",
+					"-lopencv_shape",
+					"-lopencv_video",
+					"-lopencv_ml",
+					"-lopencv_ximgproc",
+					"-lopencv_calib3d",
+					"-lopencv_features2d",
+					"-lopencv_highgui",
+					"-lopencv_videoio",
+					"-lopencv_flann",
+					"-lopencv_xobjdetect",
+					"-lopencv_imgcodecs",
+					"-lopencv_objdetect",
+					"-lopencv_xphoto",
+					"-lopencv_imgproc",
+					"-lopencv_core",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

@@ -64,20 +64,16 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "--infile /Applications/XAMPP/xamppfiles/htdocs/GameJam/cv.sketch/cv.sketch/data/sketch_sample/images/8/247800091.jpg"
-            isEnabled = "NO">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "--infile /Users/skletz/Dropbox/Programming/CUPCakes/vbssketch/cvsketch/data/sketch_sample/images/8/247800091.jpg"
-            isEnabled = "NO">
+            argument = "--input /Users/skletz/Dropbox/Programming/CUPCakes/vbssketch/data/sketch_sample/images/8/247800091.jpg --display --verbose"
+            isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--infile /Users/skletz/Dropbox/Programming/CUPCakes/vbssketch/cvsketch/data/mountains_4.png"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--outfile /Applications/XAMPP/xamppfiles/htdocs/GameJam/cv.sketch/cv.sketch/data/247800091.txt"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </CommandLineArgument>
       </CommandLineArguments>
       <AdditionalOptions>

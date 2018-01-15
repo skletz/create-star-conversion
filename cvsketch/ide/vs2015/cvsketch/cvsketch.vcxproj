@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\cvsketch\cvsketch_demo.cpp" />
     <ClCompile Include="..\..\..\cvsketch\libs\Chamfer\Chamfer\Chamfer.cpp" />
+    <ClCompile Include="..\..\..\cvsketch\libs\Chamfer\Chamfer\chamfer_pistoledetection.hpp" />
     <ClCompile Include="..\..\..\cvsketch\libs\Chamfer\Chamfer\Utils.cpp" />
     <ClCompile Include="..\..\..\cvsketch\libs\CIEDE2000\CIEDE2000.cpp" />
     <ClCompile Include="..\..\..\cvsketch\libs\imageSegmentation\color.cpp" />
