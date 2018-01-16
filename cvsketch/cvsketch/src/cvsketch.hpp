@@ -16,6 +16,7 @@
 #include <boost/version.hpp>
 #include <opencv2/opencv.hpp>
 #include <boost/program_options.hpp>
+#include "segmentation.hpp"
 
 #if defined(WIN32) || defined(_WIN32)
 #define DIRECTORY_SEPARATOR "\\"
@@ -65,7 +66,23 @@ namespace vbs {
         *
         */
         void run();
+        
+        //void on_trackbar_colorReduction_kMeans(const int kvalue, void* data);
+        
+        /**
+         *
+         *
+         */
+        void testColorSegmentation(cv::Mat& image);
 
+        static void reduceColors(cv::Mat& image, int kvalue, cv::Mat& output);
+        
+        static void extractSuperpixels(cv::Mat& image, cv::Mat& output, cv::Mat& mask, int& num_output, int num_superpixels, int num_levels, int prior, int num_histogram_bins, bool double_step, int num_iterations);
+        
+        static void getColorchart(cv::Mat& image, std::map<cv::Vec3b, int, lessVec3b>& palette, cv::Mat& output, int chartwidth, int chartheight);
+        
+        static void quantizeColors(cv::Mat& image, cv::Mat& lables, int num_labels, cv::Mat& output, std::map<cv::Vec3b, int, lessVec3b> colorpalette);
+        
 		/**
 		* @brief makeCanvas Makes composite image from the given images
 		* @param vecMat Vector of Images.

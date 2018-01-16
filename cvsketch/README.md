@@ -1,6 +1,15 @@
 Sketch-based video search
 ===
 
+# Color-Sketch-based video search (test-bed)
+
+Directory ./cvsketch contains:
+
+* Color reduction using k-means
+* Superpixels Extracted via Energy-Driven Sampling (SEEDS)
+* Refinement of superpixels using k-color's
+
+![Alt text](snapshots/settings_color-segmentation.png?raw=true "Settings of color segmentation refinement")
 
 # Related Work
 

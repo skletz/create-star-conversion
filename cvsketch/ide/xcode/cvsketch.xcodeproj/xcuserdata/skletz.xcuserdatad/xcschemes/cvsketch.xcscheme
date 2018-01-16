@@ -65,11 +65,11 @@
       <CommandLineArguments>
          <CommandLineArgument
             argument = "--input /Users/skletz/Dropbox/Programming/CUPCakes/vbssketch/data/sketch_sample/images/8/247800091.jpg --display --verbose"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "--infile /Users/skletz/Dropbox/Programming/CUPCakes/vbssketch/cvsketch/data/mountains_4.png"
-            isEnabled = "NO">
+            argument = "--input /Users/skletz/Dropbox/Programming/CUPCakes/vbssketch/data/testbed/mountains.jpg --display --verbose"
+            isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--outfile /Applications/XAMPP/xamppfiles/htdocs/GameJam/cv.sketch/cv.sketch/data/247800091.txt"

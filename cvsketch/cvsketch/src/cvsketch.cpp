@@ -11,7 +11,6 @@
 
 //External source code
 #include "../libs/imageSegmentation/imageSegmentation.hpp"
-//#include "../libs/Chamfer/Chamfer/chamfer_pistoledetection.hpp"
 
 vbs::cvSketch::cvSketch()
 {
@@ -78,57 +77,391 @@ bool vbs::cvSketch::init(boost::program_options::variables_map _args)
     return true;
 }
 
-cv::Mat3b dst_crimagelab;
-cv::Mat3b dst_crimagebgr;
-std::string winname1 = "Color Reduction using k-means";
-void on_trackbar_colorReduction_kMeans(const int kvalue, void* data)
+std::map<cv::Vec3b, int, vbs::lessVec3b> colorpalette;
+
+struct SettingsKmeansCluster
 {
-	const cv::Mat src = *static_cast<cv::Mat*>(data);
+    std::string winname;
+    int kvalue;
+    int kvalue_max;
+    cv::Mat image;
+    bool initDone;
+    cv::Mat reducedImage;
+    
+    //update additional windows
+    std::string winnameColorchart;
+    std::string winnameQuantizedColors;
+    cv::Mat labels;
+    int num_labels;
+};
 
-	if(kvalue > 0)
-	{
-        double t = double(cv::getTickCount());
-		vbs::Segmentation::reduceColor_kmeans(src, dst_crimagelab, kvalue);
-        t = (double(cv::getTickCount()) - t) / cv::getTickFrequency();
-		printf("Color reduciton took %i ms with %3i colors\n", int(t * 1000), kvalue);
+struct SettingsSuperpixelSEEDS
+{
+    std::string winname;
+    int num_superpixels;
+    int num_superpixels_max;
+    int prior;
+    int prior_max;
+    int num_levels;
+    int num_levels_max;
+    int num_iterations;
+    int num_iterations_max;
+    int double_step;
+    int num_histogram_bins;
+    int num_histogram_bins_max;
+    cv::Mat image;
+    bool initDone;
+    cv::Mat superpixelImage;
+    cv::Mat mask;
+    
+    //update additional windows
+    std::string winnameQuantizedColors;
+};
 
-        cv::cvtColor(dst_crimagelab, dst_crimagebgr, cv::COLOR_Lab2BGR);
-	}else
-	{
-        cv::cvtColor(src, dst_crimagebgr, cv::COLOR_Lab2BGR);
-	}
-	cv::imshow(winname1, dst_crimagebgr);
+void on_trackbar_colorReduction_kMeans(int, void* data)
+{
+    SettingsKmeansCluster settings = *static_cast<SettingsKmeansCluster*>(data);
+    std::string winname = settings.winname;
+    cv::Mat src, dst;
+    settings.image.copyTo(src);
+    int k = settings.kvalue;
+    
+    if(settings.initDone)
+    {
+        settings.reducedImage.copyTo(dst);
+    }else
+    {
+        if(settings.kvalue > 0)
+        {
+            vbs::cvSketch::reduceColors(src, k, dst);
+        }
+        else{
+            src.copyTo(dst);
+        }
+        
+        //Update also color chart
+        //get color-palette of the image
+        colorpalette = vbs::Segmentation::getPalette(dst);
+        
+        cv::Mat colorchart;
+        vbs::cvSketch::getColorchart(dst, colorpalette, colorchart, src.cols, 50);
+        cv::imshow(settings.winnameColorchart, colorchart);
+        dst.copyTo(settings.reducedImage);
+        
+        //Update also quantized color image
+        cv::Mat quantizedImage;
+        vbs::cvSketch::quantizeColors(src, settings.labels, settings.num_labels, quantizedImage, colorpalette);
+        cv::cvtColor(quantizedImage, quantizedImage, cv::COLOR_Lab2BGR);
+        cv::imshow(settings.winnameQuantizedColors, quantizedImage);
+    }
+
+    cv::cvtColor(dst, dst, cv::COLOR_Lab2BGR);
+    
+    cv::Mat dst_show;
+    dst.copyTo(dst_show);
+    std::stringstream text;
+    text << "Colors: " << settings.kvalue;
+    
+    cv::putText(dst_show, text.str(), cvPoint(30, 30), cv::FONT_HERSHEY_COMPLEX_SMALL, 0.4, cv::Scalar(200, 200, 250), 1, CV_AA);
+    
+    cv::imshow(winname, dst_show);
+    
 }
 
-std::string winname2 = "Superpixel using SEEDS";
 cv::Ptr<cv::ximgproc::SuperpixelSEEDS> seeds;
-int num_superpixels = 1;
-int prior = 1;
-int num_levels = 1;
-bool double_step = false;
-int num_iterations = 1;
-int num_histogram_bins = 1;
 
-cv::Mat dst_superpixel, labels;
-void on_trackbar_superpixel_SEEDS(const int kvalue, void* data)
+void on_trackbar_superpixel_SEEDS(const int, void* data)
 {
-	const cv::Mat src = *static_cast<cv::Mat*>(data);
-	seeds = cv::ximgproc::createSuperpixelSEEDS(src.cols, src.rows, src.channels(), num_superpixels, num_levels, prior, num_histogram_bins, double_step);
+//	const cv::Mat src = *static_cast<cv::Mat*>(data);
+    SettingsSuperpixelSEEDS settings = *static_cast<SettingsSuperpixelSEEDS*>(data);
+    std::string winname = settings.winname;
+    
+    cv::Mat src, labels, dst, mask;
+    int num_superpixel_found;
+    
+    settings.image.copyTo(src);
+    int num_superpixels = settings.num_superpixels;
+    int prior = settings.prior;
+    int num_levels = settings.num_levels;
+    bool double_step = bool(settings.double_step);
+    int num_iterations = settings.num_iterations;
+    int num_histogram_bins = settings.num_histogram_bins;
+    
+    if(settings.initDone)
+    {
+        settings.superpixelImage.copyTo(dst);
+    }else
+    {
+        vbs::cvSketch::extractSuperpixels(src, labels, mask, num_superpixel_found, num_superpixels, num_levels, prior, num_histogram_bins, double_step, num_iterations);
+        src.copyTo(dst);
+        dst.setTo(cv::Scalar(0,0,255), mask);
+        
+        dst.copyTo(settings.superpixelImage);
+        
+        //Update also quantized color image
+        cv::Mat quantizedImage;
+        vbs::cvSketch::quantizeColors(src, labels, num_superpixel_found, quantizedImage, colorpalette);
+        cv::cvtColor(quantizedImage, quantizedImage, cv::COLOR_Lab2BGR);
+        cv::imshow(settings.winnameQuantizedColors, quantizedImage);
+    }
+    
+    cv::cvtColor(dst, dst, cv::COLOR_Lab2BGR);
+    
+    cv::Mat dst_show;
+    dst.copyTo(dst_show);
+    std::stringstream text;
+    text << "Superpixels: " << num_superpixels << ", ";
+    text << "Prior: " << prior  << ", ";
+    text << "Levels: " << num_levels;
 
-    double t = double(cv::getTickCount());
-	seeds->iterate(src, num_iterations);
+    cv::putText(dst_show, text.str(), cvPoint(30, 30), cv::FONT_HERSHEY_COMPLEX_SMALL, 0.4, cv::Scalar(200, 200, 250), 1, CV_AA);
+    
+    text.str("");
+    text << "Double: " << double_step  << ", ";
+    text << "Iter: " << num_iterations  << ", ";
+    text << "Hist Bins: " << num_histogram_bins;
+    
+    cv::putText(dst_show, text.str(), cvPoint(30, 40), cv::FONT_HERSHEY_COMPLEX_SMALL, 0.4, cv::Scalar(200, 200, 250), 1, CV_AA);
+    
+    cv::imshow(winname, dst_show);
+}
+
+void vbs::cvSketch::testColorSegmentation(cv::Mat& image)
+{
+    
+    if(verbose)
+        std::cout << "cvSketch testColorSegmentation ..." << std::endl;
+    
+    cv::Mat input;
+    image.copyTo(input);
+    
+    //exection time measure
+    double t = 0.0;
+    
+    const int width = image.cols;
+    const int height = image.rows;
+    
+    std::cout << "Convert colors to LAB ..." << std::endl;
+    t = double(cv::getTickCount());
+    
+    //Convert to LAB color space
+    cv::cvtColor(image, input, cv::COLOR_BGR2Lab);
+    
     t = (double(cv::getTickCount()) - t) / cv::getTickFrequency();
-	printf("SEEDS segmentation took %i ms with %3i superpixels\n", int(t * 1000), seeds->getNumberOfSuperpixels());
+    printf("Color conversion took %i ms with %3ix%3i px resoultion \n",int(t * 1000), width, height);
+    
+    std::cout << "Reduce colors using k-means ..." << std::endl;
+    int initKValue = 4;
+    cv::Mat reducedColorImage;
+    //Cluster colors in LAB color space using k-means
+    reduceColors(input, initKValue, reducedColorImage);
+    
+    std::map<cv::Vec3b, int, lessVec3b> colorpalette;
+    //get color-palette of the image
+    colorpalette = vbs::Segmentation::getPalette(reducedColorImage);
+    
+    std::cout << "Create barchart of k dominant colors ..." << std::endl;
+    cv::Mat colorchart;
+    getColorchart(reducedColorImage, colorpalette, colorchart, input.cols, 50);
+    
+    std::cout << "Create superpixels using SEEDS ..." << std::endl;
+    int num_init_superpixels = 1000;
+    int prior = 5;
+    int num_levels = 10;
+    int num_iterations = 12;
+    bool double_step = false;
+    int num_histogram_bins = 10;
+    
+    cv::Mat superpixelImage, mask, labels;
+    int num_superpixels_found;
+    //Extract superpixels using Energy Driven Sampling
+    extractSuperpixels(input, labels, mask, num_superpixels_found, num_init_superpixels, num_levels, prior, num_histogram_bins, double_step, num_iterations);
+    input.copyTo(superpixelImage);
+    superpixelImage.setTo(cv::Scalar(0,0,255), mask);
+    
+    
+    cv::Mat quantizedColorImage;
+    quantizeColors(reducedColorImage, labels, num_superpixels_found, quantizedColorImage, colorpalette);
+    
+    if(display){
+        int pad_top = 250;
+        int pad_left = 50;
+        //int win_h = input.rows;
+        int win_w = input.cols;
+        
+        std::string winnameOrig = "Original";
+        std::string winnameChart = "Color Chart";
+        std::string winnameQuantizedColors = "Quantized Color Image";
+        
+        cv::namedWindow(winnameOrig);
+        cv::moveWindow(winnameOrig, pad_left, pad_top);
+        cv::imshow(winnameOrig, image);
+        //cv::cvtColor(reducedColorImage, reducedColorImage, cv::COLOR_Lab2BGR);
 
-    cv::Mat mask, result;
-	seeds->getLabels(labels);
-	seeds->getLabelContourMask(mask, false);
+        cv::namedWindow(winnameChart);
+        cv::moveWindow(winnameChart, pad_left + win_w * 4, pad_top);
+        cv::imshow(winnameChart, colorchart);
+        
+        colorpalette = colorpalette;
+        
+        //TESTBED for k-means clustering
+        SettingsKmeansCluster* set_kmeans = new SettingsKmeansCluster();
+        set_kmeans->winname = "Reduced Colors";
+        set_kmeans->kvalue = initKValue;
+        input.copyTo(set_kmeans->image);
+        set_kmeans->kvalue_max = 16;
+        set_kmeans->initDone = true;
+        reducedColorImage.copyTo(set_kmeans->reducedImage);
+        
+        set_kmeans->winnameColorchart = winnameChart;
+        set_kmeans->winnameQuantizedColors = winnameQuantizedColors;
+        set_kmeans->labels = labels;
+        set_kmeans->num_labels = num_superpixels_found;
+  
+        cv::namedWindow(set_kmeans->winname, 1);
+        cv::moveWindow(set_kmeans->winname, pad_left + win_w, pad_top);
+        //cv::imshow(set_kmeans->winname, reducedColorImage);
+        cv::createTrackbar("Colors", set_kmeans->winname, &set_kmeans->kvalue, set_kmeans->kvalue_max, on_trackbar_colorReduction_kMeans, set_kmeans);
+        on_trackbar_colorReduction_kMeans(0, set_kmeans);
+        set_kmeans->initDone = false;
+  
+        //TESTBED for SEEDS superpixles
+        SettingsSuperpixelSEEDS* set_seeds = new SettingsSuperpixelSEEDS();
+        set_seeds->winname = "Superpixels";
+        set_seeds->num_superpixels = num_init_superpixels;
+        set_seeds->num_superpixels_max = 1000;
+        set_seeds->prior = prior;
+        set_seeds->prior_max = 10;
+        set_seeds->num_levels = num_levels;
+        set_seeds->num_levels_max = 10;
+        set_seeds->num_iterations = num_iterations;
+        set_seeds->num_iterations_max = 25;
+        set_seeds->double_step = int(double_step);
+        set_seeds->num_histogram_bins = num_histogram_bins;
+        set_seeds->num_histogram_bins_max = 10;
+        
+        input.copyTo(set_seeds->image);
+        set_seeds->initDone = true;
+        superpixelImage.copyTo(set_seeds->superpixelImage);
+        set_seeds->winnameQuantizedColors = winnameQuantizedColors;
 
-    cv::cvtColor(src, result, cv::COLOR_Lab2BGR);
-	vbs::Segmentation::meanImage(labels, result, seeds->getNumberOfSuperpixels(), dst_superpixel);
+        cv::namedWindow(set_seeds->winname, 1);
+        cv::moveWindow(set_seeds->winname, pad_left + win_w * 2, pad_top);
+        //cv::imshow(set_kmeans->winname, superpixels);
+        cv::createTrackbar("Superpixels", set_seeds->winname, &set_seeds->num_superpixels, set_seeds->num_superpixels_max, on_trackbar_superpixel_SEEDS, set_seeds);
+        cv::createTrackbar("Prior", set_seeds->winname, &set_seeds->prior, set_seeds->prior_max, on_trackbar_superpixel_SEEDS, set_seeds);
+        cv::createTrackbar("Levels", set_seeds->winname, &set_seeds->num_levels, set_seeds->num_levels_max, on_trackbar_superpixel_SEEDS, set_seeds);
+        cv::createTrackbar("Double Step", set_seeds->winname, &set_seeds->double_step, 1, on_trackbar_superpixel_SEEDS, set_seeds);
+        cv::createTrackbar("Hist Bins", set_seeds->winname, &set_seeds->num_histogram_bins, set_seeds->num_histogram_bins_max, on_trackbar_superpixel_SEEDS, set_seeds);
+        cv::createTrackbar("Interations", set_seeds->winname, &set_seeds->num_iterations, set_seeds->num_iterations_max, on_trackbar_superpixel_SEEDS, set_seeds);
+        
+        on_trackbar_superpixel_SEEDS(0, set_seeds);
+        set_seeds->initDone = false;
 
-    dst_superpixel.setTo(cv::Scalar(0, 0, 255), mask);
-	cv::imshow(winname2, dst_superpixel);
+        cv::namedWindow(winnameQuantizedColors, 1);
+        cv::moveWindow(winnameQuantizedColors, pad_left + win_w * 3, pad_top);
+        cv::cvtColor(quantizedColorImage, quantizedColorImage, cv::COLOR_Lab2BGR);
+        cv::imshow(winnameQuantizedColors, quantizedColorImage);
+
+
+        int c = cv::waitKey(0);
+        while((c & 255) != 'q' && c != 'Q' && (c & 255) != 27)
+        {
+            if (c == 's')
+            {
+                cv::cvtColor(set_kmeans->reducedImage, set_kmeans->reducedImage, cv::COLOR_Lab2BGR);
+                cv::imshow("Save: ", set_kmeans->reducedImage);
+            }
+            c = cv::waitKey(0);
+        }
+    }
+}
+
+//Input - Lab color space
+void vbs::cvSketch::reduceColors(cv::Mat& image, int kvalue, cv::Mat& output)
+{
+    cv::Mat3b reduced;
+    double t = double(cv::getTickCount());
+    vbs::Segmentation::reduceColor_kmeans(image, reduced, kvalue);
+    t = (double(cv::getTickCount()) - t) / cv::getTickFrequency();
+    printf("Color reduction using k-means took %i ms with %3i colors\n", int(t * 1000), kvalue);
+    reduced.copyTo(output);
+}
+
+void vbs::cvSketch::getColorchart(cv::Mat& image, std::map<cv::Vec3b, int, lessVec3b>& palette, cv::Mat& output, int chartwidth, int chartheight)
+{
+    // Print palette
+    int area = image.rows * image.cols;
+    cv::Mat chart(chartheight, chartwidth, CV_8UC3);
+    int coloridx = 0;
+    int maxidx = 0;
+    
+    cv::Vec3b lastcolor;
+
+    for (auto color : palette)
+    {
+        std::cout << "Color: " << color.first << " \t - Area: " << 100.f * float(color.second) / float(area) << "%" << std::endl;
+        int max_width = chartwidth * (float(color.second) / float(area));
+        maxidx += max_width;
+        for(int i = 0; i <  chart.rows; i++)
+        {
+            for (int j = coloridx; j < maxidx; j++)
+            {
+                cv::Vec3b lab = color.first;
+                cv::Scalar bgr = vbs::Segmentation::ScalarLAB2BGR(color.first[0], color.first[1], color.first[2]);
+                chart.at<cv::Vec3b>(i, j) = cv::Vec3b(bgr[0], bgr[1], bgr[2]);
+            }
+        }
+        coloridx = coloridx + max_width;
+        
+        lastcolor = color.first;
+    }
+    
+    if(maxidx < image.cols){
+        for(int i = 0; i <  chart.rows; i++)
+        {
+            for (int j = maxidx; j < image.cols; j++)
+            {
+                cv::Scalar bgr = vbs::Segmentation::ScalarLAB2BGR(lastcolor[0], lastcolor[1], lastcolor[2]);
+                chart.at<cv::Vec3b>(i, j) = cv::Vec3b(bgr[0], bgr[1], bgr[2]);
+            }
+        }
+    }
+    
+    chart.copyTo(output);
+}
+
+void vbs::cvSketch::quantizeColors(cv::Mat& image, cv::Mat& lables, int num_labels, cv::Mat& output, std::map<cv::Vec3b, int, lessVec3b> colorpalette)
+{
+    cv::Mat quantizedImage;
+    vbs::Segmentation::quantizedImage(lables, image, num_labels, colorpalette, quantizedImage);
+    quantizedImage.copyTo(output);
+
+}
+
+void vbs::cvSketch::extractSuperpixels(cv::Mat& image, cv::Mat& output, cv::Mat& mask, int& num_output, int num_superpixels, int num_levels, int prior, int num_histogram_bins, bool double_step, int num_iterations)
+{
+    cv::Mat superpixels;
+    image.copyTo(superpixels);
+    
+    int widht = superpixels.cols;
+    int height = superpixels.rows;
+    int channels = superpixels.channels();
+    
+    seeds = cv::ximgproc::createSuperpixelSEEDS(widht, height, channels, num_superpixels, num_levels, prior, num_histogram_bins, double_step);
+    
+    double t = double(cv::getTickCount());
+    seeds->iterate(superpixels, num_iterations);
+    t = (double(cv::getTickCount()) - t) / cv::getTickFrequency();
+    printf("SEEDS segmentation took %i ms with %3i superpixels\n", int(t * 1000), seeds->getNumberOfSuperpixels());
+    
+    cv::Mat mask_labels, labels;
+    seeds->getLabels(labels);
+    seeds->getLabelContourMask(mask_labels, false);
+    
+    num_output = seeds->getNumberOfSuperpixels();
+    labels.copyTo(output);
+    mask_labels.copyTo(mask);
 }
 
 void vbs::cvSketch::run()
@@ -136,185 +469,12 @@ void vbs::cvSketch::run()
 	if (verbose)
 		std::cout << "cvSketch run ..." << std::endl;
 
-	double t = 0.0;
-
-	cv::Mat image = cv::imread(input);
-	cv::Mat source;
-	image.copyTo(source);
-
-	const int width = image.cols;
-	const int height = image.rows;
-
-    cv::putText(source, "Original", cvPoint(30, 30), cv::FONT_HERSHEY_COMPLEX_SMALL, 0.8, cv::Scalar(200, 200, 250), 1, CV_AA);
-
-	std::cout << "Convert colors to LAB ..." << std::endl;
-    t = double(cv::getTickCount());
-    cv::cvtColor(image, image, cv::COLOR_BGR2Lab);
-
-    t = (double(cv::getTickCount()) - t) / cv::getTickFrequency();
-	printf("Color conversion took %i ms with %3ix%3i resoultion \n",int(t * 1000), width, height);
-
-	std::cout << "Reduce colors using k-means ..." << std::endl;
-	int kvalue_init = 4;
-	const int kMean_max = 16;
-	cv::namedWindow(winname1, 1);
-	const std::string trackbarname1 = "Number of Colors" + std::to_string(kMean_max) + ": ";
-	cv::createTrackbar(trackbarname1, winname1, &kvalue_init, kMean_max, on_trackbar_colorReduction_kMeans, &image);
-	on_trackbar_colorReduction_kMeans(kvalue_init, &image);
-
-	std::map<cv::Vec3b, int, lessVec3b> palette = vbs::Segmentation::getPalette(dst_crimagelab);
-
-	// Print palette
-	int area = image.rows * image.cols;
-	int bar_width = 300;
-	cv::Mat barchart(50, bar_width, CV_8UC3);
-	int coloridx = 0;
-	int maxidx = 0;
-	for (auto color : palette)
-	{
-		std::cout << "Color: " << color.first << " \t - Area: " << 100.f * float(color.second) / float(area) << "%" << std::endl;
-		int max_width = bar_width * (float(color.second) / float(area));
-		maxidx += max_width;
-		for(int i = 0; i <  barchart.rows; i++)
-		{
-			for (int j = coloridx; j < maxidx; j++)
-			{
-				cv::Vec3b lab = color.first;
-				cv::Scalar bgr = vbs::Segmentation::ScalarLAB2BGR(color.first[0], color.first[1], color.first[2]);
-                barchart.at<cv::Vec3b>(i, j) = cv::Vec3b(bgr[0], bgr[1], bgr[2]);
-			}
-		}
-		coloridx = coloridx + max_width;
-	}
-
-	cv::imshow("Color Bar Chart", barchart);
-
-	std::cout << "Create superpixels using SEEDS ..." << std::endl;
-	//SEED Superpixels
-	num_superpixels = 1000;
-	prior = 5;
-	num_levels = 10;
-	num_iterations = 12;
-	double_step = false;
-	num_histogram_bins = 10;
-	cv::namedWindow(winname2, 1);
-
-	const std::string trackbarname2 = "Number of Superpixels " + std::to_string(1000) + ": ";
-	const std::string trackbarname3 = "Smoothing Prior " + std::to_string(5) + ": ";
-	const std::string trackbarname4 = "Number of Levels " + std::to_string(10) + ": ";
-	const std::string trackbarname5 = "Iterations " + std::to_string(12) + ": ";
-	const std::string trackbarname6 = "Number of Histogram Bins " + std::to_string(255) + ": ";
-	cv::createTrackbar(trackbarname2, winname2, &num_superpixels, 1000, on_trackbar_superpixel_SEEDS, &image);
-	cv::createTrackbar(trackbarname3, winname2, &prior, 5, on_trackbar_superpixel_SEEDS, &image);
-	cv::createTrackbar(trackbarname4, winname2, &num_levels, 10, on_trackbar_superpixel_SEEDS, &image);
-	cv::createTrackbar(trackbarname5, winname2, &num_iterations, 12, on_trackbar_superpixel_SEEDS, &image);
-	cv::createTrackbar(trackbarname6, winname2, &num_histogram_bins, 10, on_trackbar_superpixel_SEEDS, &image);
-	on_trackbar_superpixel_SEEDS(0, &image);
-
-	//cv::cvtColor(src, result, COLOR_Lab2BGR);
-	cv::Mat quant_superpixel, quant_superpixel_rgb;
-	std::map<cv::Vec3b, int, lessVec3b> empty;
-	//cv::cvtColor(dst_superpixel, dst_superpixel_rgb, cv::COLOR_Lab2BGR);
-	vbs::Segmentation::paletteImage(labels, dst_crimagelab, seeds->getNumberOfSuperpixels(), palette, quant_superpixel);
-	cv::cvtColor(quant_superpixel, quant_superpixel_rgb, cv::COLOR_Lab2BGR);
-	cv::imshow("Qunatized Superpixels", quant_superpixel_rgb);
-
-	//cv::Mat cannyrgb;
-	//cv::Canny(quant_superpixel_rgb, cannyrgb, 5, 500, 3);
-	//cv::imshow("Canny Img", cannyrgb);
-
-	//cv::Mat img_template, img_query;
-	//img_template = quant_superpixel_rgb;
-
-	//img_query = quant_superpixel_rgb;
-
-	//std::vector<std::vector<cv::Point> > results;
-	//std::vector<float> costs;
-	//int best = cv::chamerMatching(img_template, img_query, results, costs);
-	//if (best < 0)
-	//{
-	//	std::cout << "matching not found" << std::endl;
-	//}
-
-	//size_t i, n = results[best].size();
-	//for (i = 0; i < n; i++)
-	//{
-	//	cv::Point pt = results[best][i];
-	//	if (pt.inside(cv::Rect(0, 0, img_template.cols, img_template.rows)))
-	//		img_template.at<cv::Vec3b>(pt) = cv::Vec3b(0, 255, 0);
-	//}
-
-	//cv::imshow("result", img_template);
-
-	//Mat ROI(img_template, Rect(0, 0, int(width / 2.0), int(height / 2.0)));
-	//ROI.copyTo(img_query);
-
-	//std::map<int, cv::Mat> mapOfTemplates;
-	//std::map<int, std::pair<cv::Rect, cv::Rect> > mapOfTemplateRois;
-	//mapOfTemplates[1] = img_template;
-	//mapOfTemplateRois[1] = std::pair<cv::Rect, cv::Rect>(cv::Rect(0, 0, -1, -1), cv::Rect(0, 0, -1, -1));
-
-	//ChamferMatcher chamfer(mapOfTemplates, mapOfTemplateRois);
-	//std::vector<Detection_t> detections;
-	//bool useOrientation = true;
-	//float distanceThreshold = 100.0, lambda = 100.0f;
-	//float weight_forward = 1.0f, weight_backward = 1.0f;
-	//bool useNonMaximaSuppression = true, useGroupDetections = true;
-	//chamfer.setCannyThreshold(70.0);
-	//chamfer.setMatchingType(ChamferMatcher::fullMatching);
-
-	//t = (double)cv::getTickCount();
-	//chamfer.detectMultiScale(img_query, detections, useOrientation, distanceThreshold, lambda, weight_forward,
-	//	weight_backward, useNonMaximaSuppression, useGroupDetections);
-	//t = ((double)cv::getTickCount() - t) / cv::getTickFrequency() * 1000.0;
-	//std::cout << "Processing time=" << t << " ms" << std::endl;
-
-
-	//cv::Mat result;
-	//img_query.convertTo(result, CV_8UC3);
-
-	//std::cout << "detections=" << detections.size() << std::endl;
-	//for (std::vector<Detection_t>::const_iterator it = detections.begin(); it != detections.end(); ++it) {
-	//	cv::rectangle(result, it->m_boundingBox, cv::Scalar(0, 0, 255), 2);
-
-	//	std::stringstream ss;
-	//	//Chamfer distance
-	//	ss << it->m_chamferDist;
-	//	cv::Point ptText = it->m_boundingBox.tl() + cv::Point(10, 20);
-	//	cv::putText(result, ss.str(), ptText, cv::FONT_HERSHEY_SIMPLEX, 0.45, cv::Scalar(255, 0, 0), 2);
-
-	//	//Scale
-	//	ss.str("");
-	//	ss << it->m_scale;
-	//	ptText = it->m_boundingBox.tl() + cv::Point(10, 40);
-	//	cv::putText(result, ss.str(), ptText, cv::FONT_HERSHEY_SIMPLEX, 0.45, cv::Scalar(255, 0, 0), 2);
-
-	//	cv::imshow("result", result);
-	//	cv::waitKey(0);
-	//}
-
-    int c = cv::waitKey(0);
-	while((c & 255) != 'q' && c != 'Q' && (c & 255) != 27)
-	{
-		if (c == 's')
-		{
-			std::string append1 = "_reduced_kmeans_lab_k=" + std::to_string(kvalue_init);
-			storeImage(input, append1, ".png", dst_crimagebgr);
-
-			std::string append2 = "_superpixel_lab_num=" + std::to_string(num_superpixels);
-			append2 = append2 + "_prior=" + std::to_string(prior);
-			//////append2 = append2 + "_levels=" + std::to_string(num_levels);
-			append2 = append2 + "_iter=" + std::to_string(num_iterations);
-			append2 = append2 + "_bins=" + std::to_string(num_histogram_bins);
-
-			std::string append3 = "_barchart_lab_num=" + std::to_string(8);
-
-			storeImage(input, append1, ".png", dst_crimagebgr);
-			storeImage(input, append2, ".png", quant_superpixel_rgb);
-			storeImage(input, append3, ".png", barchart);
-		}
-        c = cv::waitKey(0);
-	}
+    cv::Mat image = cv::imread(input);
+    cv::Mat reduced;
+    int max_width = 352, max_height = 240;
+    //int max_width = 720, max_height = 480;
+    cv::resize(image, reduced, cv::Size(max_height, max_width));
+    testColorSegmentation(reduced);
 
 }
 
@@ -479,3 +639,6 @@ boost::program_options::variables_map vbs::cvSketch::processProgramOptions(const
     
     return args;
 }
+
+
+
