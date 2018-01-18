@@ -31,15 +31,6 @@
 //std::string ENV_DIR="/Users/skletz/Dropbox/Programming/CUPCakes/vbssketch/cvsketch";
 std::string ENV_DIR = "E:\\Dropbox\\Programming\\CUPCakes\\vbssketch\\cvsketch";
 
-static void help()
-{
-    printf("\n"
-           "This program demonstrates methods for shape comparisson based on shape context\n"
-           "Run the program providing a number between 0 and 48 for selecting a sketch in the folder ../sketches/.\n"
-           "Call\n"
-           "./main [number between 0 and 48, 0 default]\n\n");
-}
-
 int main(int argc, const char * argv[]) {
 
 	boost::filesystem::path p(ENV_DIR);

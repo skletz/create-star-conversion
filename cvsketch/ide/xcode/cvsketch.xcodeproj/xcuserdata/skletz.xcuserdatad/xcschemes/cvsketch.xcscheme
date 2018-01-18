@@ -64,19 +64,40 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "--input /Users/skletz/Dropbox/Programming/CUPCakes/vbssketch/data/sketch_sample/images/8/247800091.jpg --display --verbose"
+            argument = "--input /Users/skletz/Dropbox/Programming/CUPCakes/vbssketch/data/sketch_sample/images/0/32707061.jpg --display --verbose"
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "--input /Users/skletz/Dropbox/Programming/CUPCakes/vbssketch/data/testbed/mountains.jpg --display --verbose"
+            argument = "--input /Users/skletz/Dropbox/Programming/CUPCakes/vbssketch/data/sketch_sample/images/test/asdf/641602006.jpg"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "--input /Users/skletz/Dropbox/Programming/CUPCakes/vbssketch/data/sketch_sample/images/0/641602006.jpg"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "--outfile /Applications/XAMPP/xamppfiles/htdocs/GameJam/cv.sketch/cv.sketch/data/247800091.txt"
+            argument = "--searchin /Users/skletz/Dropbox/Programming/CUPCakes/vbssketch/data/sketch_sample/images/test"
             isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "--searchin /Users/skletz/Dropbox/Programming/CUPCakes/vbssketch/data/sketch_sample/images"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "--display"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "--verbose"
+            isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>
       <AdditionalOptions>
+         <AdditionalOption
+            key = "MallocScribble"
+            value = ""
+            isEnabled = "YES">
+         </AdditionalOption>
       </AdditionalOptions>
    </LaunchAction>
    <ProfileAction

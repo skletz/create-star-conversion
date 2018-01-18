@@ -25,64 +25,93 @@
 #endif
 
 namespace vbs {
-    
+
     class cvSketch
     {
-        
+
     public:
 		bool verbose = false;
 		bool display = false;
         std::string input;
 		std::string output;
+		std::string searchin;
+
+        double execution_time = 0.0;
+
+        int pad_top = 250;
+        int pad_left = 50;
+        int nr_input_images = -1;
+        int top_kresults = 50;
+
 
         cvSketch();
-        
+
         /**
          *
          *
          */
         std::string getInfo();
-        
+
         /**
          *
          *
          */
         std::string help(const boost::program_options::options_description& desc);
-        
+
         /**
          *
          *
          */
         boost::program_options::variables_map processProgramOptions(const int argc, const char *const argv[]);
-        
+
         /**
          *
          *
          */
         bool init(boost::program_options::variables_map _args);
-        
+
         /**
         *
         *
         */
         void run();
-        
-        //void on_trackbar_colorReduction_kMeans(const int kvalue, void* data);
-        
+
+        void searchimagein(std::string query_path);
+
         /**
          *
          *
          */
-        void testColorSegmentation(cv::Mat& image);
+        void testColorSegmentation(cv::Mat& image, cv::Mat& colorSegments, cv::Mat& colorLabels, std::map<cv::Vec3b, int, lessVec3b>& palette);
 
-        static void reduceColors(cv::Mat& image, int kvalue, cv::Mat& output);
-        
+        /**
+         *
+         *
+         */
+        void describeColorSegmentation(cv::Mat& image, cv::Mat& colorSegments, cv::Mat& colorLabels, std::map<cv::Vec3b, int, lessVec3b>& palette, cv::Mat& descriptors);
+
+
+        static void reduceColors(const cv::Mat& image, int kvalue, cv::Mat& output);
+
         static void extractSuperpixels(cv::Mat& image, cv::Mat& output, cv::Mat& mask, int& num_output, int num_superpixels, int num_levels, int prior, int num_histogram_bins, bool double_step, int num_iterations);
-        
-        static void getColorchart(cv::Mat& image, std::map<cv::Vec3b, int, lessVec3b>& palette, cv::Mat& output, int chartwidth, int chartheight);
-        
+
+        static void getColorchart(std::map<cv::Vec3b, int, lessVec3b>& palette, cv::Mat& output, int chartwidth, int chartheight, int area);
+
+        static void getColorchart(std::vector<std::pair<cv::Vec3b, int>>& palette, cv::Mat& output, int chartwidth, int chartheight, int area);
+
+        //static void convertDefault(std::map<cv::Vec3b, int, lessVec3b>& palette, cv::Mat& output, int chartwidth, int chartheight);
+
+        static void getDefaultColorchart(std::map<cv::Vec3b, int, lessVec3b>& palette, cv::Mat& output, int chartwidth, int chartheight);
+
         static void quantizeColors(cv::Mat& image, cv::Mat& lables, int num_labels, cv::Mat& output, std::map<cv::Vec3b, int, lessVec3b> colorpalette);
-        
+
+        void show_image(const cv::Mat& image, std::string winname, int x, int y);
+
+        void process_image(const cv::Mat& image, int width, int height, int colors, cv::Mat& image_withbarchart, std::vector<std::pair<cv::Vec3b, int>>& sorted_colorpalette);
+
+
+
+
 		/**
 		* @brief makeCanvas Makes composite image from the given images
 		* @param vecMat Vector of Images.
@@ -96,6 +125,7 @@ namespace vbs {
         ~cvSketch();
 
     };
+
 }
 
 #endif //_CVSKETCH_HPP_

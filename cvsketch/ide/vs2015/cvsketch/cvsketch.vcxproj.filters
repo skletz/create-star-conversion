@@ -25,9 +25,6 @@
     <Filter Include="libs\CIEDE2000">
       <UniqueIdentifier>{206147a9-eba3-4a99-a2fc-4f9df6d60c3a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="libs\Chamfer">
-      <UniqueIdentifier>{2ad877cc-c2fd-48fe-8548-6858c9d61857}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\cvsketch\src\cvsketch.cpp">
@@ -60,15 +57,6 @@
     <ClCompile Include="..\..\..\cvsketch\libs\CIEDE2000\CIEDE2000.cpp">
       <Filter>libs\CIEDE2000</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\cvsketch\libs\Chamfer\Chamfer\Chamfer.cpp">
-      <Filter>libs\Chamfer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\cvsketch\libs\Chamfer\Chamfer\Utils.cpp">
-      <Filter>libs\Chamfer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\cvsketch\libs\Chamfer\Chamfer\chamfer_pistoledetection.hpp">
-      <Filter>libs\Chamfer</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\cvsketch\src\cvsketch.hpp">
@@ -94,12 +82,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\cvsketch\libs\CIEDE2000\CIEDE2000.h">
       <Filter>libs\CIEDE2000</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\cvsketch\libs\Chamfer\Chamfer\Chamfer.hpp">
-      <Filter>libs\Chamfer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\cvsketch\libs\Chamfer\Chamfer\Utils.hpp">
-      <Filter>libs\Chamfer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,20 +1,22 @@
-﻿  segmentation.cpp
-  cvsketch.cpp
+﻿  cvsketch.cpp
 e:\dropbox\programming\cupcakes\vbssketch\cvsketch\cvsketch\libs\imagesegmentation\imagesegmentation.hpp(92): warning C4244: "Initialisierung": Konvertierung von "int" in "float", möglicher Datenverlust
 e:\dropbox\programming\cupcakes\vbssketch\cvsketch\cvsketch\libs\imagesegmentation\imagesegmentation.hpp(109): warning C4244: "Initialisierung": Konvertierung von "int" in "float", möglicher Datenverlust
 e:\dropbox\programming\cupcakes\vbssketch\cvsketch\cvsketch\libs\imagesegmentation\imagesegmentation.hpp(298): warning C4101: "dy": Unreferenzierte lokale Variable
 e:\dropbox\programming\cupcakes\vbssketch\cvsketch\cvsketch\libs\imagesegmentation\imagesegmentation.hpp(298): warning C4101: "dx": Unreferenzierte lokale Variable
-e:\dropbox\programming\cupcakes\vbssketch\cvsketch\cvsketch\libs\seeds-revised\lib\seedsrevised.h(405): warning C4244: "Initialisierung": Konvertierung von "int" in "float", möglicher Datenverlust
-e:\dropbox\programming\cupcakes\vbssketch\cvsketch\cvsketch\libs\seeds-revised\lib\seedsrevised.h(406): warning C4244: "Initialisierung": Konvertierung von "int" in "float", möglicher Datenverlust
-e:\dropbox\programming\cupcakes\vbssketch\cvsketch\cvsketch\libs\seeds-revised\lib\seedsrevised.h(413): warning C4244: "=": Konvertierung von "int" in "float", möglicher Datenverlust
-e:\dropbox\programming\cupcakes\vbssketch\cvsketch\cvsketch\libs\seeds-revised\lib\seedsrevised.h(434): warning C4244: "Initialisierung": Konvertierung von "int" in "float", möglicher Datenverlust
-e:\dropbox\programming\cupcakes\vbssketch\cvsketch\cvsketch\libs\seeds-revised\lib\seedsrevised.h(435): warning C4244: "Initialisierung": Konvertierung von "int" in "float", möglicher Datenverlust
-e:\dropbox\programming\cupcakes\vbssketch\cvsketch\cvsketch\src\cvsketch.cpp(170): warning C4244: "Initialisierung": Konvertierung von "float" in "int", möglicher Datenverlust
-e:\dropbox\programming\cupcakes\vbssketch\cvsketch\cvsketch\src\cvsketch.cpp(243): warning C4244: "Initialisierung": Konvertierung von "double" in "int", möglicher Datenverlust
-e:\dropbox\programming\cupcakes\vbssketch\cvsketch\cvsketch\src\cvsketch.cpp(244): warning C4244: "Initialisierung": Konvertierung von "double" in "int", möglicher Datenverlust
-e:\dropbox\programming\cupcakes\vbssketch\cvsketch\cvsketch\src\cvsketch.cpp(296): warning C4267: "Initialisierung": Konvertierung von "size_t" nach "int", Datenverlust möglich
-e:\dropbox\programming\cupcakes\vbssketch\cvsketch\cvsketch\src\cvsketch.cpp(322): warning C4305: "Argument": Verkürzung von "double" in "const float"
-e:\dropbox\programming\cupcakes\vbssketch\cvsketch\cvsketch\src\cvsketch.cpp(373): warning C4101: "e": Unreferenzierte lokale Variable
-  Code wird generiert...
+e:\dropbox\programming\cupcakes\vbssketch\cvsketch\cvsketch\src\cvsketch.cpp(160): warning C4800: "int": Variable wird auf booleschen Wert ("True" oder "False") gesetzt (Auswirkungen auf Leistungsverhalten möglich)
+e:\dropbox\programming\cupcakes\vbssketch\cvsketch\cvsketch\src\cvsketch.cpp(458): warning C4244: "Initialisierung": Konvertierung von "float" in "int", möglicher Datenverlust
+e:\dropbox\programming\cupcakes\vbssketch\cvsketch\cvsketch\src\cvsketch.cpp(499): warning C4244: "Initialisierung": Konvertierung von "float" in "int", möglicher Datenverlust
+e:\dropbox\programming\cupcakes\vbssketch\cvsketch\cvsketch\src\cvsketch.cpp(541): warning C4244: "Initialisierung": Konvertierung von "float" in "int", möglicher Datenverlust
+e:\dropbox\programming\cupcakes\vbssketch\cvsketch\cvsketch\src\cvsketch.cpp(549): warning C4244: "Argument": Konvertierung von "double" in "uchar", möglicher Datenverlust
+e:\dropbox\programming\cupcakes\vbssketch\cvsketch\cvsketch\src\cvsketch.cpp(794): warning C4244: "Initialisierung": Konvertierung von "double" in "int", möglicher Datenverlust
+e:\dropbox\programming\cupcakes\vbssketch\cvsketch\cvsketch\src\cvsketch.cpp(794): warning C4244: "Initialisierung": Konvertierung von "double" in "const int", möglicher Datenverlust
+e:\dropbox\programming\cupcakes\vbssketch\cvsketch\cvsketch\src\cvsketch.cpp(868): warning C4244: "Initialisierung": Konvertierung von "double" in "int", möglicher Datenverlust
+e:\dropbox\programming\cupcakes\vbssketch\cvsketch\cvsketch\src\cvsketch.cpp(869): warning C4244: "Initialisierung": Konvertierung von "double" in "int", möglicher Datenverlust
+e:\dropbox\programming\cupcakes\vbssketch\cvsketch\cvsketch\src\cvsketch.cpp(890): warning C4244: "=": Konvertierung von "double" in "float", möglicher Datenverlust
+e:\dropbox\programming\cupcakes\vbssketch\cvsketch\cvsketch\src\cvsketch.cpp(745): warning C4101: "e": Unreferenzierte lokale Variable
+e:\dropbox\programming\cupcakes\vbssketch\cvsketch\cvsketch\src\cvsketch.cpp(925): warning C4244: "Initialisierung": Konvertierung von "double" in "int", möglicher Datenverlust
+e:\dropbox\programming\cupcakes\vbssketch\cvsketch\cvsketch\src\cvsketch.cpp(926): warning C4244: "Initialisierung": Konvertierung von "double" in "int", möglicher Datenverlust
+e:\dropbox\programming\cupcakes\vbssketch\cvsketch\cvsketch\src\cvsketch.cpp(1005): warning C4305: "Argument": Verkürzung von "double" in "const float"
+e:\dropbox\programming\cupcakes\vbssketch\cvsketch\cvsketch\src\cvsketch.cpp(1056): warning C4101: "e": Unreferenzierte lokale Variable
   cvsketch.vcxproj -> E:\Dropbox\Programming\CUPCakes\vbssketch\cvsketch\ide\vs2015\x64\Debug\cvsketch.exe
   cvsketch.vcxproj -> E:\Dropbox\Programming\CUPCakes\vbssketch\cvsketch\ide\vs2015\x64\Debug\cvsketch.pdb (Partial PDB)

@@ -26,7 +26,11 @@ void vbs::Segmentation::reduceColor_kmeans(const cv::Mat3b& src, cv::Mat3b& dst,
 	}
 
 	cv::Mat reduced = data.reshape(3, src.rows);
+
 	reduced.convertTo(dst, CV_8U);
+//    cv::cvtColor(dst, dst, CV_Lab2BGR);
+//    cv::imshow("Dst", dst);
+//    cv::waitKey(0);
 }
 
 void vbs::Segmentation::reduceColor_spatialkmeans(const cv::Mat3b& src, cv::Mat3b& dst, int k)
@@ -78,8 +82,40 @@ std::map<cv::Vec3b, int, vbs::lessVec3b> vbs::Segmentation::getPalette(const cv:
 			}
 		}
 	}
+
 	return palette;
 }
+
+//std::map<cv::Scalar, int, vbs::lessVec3b> vbs::Segmentation::getPaletteNormalized(const cv::Mat3b& src)
+//{
+//	std::map<cv::Scalar, int, lessVec3b> palette;
+//	for (int r = 0; r < src.rows; ++r)
+//	{
+//		for (int c = 0; c < src.cols; ++c)
+//		{
+//			cv::Scalar color = src(r, c);
+//
+//			color[0] = color[0] / 100.0;
+//			color[1] = (color[1] + 127.0) / 255.0;
+//			color[2] = (color[2] + 127.0) / 255.0;
+//
+//			if ((color[0] < 0 && color[0] > 1) || (color[1] < 0 && color[1] > 1) || (color[2] < 0 && color[2] > 1))
+//				std::cout << "Not normalized: " << color << std::endl;
+//
+//
+//
+//			if (palette.count(color) == 0)
+//			{
+//				palette[color] = 1;
+//			}
+//			else
+//			{
+//				palette[color] = palette[color] + 1;
+//			}
+//		}
+//	}
+//	return palette;
+//}
 
 void vbs::Segmentation::meanImage(cv::Mat & labels, cv::Mat & image, int numberOfSuperpixels, cv::Mat& output)
 {
@@ -163,8 +199,8 @@ void vbs::Segmentation::quantizedImage(cv::Mat& labels, cv::Mat& image, int numb
 
 	if (palette.empty())
 	{
-		
-		for (auto color : default_pallette_rgb)
+
+		for (auto color : default_palette_rgb)
 		{
 			cv::Scalar lab = ScalarRGB2LAB(color.first[0], color.first[1], color.first[2]);
 			cv::Vec3b tmp = cv::Vec3b(lab[0], lab[1], lab[2]);
@@ -194,7 +230,7 @@ void vbs::Segmentation::quantizedImage(cv::Mat& labels, cv::Mat& image, int numb
 		meanB = 0;
 		count = 0;
 
-		
+
 		for (int i = 0; i < newImage.rows; i++) {
 			for (int j = 0; j < newImage.cols; j++) {
 				if (labels.at<int>(i, j) == label) {
@@ -234,10 +270,10 @@ void vbs::Segmentation::quantizedImage(cv::Mat& labels, cv::Mat& image, int numb
 			//double cmp_a = (meanA);
 			//double cmp_b = (meanB);
 
-			if (idx_l < 0 && idx_l > 1 || idx_a < 0 && idx_a > 1 || idx_b < 0 && idx_b > 1)
+			if ((idx_l < 0 && idx_l > 1) || (idx_a < 0 && idx_a > 1) || (idx_b < 0 && idx_b > 1))
 				std::cout << "Not normalized: " << color.first << std::endl;
 
-			if (cmp_l < 0 && cmp_l > 1 || cmp_a < 0 && cmp_a > 1 || cmp_b < 0 && cmp_b > 1)
+			if ((cmp_l < 0 && cmp_l > 1) || (cmp_a < 0 && cmp_a > 1) || (cmp_b < 0 && cmp_b > 1))
 				std::cout << "Not normalized: " << cv::Vec3b(meanL,meanA,meanB) << std::endl;
 
 			//double l = idx_l - cmp_l;
@@ -283,5 +319,49 @@ void vbs::Segmentation::quantizedImage(cv::Mat& labels, cv::Mat& image, int numb
 	}
 
 	newImage.copyTo(output);
+
+}
+
+void vbs::Segmentation::sortPaletteByArea(std::map<cv::Vec3b, int, lessVec3b> input, std::vector<std::pair<cv::Vec3b, int>>& output)
+{
+
+    std::vector<std::pair<cv::Vec3b, int>> results;
+
+    for(auto color : input)
+    {
+       output.push_back(std::make_pair(color.first, color.second));
+
+    }
+
+    std::sort(output.begin(), output.end(), [](const std::pair<cv::Vec3b, int>& s1, const std::pair<cv::Vec3b, int>& s2)
+              {
+                  cv::Vec3b c1 = s1.first;
+                  cv::Vec3b c2 = s2.first;
+
+                  //return (c1[0] < c2[0]) && ((c1[1] < c2[1]) && (c1[2] < c2[2]));
+                  return (s1.second > s2.second);
+
+              });
+
+}
+
+void vbs::Segmentation::sortPaletteByArea(std::vector<std::pair<cv::Vec3b, int>> input, std::vector<std::pair<cv::Vec3b, int>>& output)
+{
+
+    for(auto color : input)
+    {
+       output.push_back(std::make_pair(color.first, color.second));
+
+    }
+
+    std::sort(output.begin(), output.end(), [](const std::pair<cv::Vec3b, int>& s1, const std::pair<cv::Vec3b, int>& s2)
+              {
+                  cv::Vec3b c1 = s1.first;
+                  cv::Vec3b c2 = s2.first;
+
+                  //return (c1[0] < c2[0]) && ((c1[1] < c2[1]) && (c1[2] < c2[2]));
+                  return (s1.second > s2.second);
+
+              });
 
 }
