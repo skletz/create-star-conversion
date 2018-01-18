@@ -17,8 +17,8 @@
 
 // PATHS
 //std::string DATA_LOCATION_PREFIX = "../data/";
-std::string SKETCH_DATA_LOCATION_PREFIX = "../../cv.sketch/cv.sketch/data/sketch_sample/";
-std::string ETHZ_DATA_LOCATION_PREFIX = "../../cv.sketch/cv.sketch/data/ETHZShapeClasses-V1.2/";
+std::string SKETCH_DATA_LOCATION_PREFIX = "../../data/sketch_sample/";
+std::string ETHZ_DATA_LOCATION_PREFIX = "../../data/ETHZShapeClasses-V1.2/";
 std::string OUT_DIR_PREFIX = "../out/";
 
 // CANNY CFG
