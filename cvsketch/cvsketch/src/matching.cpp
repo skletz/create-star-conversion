@@ -61,8 +61,8 @@ double vbs::Matching::compareWithEuclid(const std::vector<std::pair<cv::Vec3b, f
 			double l = (c1[i].first[0] - c2[j].first[0]);
 			double a = (c1[i].first[1] - c2[j].first[1]);
 			double b = (c1[i].first[2] - c2[j].first[2]);
+			double tmp_dist = (0.01 * std::pow(l, 2) + 0.49 * std::pow(a, 2) + 0.49 * std::pow(b, 2));
 			//double tmp_dist = (std::pow(l, 2) + std::pow(a, 2) + std::pow(b, 2));
-			double tmp_dist = (std::pow(l, 2) + std::pow(a, 2) + std::pow(b, 2));
 			tmp_dist = std::sqrt(tmp_dist);
 
 

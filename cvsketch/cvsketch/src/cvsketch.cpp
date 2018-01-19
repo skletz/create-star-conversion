@@ -126,7 +126,7 @@ bool vbs::cvSketch::init(boost::program_options::variables_map _args)
 void vbs::cvSketch::run()
 {
 	if (verbose)
-		std::cout << "cvSketch run ..." << std::endl;
+		std::cout << "Run cvSketch ..." << std::endl;
 
 	cv::Mat image = cv::imread(in_query, IMREAD_COLOR);
 	cv::Mat reduced;
@@ -139,12 +139,14 @@ void vbs::cvSketch::run()
 	std::map<cv::Vec3b, int, lessVec3b> palette;
 	testColorSegmentation(reduced, colorSegments, colorLabels, palette);
 
-	cv::Mat descriptors;
-	describeColorSegmentation(image, colorSegments, colorLabels, palette, descriptors);
+	//cv::Mat descriptors;
+	//describeColorSegmentation(image, colorSegments, colorLabels, palette, descriptors);
 
 
-	//search_image(in_query, in_dataset);
-
+	search_image(in_query, in_dataset);
+    
+    if (verbose)
+        std::cout << "cvSketch finished ..." << std::endl;
 }
 
 void vbs::cvSketch::on_trackbar_colorReduction_kMeans(int, void* _object)
@@ -201,7 +203,7 @@ void vbs::cvSketch::on_trackbar_colorReduction_kMeans(int, void* _object)
     }
 
     //Dispaly
-    sketch->setLabel(dst_show, text.str(), cvPoint(20, 20));
+    sketch->set_label(dst_show, text.str(), cvPoint(20, 20));
     sketch->show_image(dst_show, winname);
     sketch->show_image(colorchart, inout->winnameColorchart);
 
@@ -248,17 +250,17 @@ void vbs::cvSketch::on_trackbar_superpixel_SEEDS(const int, void* _object)
     std::stringstream text;
     text << "Superpixels: " << num_superpixels << ", ";
     text << "Prior: " << prior;
-    sketch->setLabel(dst_show, text.str(), cvPoint(30, 30));
+    sketch->set_label(dst_show, text.str(), cvPoint(30, 30));
     
     text.str("");
     text << "Levels: " << num_levels  << ", ";
     text << "Double Step: " << ((double_step = 1) ? "true" : "false");
-    sketch->setLabel(dst_show, text.str(), cvPoint(30, 45));
+    sketch->set_label(dst_show, text.str(), cvPoint(30, 45));
     
     text.str("");
     text << "Iterations: " << num_iterations  << ", ";
     text << "Hist Bins: " << num_histogram_bins;
-    sketch->setLabel(dst_show, text.str(), cvPoint(30, 60));
+    sketch->set_label(dst_show, text.str(), cvPoint(30, 60));
     
     sketch->show_image(dst_show, winname);
     sketch->show_image(quantized_image, inout->winnameQuantizedColors);
@@ -269,17 +271,7 @@ void vbs::cvSketch::on_trackbar_superpixel_SEEDS(const int, void* _object)
     inout->num_labels = num_superpixel_found;
 }
 
-void vbs::cvSketch::setLabel(cv::Mat& im, const std::string label, const cv::Point& point)
-{
-    int fontface = cv::FONT_HERSHEY_DUPLEX;
-    double scale = 0.4;
-    int thickness = 1;
-    int baseline = 0;
-    
-    cv::Size text = cv::getTextSize(label, fontface, scale, thickness, &baseline);
-    cv::rectangle(im, point + cv::Point(0, baseline), point + cv::Point(text.width, -text.height), cv::Scalar(0,127,127), CV_FILLED);
-    cv::putText(im, label, point, fontface, scale, CV_RGB(200, 200, 250), thickness, 8);
-}
+
 
 void vbs::cvSketch::testColorSegmentation(cv::Mat& image, cv::Mat& colorSegments, cv::Mat& colorLabels, std::map<cv::Vec3b, int, lessVec3b>& palette)
 {
@@ -759,16 +751,17 @@ void vbs::cvSketch::search_image(std::string query_path, std::string dataset_pat
 //            std::cout << "====================================" << i << std::endl;
 //        }
 
-        //double dist = vbs::Matching::compareWithOCCD(q_colorpalette_weights, db_colorpalette_weights, area);
+        double dist = vbs::Matching::compareWithOCCD(q_colorpalette_weights, db_colorpalette_weights, area);
 
-        double dist = vbs::Matching::compareWithEuclid(q_colorpalette_weights, db_colorpalette_weights);
+        //double dist = vbs::Matching::compareWithEuclid(q_colorpalette_weights, db_colorpalette_weights);
 
         
         //Display the retrieval results
         cv::Mat result;
         colorchart.copyTo(result);
-
-        cv::putText(result, std::to_string(dist), cvPoint(30, 30), cv::FONT_HERSHEY_COMPLEX_SMALL, 2.0, cv::Scalar(0, 0, 255), 1, CV_AA);
+  
+        set_label(result, std::to_string(dist),cvPoint(10, 40), 1.5);
+        
 		Match match;
 		match.path = files.at(i);
         match.dist = dist;
@@ -799,7 +792,7 @@ void vbs::cvSketch::search_image(std::string query_path, std::string dataset_pat
     printf("Searching took %i ms per file \n", int( float(t * 1000) / float(files.size())));
 
 
-	cv::Mat results = makeCanvas(images, 700, 7);
+	cv::Mat results = make_canvas(images, 700, 7);
     std::string winnameResults = "Retrieval Results Top: " + std::to_string(top_kresults) + " of " + std::to_string(files.size());
 	cv::namedWindow(winnameResults);
     show_image(results, winnameResults, q_colorchart.cols + 25, 50);
@@ -866,81 +859,6 @@ void vbs::cvSketch::process_image(const cv::Mat& image, int width, int height, i
     cv::vconcat(reduced, space, reduced);
     cv::vconcat(reduced, colorchart, reduced);
     reduced.copyTo(image_withbarchart);
-}
-
-cv::Mat vbs::cvSketch::makeCanvas(std::vector<cv::Mat>& vecMat, int windowHeight, int nRows)
-{
-	int N = int(vecMat.size());
-	nRows = nRows > N ? N : nRows;
-	int edgeThickness = 10;
-	int imagesPerRow = ceil(double(N) / nRows);
-	int resizeHeight = floor(2.0 * ((floor(double(windowHeight - edgeThickness) / nRows)) / 2.0)) - edgeThickness;
-	int maxRowLength = 0;
-
-	std::vector<int> resizeWidth;
-	for (int i = 0; i < N;) {
-		int thisRowLen = 0;
-		for (int k = 0; k < imagesPerRow; k++) {
-			double aspectRatio = double(vecMat[i].cols) / vecMat[i].rows;
-			int temp = int(ceil(resizeHeight * aspectRatio));
-			resizeWidth.push_back(temp);
-			thisRowLen += temp;
-			if (++i == N) break;
-		}
-		if ((thisRowLen + edgeThickness * (imagesPerRow + 1)) > maxRowLength) {
-			maxRowLength = thisRowLen + edgeThickness * (imagesPerRow + 1);
-		}
-	}
-	int windowWidth = maxRowLength;
-    cv::Mat canvasImage(windowHeight, windowWidth, CV_8UC3, cv::Scalar(0, 127, 127));
-
-	for (int k = 0, i = 0; i < nRows; i++) {
-		int y = i * resizeHeight + (i + 1) * edgeThickness;
-		int x_end = edgeThickness;
-		for (int j = 0; j < imagesPerRow && k < N; k++, j++) {
-			int x = x_end;
-			cv::Rect roi(x, y, resizeWidth[k], resizeHeight);
-			cv::Size s = canvasImage(roi).size();
-			// change the number of channels to three
-			cv::Mat target_ROI(s, CV_8UC3);
-			if (vecMat[k].channels() != canvasImage.channels()) {
-				if (vecMat[k].channels() == 1) {
-					cv::cvtColor(vecMat[k], target_ROI, CV_GRAY2BGR);
-				}
-			}
-			else {
-				vecMat[k].copyTo(target_ROI);
-			}
-			cv::resize(target_ROI, target_ROI, s);
-			if (target_ROI.type() != canvasImage.type()) {
-				target_ROI.convertTo(target_ROI, canvasImage.type());
-			}
-			target_ROI.copyTo(canvasImage(roi));
-			x_end += resizeWidth[k] + edgeThickness;
-		}
-	}
-	return canvasImage;
-}
-
-bool vbs::cvSketch::storeImage(std::string originalfile, std::string append, std::string extension, cv::Mat& image)
-{
-	boost::filesystem::path in(originalfile);
-	boost::filesystem::path ext = in.filename().extension();
-    size_t position = in.filename().string().find(ext.string());
-	std::string store = output + DIRECTORY_SEPARATOR + in.filename().string().substr(0, position) + append + extension;
-
-	cv::imwrite(store, image);
-	return false;
-}
-
-vbs::cvSketch::~cvSketch()
-{
-	if(verbose)
-		std::cout << "cvSketch destructor ..." << std::endl;
-    
-    delete set_kmeans;
-    delete set_seeds;
-    delete set_exchange;
 }
 
 boost::program_options::variables_map vbs::cvSketch::process_program_options(const int argc, const char *const argv[])
@@ -1033,4 +951,92 @@ boost::program_options::variables_map vbs::cvSketch::process_program_options(con
     notify(args);
 
     return args;
+}
+
+vbs::cvSketch::~cvSketch()
+{
+    if(verbose)
+        std::cout << "cvSketch destructor ..." << std::endl;
+    
+    delete set_kmeans;
+    delete set_seeds;
+    delete set_exchange;
+}
+
+
+cv::Mat vbs::cvSketch::make_canvas(std::vector<cv::Mat>& vecMat, int windowHeight, int nRows)
+{
+    int N = int(vecMat.size());
+    nRows = nRows > N ? N : nRows;
+    int edgeThickness = 10;
+    int imagesPerRow = ceil(double(N) / nRows);
+    int resizeHeight = floor(2.0 * ((floor(double(windowHeight - edgeThickness) / nRows)) / 2.0)) - edgeThickness;
+    int maxRowLength = 0;
+    
+    std::vector<int> resizeWidth;
+    for (int i = 0; i < N;) {
+        int thisRowLen = 0;
+        for (int k = 0; k < imagesPerRow; k++) {
+            double aspectRatio = double(vecMat[i].cols) / vecMat[i].rows;
+            int temp = int(ceil(resizeHeight * aspectRatio));
+            resizeWidth.push_back(temp);
+            thisRowLen += temp;
+            if (++i == N) break;
+        }
+        if ((thisRowLen + edgeThickness * (imagesPerRow + 1)) > maxRowLength) {
+            maxRowLength = thisRowLen + edgeThickness * (imagesPerRow + 1);
+        }
+    }
+    int windowWidth = maxRowLength;
+    cv::Mat canvasImage(windowHeight, windowWidth, CV_8UC3, cv::Scalar(0, 127, 127));
+    
+    for (int k = 0, i = 0; i < nRows; i++) {
+        int y = i * resizeHeight + (i + 1) * edgeThickness;
+        int x_end = edgeThickness;
+        for (int j = 0; j < imagesPerRow && k < N; k++, j++) {
+            int x = x_end;
+            cv::Rect roi(x, y, resizeWidth[k], resizeHeight);
+            cv::Size s = canvasImage(roi).size();
+            // change the number of channels to three
+            cv::Mat target_ROI(s, CV_8UC3);
+            if (vecMat[k].channels() != canvasImage.channels()) {
+                if (vecMat[k].channels() == 1) {
+                    cv::cvtColor(vecMat[k], target_ROI, CV_GRAY2BGR);
+                }
+            }
+            else {
+                vecMat[k].copyTo(target_ROI);
+            }
+            cv::resize(target_ROI, target_ROI, s);
+            if (target_ROI.type() != canvasImage.type()) {
+                target_ROI.convertTo(target_ROI, canvasImage.type());
+            }
+            target_ROI.copyTo(canvasImage(roi));
+            x_end += resizeWidth[k] + edgeThickness;
+        }
+    }
+    return canvasImage;
+}
+
+void vbs::cvSketch::set_label(cv::Mat& _im, const std::string _label, const cv::Point& _point, float _scale)
+{
+    int fontface = cv::FONT_HERSHEY_DUPLEX;
+    double scale = _scale;
+    int thickness = 1;
+    int baseline = 0;
+    
+    cv::Size text = cv::getTextSize(_label, fontface, scale, thickness, &baseline);
+    cv::rectangle(_im, _point + cv::Point(0, baseline), _point + cv::Point(text.width, -text.height), cv::Scalar(0,127,127), CV_FILLED);
+    cv::putText(_im, _label, _point, fontface, scale, CV_RGB(200, 200, 250), thickness, 8);
+}
+
+bool vbs::cvSketch::store_image(std::string originalfile, std::string append, std::string extension, cv::Mat& image)
+{
+    boost::filesystem::path in(originalfile);
+    boost::filesystem::path ext = in.filename().extension();
+    size_t position = in.filename().string().find(ext.string());
+    std::string store = output + DIRECTORY_SEPARATOR + in.filename().string().substr(0, position) + append + extension;
+    
+    cv::imwrite(store, image);
+    return false;
 }

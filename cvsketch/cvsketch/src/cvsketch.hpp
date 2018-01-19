@@ -181,7 +181,6 @@ namespace vbs {
 
         void process_image(const cv::Mat& image, int width, int height, int colors, cv::Mat& image_withbarchart, std::vector<std::pair<cv::Vec3b, int>>& sorted_colorpalette);
 
-        void setLabel(cv::Mat& im, const std::string label, const cv::Point& point);
 
 
 		/**
@@ -192,8 +191,12 @@ namespace vbs {
 		*              depending on the value of total number of images).
 		* @return new composite image.
 		*/
-		cv::Mat makeCanvas(std::vector<cv::Mat>& vecMat, int windowHeight, int nRows);
-		bool storeImage(std::string originalfile, std::string append, std::string extension, cv::Mat& image);
+		cv::Mat make_canvas(std::vector<cv::Mat>& vecMat, int windowHeight, int nRows);
+
+		bool store_image(std::string originalfile, std::string append, std::string extension, cv::Mat& image);
+
+    void set_label(cv::Mat& _im, const std::string _label, const cv::Point& _point, float _scale = 0.4f);
+
         ~cvSketch();
 
     };

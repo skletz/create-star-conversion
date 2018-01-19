@@ -394,11 +394,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../cvsketch/src/cvsketch.cpp"
-            timestampString = "538051115.57332"
+            timestampString = "538051912.6604069"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "760"
-            endingLineNumber = "760"
+            startingLineNumber = "752"
+            endingLineNumber = "752"
             landmarkName = "vbs::cvSketch::search_image(std::string query_path, std::string dataset_path)"
             landmarkType = "7">
          </BreakpointContent>
@@ -586,11 +586,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../cvsketch/src/cvsketch.cpp"
-            timestampString = "538051115.57332"
+            timestampString = "538051912.6604069"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "663"
-            endingLineNumber = "663"
+            startingLineNumber = "655"
+            endingLineNumber = "655"
             landmarkName = "vbs::cvSketch::search_image(std::string query_path, std::string dataset_path)"
             landmarkType = "7">
          </BreakpointContent>
@@ -602,11 +602,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../cvsketch/src/cvsketch.cpp"
-            timestampString = "538046728.0804141"
+            timestampString = "538051912.6604069"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "156"
-            endingLineNumber = "156"
+            startingLineNumber = "158"
+            endingLineNumber = "158"
             landmarkName = "vbs::cvSketch::on_trackbar_colorReduction_kMeans(int, void* _object)"
             landmarkType = "7">
          </BreakpointContent>
@@ -618,11 +618,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../cvsketch/src/cvsketch.cpp"
-            timestampString = "538046728.0804141"
+            timestampString = "538051912.6604069"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "159"
-            endingLineNumber = "159"
+            startingLineNumber = "161"
+            endingLineNumber = "161"
             landmarkName = "vbs::cvSketch::on_trackbar_colorReduction_kMeans(int, void* _object)"
             landmarkType = "7">
          </BreakpointContent>
@@ -634,11 +634,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../cvsketch/src/cvsketch.cpp"
-            timestampString = "538051115.57332"
+            timestampString = "538051912.6604069"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "636"
-            endingLineNumber = "636"
+            startingLineNumber = "628"
+            endingLineNumber = "628"
             landmarkName = "vbs::cvSketch::extract_superpixels(cv::Mat&amp; image, cv::Mat&amp; output, cv::Mat&amp; mask, int&amp; num_output, int num_superpixels, int num_levels, int prior, int num_histogram_bins, bool double_step, int num_iterations)"
             landmarkType = "7">
          </BreakpointContent>
@@ -650,11 +650,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../cvsketch/src/cvsketch.cpp"
-            timestampString = "538050597.194499"
+            timestampString = "538051912.6604069"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "180"
-            endingLineNumber = "180"
+            startingLineNumber = "182"
+            endingLineNumber = "182"
             landmarkName = "vbs::cvSketch::on_trackbar_colorReduction_kMeans(int, void* _object)"
             landmarkType = "7">
          </BreakpointContent>
@@ -666,11 +666,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../cvsketch/src/cvsketch.cpp"
-            timestampString = "538051115.57332"
+            timestampString = "538051912.6604069"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "269"
-            endingLineNumber = "269"
+            startingLineNumber = "271"
+            endingLineNumber = "271"
             landmarkName = "vbs::cvSketch::on_trackbar_superpixel_SEEDS(const int, void* _object)"
             landmarkType = "7">
          </BreakpointContent>
@@ -682,11 +682,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../cvsketch/src/cvsketch.cpp"
-            timestampString = "538051115.282202"
+            timestampString = "538051912.6604069"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "187"
-            endingLineNumber = "187"
+            startingLineNumber = "189"
+            endingLineNumber = "189"
             landmarkName = "vbs::cvSketch::on_trackbar_colorReduction_kMeans(int, void* _object)"
             landmarkType = "7">
          </BreakpointContent>
@@ -698,11 +698,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../cvsketch/src/cvsketch.cpp"
-            timestampString = "538051124.554334"
+            timestampString = "538051912.6604069"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "190"
-            endingLineNumber = "190"
+            startingLineNumber = "192"
+            endingLineNumber = "192"
             landmarkName = "vbs::cvSketch::on_trackbar_colorReduction_kMeans(int, void* _object)"
             landmarkType = "7">
             <Locations>
