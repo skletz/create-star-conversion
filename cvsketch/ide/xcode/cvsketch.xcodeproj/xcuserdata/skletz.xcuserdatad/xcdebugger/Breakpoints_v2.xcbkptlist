@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../cvsketch/src/segmentation.cpp"
-            timestampString = "537705491.028254"
+            timestampString = "538047031.0972871"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "19"
-            endingLineNumber = "19"
+            startingLineNumber = "25"
+            endingLineNumber = "25"
             landmarkName = "vbs::Segmentation::reduceColor_kmeans(const cv::Mat3b&amp; src, cv::Mat3b&amp; dst, int k)"
             landmarkType = "7">
          </BreakpointContent>
@@ -122,25 +122,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../cvsketch/src/segmentation.cpp"
-            timestampString = "537873957.888044"
+            timestampString = "538047031.0972871"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "103"
-            endingLineNumber = "103">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../cvsketch/src/segmentation.cpp"
-            timestampString = "537873957.888044"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "191"
-            endingLineNumber = "191"
+            startingLineNumber = "236"
+            endingLineNumber = "236"
             landmarkName = "vbs::Segmentation::ScalarLAB2BGR(uchar L, uchar A, uchar B)"
             landmarkType = "7">
          </BreakpointContent>
@@ -152,101 +138,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../cvsketch/src/segmentation.cpp"
-            timestampString = "537873957.888044"
+            timestampString = "538047031.0972871"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "99"
-            endingLineNumber = "99">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../cvsketch/src/segmentation.cpp"
-            timestampString = "537873957.888044"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "98"
-            endingLineNumber = "98">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../cvsketch/src/segmentation.cpp"
-            timestampString = "537873957.888044"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "100"
-            endingLineNumber = "100">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../cvsketch/src/segmentation.cpp"
-            timestampString = "537873957.888044"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "346"
-            endingLineNumber = "346"
-            landmarkName = "vbs::Segmentation::sortPaletteByArea(std::map&lt;cv::Vec3b, int, lessVec3b&gt; input, std::vector&lt;std::pair&lt;cv::Vec3b, int&gt;&gt;&amp; output)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "vbs::Segmentation::sortPaletteByArea(std::__1::map&lt;cv::Vec&lt;unsigned char, 3&gt;, int, vbs::lessVec3b, std::__1::allocator&lt;std::__1::pair&lt;cv::Vec&lt;unsigned char, 3&gt; const, int&gt; &gt; &gt;, std::__1::vector&lt;std::__1::pair&lt;cv::Vec&lt;unsigned char, 3&gt;, int&gt;, std::__1::allocator&lt;std::__1::pair&lt;cv::Vec&lt;unsigned char, 3&gt;, int&gt; &gt; &gt;&amp;)"
-                  moduleName = "cvsketch"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/skletz/Dropbox/Programming/CUPCakes/vbssketch/cvsketch/cvsketch/src/segmentation.cpp"
-                  timestampString = "537971187.90564"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "346"
-                  endingLineNumber = "346"
-                  offsetFromSymbolStart = "2028">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "vbs::Segmentation::sortPaletteByArea(std::__1::map&lt;cv::Vec&lt;unsigned char, 3&gt;, int, vbs::lessVec3b, std::__1::allocator&lt;std::__1::pair&lt;cv::Vec&lt;unsigned char, 3&gt; const, int&gt; &gt; &gt;, std::__1::vector&lt;std::__1::pair&lt;cv::Vec&lt;unsigned char, 3&gt;, int&gt;, std::__1::allocator&lt;std::__1::pair&lt;cv::Vec&lt;unsigned char, 3&gt;, int&gt; &gt; &gt;&amp;)"
-                  moduleName = "cvsketch"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/skletz/Dropbox/Programming/CUPCakes/vbssketch/cvsketch/cvsketch/src/segmentation.cpp"
-                  timestampString = "537971187.9067889"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "346"
-                  endingLineNumber = "346"
-                  offsetFromSymbolStart = "2043">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../cvsketch/src/segmentation.cpp"
-            timestampString = "537873728.853302"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "13"
-            endingLineNumber = "13"
+            startingLineNumber = "19"
+            endingLineNumber = "19"
             landmarkName = "vbs::Segmentation::reduceColor_kmeans(const cv::Mat3b&amp; src, cv::Mat3b&amp; dst, int k)"
             landmarkType = "7">
          </BreakpointContent>
@@ -498,12 +394,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../cvsketch/src/cvsketch.cpp"
-            timestampString = "537970895.637289"
+            timestampString = "538051115.57332"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "745"
-            endingLineNumber = "745"
-            landmarkName = "vbs::cvSketch::searchimagein(std::string query_path)"
+            startingLineNumber = "760"
+            endingLineNumber = "760"
+            landmarkName = "vbs::cvSketch::search_image(std::string query_path, std::string dataset_path)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -681,6 +577,166 @@
             endingLineNumber = "245"
             landmarkName = "vbs::Matching::compareWithOCCD(const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; c1, const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; c2, int area)"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../cvsketch/src/cvsketch.cpp"
+            timestampString = "538051115.57332"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "663"
+            endingLineNumber = "663"
+            landmarkName = "vbs::cvSketch::search_image(std::string query_path, std::string dataset_path)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../cvsketch/src/cvsketch.cpp"
+            timestampString = "538046728.0804141"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "156"
+            endingLineNumber = "156"
+            landmarkName = "vbs::cvSketch::on_trackbar_colorReduction_kMeans(int, void* _object)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../cvsketch/src/cvsketch.cpp"
+            timestampString = "538046728.0804141"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "159"
+            endingLineNumber = "159"
+            landmarkName = "vbs::cvSketch::on_trackbar_colorReduction_kMeans(int, void* _object)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../cvsketch/src/cvsketch.cpp"
+            timestampString = "538051115.57332"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "636"
+            endingLineNumber = "636"
+            landmarkName = "vbs::cvSketch::extract_superpixels(cv::Mat&amp; image, cv::Mat&amp; output, cv::Mat&amp; mask, int&amp; num_output, int num_superpixels, int num_levels, int prior, int num_histogram_bins, bool double_step, int num_iterations)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../cvsketch/src/cvsketch.cpp"
+            timestampString = "538050597.194499"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "180"
+            endingLineNumber = "180"
+            landmarkName = "vbs::cvSketch::on_trackbar_colorReduction_kMeans(int, void* _object)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../cvsketch/src/cvsketch.cpp"
+            timestampString = "538051115.57332"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "269"
+            endingLineNumber = "269"
+            landmarkName = "vbs::cvSketch::on_trackbar_superpixel_SEEDS(const int, void* _object)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../cvsketch/src/cvsketch.cpp"
+            timestampString = "538051115.282202"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "187"
+            endingLineNumber = "187"
+            landmarkName = "vbs::cvSketch::on_trackbar_colorReduction_kMeans(int, void* _object)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../cvsketch/src/cvsketch.cpp"
+            timestampString = "538051124.554334"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "190"
+            endingLineNumber = "190"
+            landmarkName = "vbs::cvSketch::on_trackbar_colorReduction_kMeans(int, void* _object)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "vbs::cvSketch::on_trackbar_colorReduction_kMeans(int, void*)"
+                  moduleName = "cvsketch"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/skletz/Dropbox/Programming/CUPCakes/vbssketch/cvsketch/cvsketch/src/cvsketch.cpp"
+                  timestampString = "538051124.55748"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "190"
+                  endingLineNumber = "190"
+                  offsetFromSymbolStart = "1256">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "vbs::cvSketch::on_trackbar_colorReduction_kMeans(int, void*)"
+                  moduleName = "cvsketch"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/skletz/Dropbox/Programming/CUPCakes/vbssketch/cvsketch/cvsketch/src/cvsketch.cpp"
+                  timestampString = "538051124.5587161"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "190"
+                  endingLineNumber = "190"
+                  offsetFromSymbolStart = "1261">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

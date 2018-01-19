@@ -1,6 +1,12 @@
 #include "segmentation.hpp"
 #include "../libs/CIEDE2000/CIEDE2000.h"
 
+
+vbs::Segmentation::Segmentation()
+{
+
+}
+
 void vbs::Segmentation::reduceColor_Quantization(const cv::Mat3b& src, cv::Mat3b& dst)
 {
 	uchar N = 64;
@@ -63,6 +69,45 @@ void vbs::Segmentation::reduceColor_EdgePreserving(const cv::Mat3b & src, cv::Ma
 {
 	edgePreservingFilter(src, dst);
 }
+
+void vbs::Segmentation::get_colorpalette(const cv::Mat3b& src, std::vector<std::pair<cv::Vec3b, float>>& output)
+{
+    std::map<cv::Vec3b, float, lessVec3b> palette;
+    for (int r = 0; r < src.rows; ++r)
+    {
+        for (int c = 0; c < src.cols; ++c)
+        {
+            cv::Vec3b color = src(r, c);
+            if (palette.count(color) == 0)
+            {
+                palette[color] = 1;
+            }
+            else
+            {
+                palette[color] = palette[color] + 1;
+            }
+        }
+    }
+
+    std::vector<std::pair<cv::Vec3b, int>> results;
+
+    for(auto color : palette)
+    {
+        results.push_back(std::make_pair(color.first, color.second));
+
+    }
+
+    std::sort(results.begin(), results.end(), [](const std::pair<cv::Vec3b, int>& s1, const std::pair<cv::Vec3b, int>& s2)
+    {
+        cv::Vec3b c1 = s1.first;
+        cv::Vec3b c2 = s2.first;
+        return (s1.second > s2.second);
+
+    });
+
+    output.assign(results.begin(), results.end());
+}
+
 
 std::map<cv::Vec3b, int, vbs::lessVec3b> vbs::Segmentation::getPalette(const cv::Mat3b& src)
 {
@@ -191,12 +236,11 @@ cv::Scalar vbs::Segmentation::ScalarLAB2BGR(uchar L, uchar A, uchar B) {
 	return cv::Scalar(bgr.data[0], bgr.data[1], bgr.data[2]);
 }
 
-void vbs::Segmentation::quantizedImage(cv::Mat& labels, cv::Mat& image, int numberOfSuperpixels,
-	std::map<cv::Vec3b, int, lessVec3b> palette, cv::Mat& output)
+void vbs::Segmentation::quantize_image(const cv::Mat& labels, const cv::Mat& image, int numberOfSuperpixels, std::vector<std::pair<cv::Vec3b, float>> &palette, cv::Mat& output)
 {
-
-	std::map<cv::Vec3b, int, lessVec3b> default_pallette_lab;
-
+	std::map<cv::Vec3b, float, lessVec3b> colormap;
+    std::vector<std::pair<cv::Vec3b, float>> default_colors;
+    
 	if (palette.empty())
 	{
 
@@ -204,10 +248,17 @@ void vbs::Segmentation::quantizedImage(cv::Mat& labels, cv::Mat& image, int numb
 		{
 			cv::Scalar lab = ScalarRGB2LAB(color.first[0], color.first[1], color.first[2]);
 			cv::Vec3b tmp = cv::Vec3b(lab[0], lab[1], lab[2]);
-			default_pallette_lab.insert(std::make_pair(tmp,1));
+			colormap.insert(std::make_pair(tmp,1));
 		}
 
-		palette = default_pallette_lab;
+        
+        for(auto color : palette)
+        {
+            default_colors.push_back(std::make_pair(color.first, color.second));
+            
+        }
+
+		palette = default_colors;
 	}
 
 
@@ -262,13 +313,6 @@ void vbs::Segmentation::quantizedImage(cv::Mat& labels, cv::Mat& image, int numb
 			double cmp_l = meanL / 100.0;
 			double cmp_a = (meanA + 127.0) / 255.0;
 			double cmp_b = (meanB + 127.0) / 255.0;
-			//double idx_l = color.first[0] ;
-			//double idx_a = (color.first[1]) ;
-			//double idx_b = (color.first[2]);
-
-			//double cmp_l = meanL;
-			//double cmp_a = (meanA);
-			//double cmp_b = (meanB);
 
 			if ((idx_l < 0 && idx_l > 1) || (idx_a < 0 && idx_a > 1) || (idx_b < 0 && idx_b > 1))
 				std::cout << "Not normalized: " << color.first << std::endl;
@@ -276,12 +320,8 @@ void vbs::Segmentation::quantizedImage(cv::Mat& labels, cv::Mat& image, int numb
 			if ((cmp_l < 0 && cmp_l > 1) || (cmp_a < 0 && cmp_a > 1) || (cmp_b < 0 && cmp_b > 1))
 				std::cout << "Not normalized: " << cv::Vec3b(meanL,meanA,meanB) << std::endl;
 
-			//double l = idx_l - cmp_l;
-			//double a = idx_a - cmp_a;
-			//double b = idx_b - cmp_b;
+
 			double dist;
-			//dist = std::pow(l, 2) + std::pow(a, 2) + std::pow(b, 2);
-			//dist = std::sqrt(dist);
 
 			CIEDE2000::LAB lab1, lab2;
 			lab1.l = idx_l;
@@ -294,15 +334,10 @@ void vbs::Segmentation::quantizedImage(cv::Mat& labels, cv::Mat& image, int numb
 
 			dist = CIEDE2000::CIEDE2000(lab1, lab2);
 
-			//cv::Mat tidx(1, 1, CV_8UC3, cv::Scalar(idx_l, idx_a, idx_b));
-			//cv::Mat cmpidx(1, 1, CV_8UC3, cv::Scalar(cmp_l, cmp_a, cmp_b));
-
 			if (dist < min)
 			{
 				min = dist;
 				min_color = color.first;
-				//cv::Mat t(1, 1, CV_8UC3, cv::Scalar(min_color[0], min_color[1], min_color[2]));
-				//tmin = t;
 			}
 
 		}
@@ -334,14 +369,12 @@ void vbs::Segmentation::sortPaletteByArea(std::map<cv::Vec3b, int, lessVec3b> in
     }
 
     std::sort(output.begin(), output.end(), [](const std::pair<cv::Vec3b, int>& s1, const std::pair<cv::Vec3b, int>& s2)
-              {
-                  cv::Vec3b c1 = s1.first;
-                  cv::Vec3b c2 = s2.first;
+    {
+        cv::Vec3b c1 = s1.first;
+        cv::Vec3b c2 = s2.first;
+        return (s1.second > s2.second);
 
-                  //return (c1[0] < c2[0]) && ((c1[1] < c2[1]) && (c1[2] < c2[2]));
-                  return (s1.second > s2.second);
-
-              });
+    });
 
 }
 
@@ -355,13 +388,11 @@ void vbs::Segmentation::sortPaletteByArea(std::vector<std::pair<cv::Vec3b, int>>
     }
 
     std::sort(output.begin(), output.end(), [](const std::pair<cv::Vec3b, int>& s1, const std::pair<cv::Vec3b, int>& s2)
-              {
-                  cv::Vec3b c1 = s1.first;
-                  cv::Vec3b c2 = s2.first;
+    {
+      cv::Vec3b c1 = s1.first;
+      cv::Vec3b c2 = s2.first;
+      return (s1.second > s2.second);
 
-                  //return (c1[0] < c2[0]) && ((c1[1] < c2[1]) && (c1[2] < c2[2]));
-                  return (s1.second > s2.second);
-
-              });
+    });
 
 }

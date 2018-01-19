@@ -42,11 +42,11 @@ int main(int argc, const char * argv[]) {
     
    
     vbs::cvSketch* sketch = new vbs::cvSketch();
-    std::cout << sketch->getInfo() << std::endl;
+    std::cout << sketch->get_info() << std::endl;
     
     try
     {
-        args = sketch->processProgramOptions(argc, argv);
+        args = sketch->process_program_options(argc, argv);
     }
     catch (std::exception& e)
     {

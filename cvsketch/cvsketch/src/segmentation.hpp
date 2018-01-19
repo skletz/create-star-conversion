@@ -52,45 +52,6 @@ namespace vbs
 
 	};
 
-    struct SettingsKmeansCluster
-    {
-        std::string winname;
-        int kvalue;
-        int kvalue_max;
-        cv::Mat image;
-        bool initDone;
-        cv::Mat reducedImage;
-
-        //update additional windows
-        std::string winnameColorchart;
-        std::string winnameQuantizedColors;
-        cv::Mat labels;
-        int num_labels;
-    };
-
-    struct SettingsSuperpixelSEEDS
-    {
-        std::string winname;
-        int num_superpixels;
-        int num_superpixels_max;
-        int prior;
-        int prior_max;
-        int num_levels;
-        int num_levels_max;
-        int num_iterations;
-        int num_iterations_max;
-        int double_step;
-        int num_histogram_bins;
-        int num_histogram_bins_max;
-        cv::Mat image;
-        bool initDone;
-        cv::Mat superpixelImage;
-        cv::Mat mask;
-
-        //update additional windows
-        std::string winnameQuantizedColors;
-    };
-
 
 	class Segmentation {
 
@@ -98,20 +59,24 @@ namespace vbs
 
 
 
-        static cv::Ptr<cv::ximgproc::SuperpixelSEEDS> seeds;
+        cv::Ptr<cv::ximgproc::SuperpixelSEEDS> seeds;
 
-        static std::map<cv::Vec3b, int, lessVec3b> dataset_palette_lab;
+//        static std::map<cv::Vec3b, int, lessVec3b> dataset_palette_lab;
+//
+//        static std::map<cv::Vec3b, int, vbs::lessVec3b> query_colorpalette;
+//
+//        static std::vector<std::pair<cv::Vec3b, int>> sorted_query_colorpalette;
 
-        static std::map<cv::Vec3b, int, vbs::lessVec3b> query_colorpalette;
-
-        static std::vector<std::pair<cv::Vec3b, int>> sorted_query_colorpalette;
-
+        Segmentation();
+        
 		//Color reduction
 		static void reduceColor_Quantization(const cv::Mat3b& src, cv::Mat3b& dst);
 		static void reduceColor_kmeans(const cv::Mat3b& src, cv::Mat3b& dst, int k = 3);
 		static void reduceColor_spatialkmeans(const cv::Mat3b& src, cv::Mat3b& dst, int k = 8);
 		static void reduceColor_Stylization(const cv::Mat3b& src, cv::Mat3b& dst);
 		static void reduceColor_EdgePreserving(const cv::Mat3b& src, cv::Mat3b& dst);
+
+		void get_colorpalette(const cv::Mat3b& src, std::vector<std::pair<cv::Vec3b, float>>& output);
 
 		static std::map<cv::Vec3b, int, lessVec3b> getPalette(const cv::Mat3b& src);
 		//static std::map<cv::Scalar, int, lessVec3b> getPaletteNormalized(const cv::Mat3b& src);
@@ -121,7 +86,8 @@ namespace vbs
 
 		//Utils for superpixels
 		static void meanImage(cv::Mat& labels, cv::Mat& image, int numberOfSuperpixels, cv::Mat& output);
-		static void quantizedImage(cv::Mat& labels, cv::Mat& image, int numberOfSuperpixels, std::map<cv::Vec3b, int, lessVec3b> palette, cv::Mat& output);
+        
+		void quantize_image(const cv::Mat& labels, const cv::Mat& image, int numberOfSuperpixels, std::vector<std::pair<cv::Vec3b, float>> &palette, cv::Mat& output);
 
 		static cv::Scalar ScalarHSV2BGR(uchar H, uchar S, uchar V);
 		static cv::Scalar ScalarRGB2LAB(uchar R, uchar G, uchar B);
