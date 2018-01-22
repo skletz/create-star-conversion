@@ -123,9 +123,9 @@ void vbs::cvSketch::run()
 	if (verbose)
 		std::cout << "Run cvSketch ..." << std::endl;
 
-	cv::Mat image = cv::imread(in_query, IMREAD_COLOR);
-	cv::Mat reduced;
-	cv::resize(image, reduced, cv::Size(max_height, max_width));
+	//cv::Mat image = cv::imread(in_query, IMREAD_COLOR);
+	//cv::Mat reduced;
+	//cv::resize(image, reduced, cv::Size(max_height, max_width));
 
  //   cv::destroyAllWindows();
 	//display = false;
@@ -140,6 +140,8 @@ void vbs::cvSketch::run()
 //	display = true;
 // 	search_image_color_segments(in_query, in_dataset);
 
+    
+    search_image_color_histogram(in_query, in_dataset);
     if (verbose)
         std::cout << "cvSketch finished ..." << std::endl;
 }
@@ -535,6 +537,202 @@ bool compareMatchesByDist(const vbs::Match & a, const vbs::Match & b)
 	return a.dist < b.dist;
 }
 
+void vbs::cvSketch::log(const char* fmt, ...)
+{
+    FILE* out = stderr;
+    va_list argp;
+    va_start(argp, fmt);
+    vfprintf(out, fmt, argp);
+    va_end(argp);
+    fprintf(out, "\n");
+    fflush(out);
+}
+
+void vbs::cvSketch::search_image_color_histogram(std::string query_path, std::string dataset_path)
+{
+    double t;
+    t = double(cv::getTickCount());
+    
+    using namespace boost::filesystem;
+    const path dir(dataset_path);
+    const recursive_directory_iterator it(dir), end;
+    
+    std::vector<std::string> files;
+    for (auto& entry : boost::make_iterator_range(it, end))
+    {
+        boost::filesystem::path t(entry.path());
+        std::string filepath = t.string();
+        
+        if ((t.filename() != ".DS_Store") && is_regular(entry))
+        {
+            files.push_back(filepath);
+        }
+    }
+    
+    path query(query_path);
+    cv::Mat query_image = cv::imread(query.string(), IMREAD_COLOR);
+
+    int max_width = 640, max_height = 480; //int max_width = 720, max_height = 480;
+    int width = 0, height = 0;
+    std::string orientation = "";
+    cv::Mat q_reduced;
+    int bar_width = 0;
+    if (query_image.rows > query_image.cols)
+    {
+        width = max_height;
+        height = max_width;
+        orientation = "Portrait";
+        cv::resize(query_image, q_reduced, cv::Size(max_height, max_width));
+    }
+    else if(query_image.rows < query_image.cols)
+    {
+        width = max_width;
+        height = max_height;
+        orientation = "Landscape";
+        cv::resize(query_image, q_reduced, cv::Size(max_width, max_height));
+    }else
+    {
+        width = max_height;
+        height = max_height;
+        orientation = "Quadratic";
+        cv::resize(query_image, q_reduced, cv::Size(max_height, max_height));
+    }
+    
+    std::cout << "Image: "<< orientation <<  "..." << std::endl;
+    std::cout << "Image: Convert colors to LAB ..." << std::endl;
+    //cv::cvtColor(q_reduced, q_reduced, cv::COLOR_BGR2Lab);
+    
+    int const patchSizeX = 80;
+    int const patchSizeY = 80;
+    
+    int const cellSizeX = 40;
+    int const cellSizeY = 40;
+
+    int patchStepX = 40;
+    int patchStepY = 40;
+    
+    log("# image size: (w=%d,h=%d)", width, height);
+    log("# patch size: (w=%d,h=%d)", patchSizeX, patchSizeY);
+    log("# step size: (x=%d,y=%d)", patchStepX, patchStepY);
+    log("# cell size: (w=%d,h=%d)", cellSizeX, cellSizeY);
+
+	std::vector<std::pair<cv::Vec3b, float>> basic_colors;
+	this->segmentation->get_default_palette_lab(basic_colors);
+
+	cv::Mat colorchart;
+	get_colorchart(basic_colors, colorchart, width, 50, (width*height));
+
+	show_image(colorchart, "Default Color Chart");
+	//cv::waitKey(0);
+
+    get_histogram(q_reduced, patchSizeX, patchSizeX, cellSizeX, cellSizeY, basic_colors);
+    
+}
+
+void vbs::cvSketch::get_histogram(const cv::Mat& _image, const int _patchX, const int _patchY, const int _cellStepX, const int _cellStepY, const std::vector<std::pair<cv::Vec3b, float>>& _palette)
+{
+    int patchStepX = _cellStepX;
+    int patchStepY = _cellStepY;
+    int maxX = _image.cols;
+    int maxY = _image.rows;
+    
+	int dim = int(_palette.size()) * (_patchX / float(_cellStepX) * _patchY / float(_cellStepY));
+
+	int tmp = (_image.cols / float(_cellStepX) * (_image.rows / float(_cellStepY)));
+
+    int hist_dim = dim * tmp;
+    
+    cv::Mat descriptor;
+    cv::Mat patch(maxY, maxX, CV_8UC3);
+    for (int iPatchx = 0; iPatchx < maxX; iPatchx = iPatchx + patchStepX)
+    {
+        for (int iPatchy = 0; iPatchy < maxY; iPatchy = iPatchy + patchStepY)
+        {
+            cv::Mat subhist(1, hist_dim, CV_32F);
+            cv::Rect mask = cv::Rect(iPatchx, iPatchy, patchStepX, patchStepY);
+			_image(mask).copyTo(patch);
+            get_histograms_patch(patch, _cellStepX, _cellStepY, _palette, subhist);
+            if (iPatchx == 0 && iPatchy == 0)
+                descriptor = subhist;
+            else
+                cv::hconcat(subhist, descriptor, descriptor);
+            
+        }
+    }
+}
+
+void vbs::cvSketch::get_histograms_patch(const cv::Mat& _patch, int _cellSizeX, int _cellSizeY, const std::vector<std::pair<cv::Vec3b, float>>& _palette, cv::Mat& _hist)
+{
+    int cellStepX = float(_cellSizeX) / float(2);
+    int cellStepY = float(_cellSizeY) / float(2);
+    
+    int dim = int(_palette.size()) * (_patch.cols / float(cellStepX) * _patch.rows / float(cellStepY));
+    
+    cv::Mat gridCell, hist(1, dim, CV_32F), subhist;
+    for (int iCellx = 0; iCellx < _patch.cols; iCellx = iCellx + cellStepX)
+    {
+        for (int iCelly = 0; iCelly < _patch.rows; iCelly = iCelly + cellStepY)
+        {
+            cv::Rect mask = cv::Rect(iCellx, iCelly, cellStepX, cellStepY);
+            _patch(mask).copyTo(gridCell);
+            get_histogram_cell(gridCell, _palette, subhist);
+            
+            if (iCellx == 0 && iCelly == 0)
+                hist = subhist;
+            else
+                cv::hconcat(subhist, hist, hist);
+        }
+        subhist.release();
+    }
+    
+    
+    //cv::normalize(hist, hist, cv::NORM_L2);
+    hist.copyTo(_hist);
+}
+
+void vbs::cvSketch::get_histogram_cell(const cv::Mat& _cell, const std::vector<std::pair<cv::Vec3b, float>>& _palette, cv::Mat& _hist)
+{
+    int dim = int(_palette.size()); //16 in case of basic colors plus black, white, and two grayscales
+    
+    cv::Mat hist = cv::Mat::zeros(1, dim, CV_32F);
+    
+    for (int iCol = 0; iCol < _cell.cols; iCol++)
+    {
+        for (int iRow = 0; iRow < _cell.rows; iRow++)
+        {
+
+            cv::Scalar pixel_bgra = _cell.at<cv::Vec3b>(iCol, iRow);
+
+			cv::Scalar pixel_lab = vbs::Segmentation::ScalarBGR2LAB(pixel_bgra[0], pixel_bgra[1], pixel_bgra[2]);
+
+            cv::Vec3b c1 = cv::Vec3b(pixel_lab[0], pixel_lab[1], pixel_lab[2]);
+            
+            int min_idx = dim;
+            double min_dist = std::numeric_limits<double>::max();
+            for(int iColor = 0; iColor < _palette.size(); iColor++)
+            {
+                cv::Vec3b c2 = _palette.at(iColor).first;
+                
+                double l = (c1[0] - c2[0]);
+                double a = (c1[1] - c2[1]);
+                double b = (c1[2] - c2[2]);
+                double tmp_dist = (std::pow(a, 2) + std::pow(b, 2));
+                tmp_dist = std::sqrt(tmp_dist);
+                
+                if(tmp_dist < min_dist)
+                {
+                    min_dist = tmp_dist;
+                    min_idx = iColor;
+                }
+            }
+            
+            hist.at<float>(0, min_idx) = hist.at<float>(0, min_idx) + 1.0;
+        }
+    }
+    
+    hist.copyTo(_hist);
+}
+
 void vbs::cvSketch::search_image_color_segments(std::string query_path, std::string dataset_path)
 {
 	double t;
@@ -747,6 +945,11 @@ void vbs::cvSketch::get_colorchart(std::vector<std::pair<cv::Vec3b, float>>& col
             scope = float(color.second) / float(area);
         else
             scope = float(color.second);
+
+		if(color.second == -1.0)
+		{
+			scope = (float(area) / float(colors.size())) / float(area);
+		}
 
         std::cout << "Color: " << color.first << " \t - Area: " << 100.f * scope << "%" << std::endl;
         int max_width = chartwidth * scope;

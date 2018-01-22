@@ -127,13 +127,27 @@ namespace vbs {
          */
         void run();
 
+        
+        void log(const char* fmt, ...);
+        
 		/**
 		 * Search a given image in an set of images using color segmentation approach
 		 *
 		 */
         void search_image_color_segments(std::string query_path, std::string dataset_path);
-        
 
+        /**
+         * Search a given image in an set of images using color histogram
+         *
+         */
+        void search_image_color_histogram(std::string query_path, std::string dataset_path);
+        
+        void get_histogram(const cv::Mat& _image, const int _patchX, const int _patchY, const int _cellStepX, const int _cellStepY, const std::vector<std::pair<cv::Vec3b, float>>& _palette);
+        
+        void get_histograms_patch(const cv::Mat& _patch, int _cellSizeX, int _cellSizeY, const std::vector<std::pair<cv::Vec3b, float>>& _palette, cv::Mat& _hist);
+        
+        void get_histogram_cell(const cv::Mat& _cell, const std::vector<std::pair<cv::Vec3b, float>>& _palette, cv::Mat& _hist);
+        
         /**
          * Callback for setting up kmeans clustering
          *
@@ -159,6 +173,8 @@ namespace vbs {
          */
         void describe_color_segmentation(const cv::Mat& _image, cv::Mat& _color_segments, cv::Mat& _color_labels, std::vector<std::pair<cv::Vec3b, float>>& _palette, cv::Mat& _descriptors);
 
+
+        
 		void find_contours(const cv::Mat& _color_segments, const std::vector<std::pair<cv::Vec3b, float>>& _palette,
 			std::vector<std::tuple<cv::Vec3b, float, std::vector<cv::Point>, cv::Rect>>& _output);
 

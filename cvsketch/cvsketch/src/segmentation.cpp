@@ -131,6 +131,19 @@ std::map<cv::Vec3b, int, vbs::lessVec3b> vbs::Segmentation::getPalette(const cv:
 	return palette;
 }
 
+void vbs::Segmentation::get_default_palette_lab(std::vector<std::pair<cv::Vec3b, float>>& _output)
+{
+	std::vector<std::pair<cv::Vec3b, float>> output;
+
+	for (auto color : default_palette_sorted_rgb)
+	{
+		cv::Scalar lab = ScalarRGB2LAB(color.first[0], color.first[1], color.first[2]);
+		cv::Vec3b tmp = cv::Vec3b(lab[0], lab[1], lab[2]);
+		output.push_back(std::make_pair(tmp, -1.0));
+	}
+	_output.assign(output.begin(), output.end());
+}
+
 //std::map<cv::Scalar, int, vbs::lessVec3b> vbs::Segmentation::getPaletteNormalized(const cv::Mat3b& src)
 //{
 //	std::map<cv::Scalar, int, lessVec3b> palette;
@@ -227,6 +240,13 @@ cv::Scalar vbs::Segmentation::ScalarRGB2LAB(uchar R, uchar G, uchar B) {
 	cv::Mat lab(1, 1, CV_8UC3, cv::Scalar(R, G, B));
 	cv::cvtColor(lab, rgb, CV_RGB2Lab);
 	return cv::Scalar(rgb.data[0], rgb.data[1], rgb.data[2]);
+}
+
+cv::Scalar vbs::Segmentation::ScalarBGR2LAB(uchar B, uchar G, uchar R) {
+	cv::Mat bgr;
+	cv::Mat lab(1, 1, CV_8UC3, cv::Scalar(B, G, R));
+	cv::cvtColor(lab, bgr, CV_BGR2Lab);
+	return cv::Scalar(bgr.data[0], bgr.data[1], bgr.data[2]);
 }
 
 cv::Scalar vbs::Segmentation::ScalarLAB2BGR(uchar L, uchar A, uchar B) {
