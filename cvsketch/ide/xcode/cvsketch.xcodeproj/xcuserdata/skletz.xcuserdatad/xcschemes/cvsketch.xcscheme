@@ -68,12 +68,16 @@
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
+            argument = "--input /Users/skletz/Dropbox/Programming/CUPCakes/vbssketch/data/testbed/test_color_position_rt.png"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
             argument = "--input /Users/skletz/Dropbox/Programming/CUPCakes/vbssketch/data/sketch_sample/images/test/asdf/641602006.jpg"
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--input /Users/skletz/Dropbox/Programming/CUPCakes/vbssketch/data/sketch_sample/images/0/641602006.jpg"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--searchin /Users/skletz/Dropbox/Programming/CUPCakes/vbssketch/data/sketch_sample/images/test"

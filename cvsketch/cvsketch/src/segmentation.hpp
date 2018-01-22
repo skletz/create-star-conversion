@@ -12,6 +12,8 @@
 
 #include <opencv2/opencv.hpp>
 #include <opencv2/ximgproc.hpp>
+#include <opencv2/xfeatures2d/cuda.hpp>
+#include <opencv2/xfeatures2d/nonfree.hpp>
 
 namespace vbs
 {
@@ -57,19 +59,12 @@ namespace vbs
 
 	public:
 
-
-
         cv::Ptr<cv::ximgproc::SuperpixelSEEDS> seeds;
-
-//        static std::map<cv::Vec3b, int, lessVec3b> dataset_palette_lab;
-//
-//        static std::map<cv::Vec3b, int, vbs::lessVec3b> query_colorpalette;
-//
-//        static std::vector<std::pair<cv::Vec3b, int>> sorted_query_colorpalette;
 
         Segmentation();
         
 		//Color reduction
+
 		static void reduceColor_Quantization(const cv::Mat3b& src, cv::Mat3b& dst);
 		static void reduceColor_kmeans(const cv::Mat3b& src, cv::Mat3b& dst, int k = 3);
 		static void reduceColor_spatialkmeans(const cv::Mat3b& src, cv::Mat3b& dst, int k = 8);
@@ -78,20 +73,20 @@ namespace vbs
 
 		void get_colorpalette(const cv::Mat3b& src, std::vector<std::pair<cv::Vec3b, float>>& output);
 
-		static std::map<cv::Vec3b, int, lessVec3b> getPalette(const cv::Mat3b& src);
-		//static std::map<cv::Scalar, int, lessVec3b> getPaletteNormalized(const cv::Mat3b& src);
-
-        static void sortPaletteByArea(std::map<cv::Vec3b, int, lessVec3b> input, std::vector<std::pair<cv::Vec3b, int>>& output);
-        static void sortPaletteByArea(std::vector<std::pair<cv::Vec3b, int>> input, std::vector<std::pair<cv::Vec3b, int>>& output);
-
-		//Utils for superpixels
-		static void meanImage(cv::Mat& labels, cv::Mat& image, int numberOfSuperpixels, cv::Mat& output);
-        
 		void quantize_image(const cv::Mat& labels, const cv::Mat& image, int numberOfSuperpixels, std::vector<std::pair<cv::Vec3b, float>> &palette, cv::Mat& output);
 
 		static cv::Scalar ScalarHSV2BGR(uchar H, uchar S, uchar V);
 		static cv::Scalar ScalarRGB2LAB(uchar R, uchar G, uchar B);
 		static cv::Scalar ScalarLAB2BGR(uchar R, uchar G, uchar B);
+
+		//@TODO change
+		static std::map<cv::Vec3b, int, lessVec3b> getPalette(const cv::Mat3b& src);
+		static void sortPaletteByArea(std::map<cv::Vec3b, int, lessVec3b> input, std::vector<std::pair<cv::Vec3b, int>>& output);
+		static void sortPaletteByArea(std::vector<std::pair<cv::Vec3b, int>> input, std::vector<std::pair<cv::Vec3b, int>>& output);
+
+		//Utils for superpixels
+		static void meanImage(cv::Mat& labels, cv::Mat& image, int numberOfSuperpixels, cv::Mat& output);
+
 	};
 }
 

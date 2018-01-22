@@ -194,6 +194,7 @@ double vbs::Matching::compareWithOCCD(const std::vector<std::pair<cv::Vec3b, flo
         c2_int[i].first = c2[i].first;
     }
 
+
     //Print initial stack
     std::string winNameInitialQStack = "Initial Stack Query";
     std::string winNameInitialDBStack = "Initial Stack DB";
@@ -263,7 +264,7 @@ double vbs::Matching::compareWithOCCD(const std::vector<std::pair<cv::Vec3b, flo
             double l = (qc.first[0] - dp.first[0]);
             double a = (qc.first[1] - dp.first[1]);
             double b = (qc.first[2] - dp.first[2]);
-            double tmp_dist = (std::pow(l, 2) + std::pow(a, 2) + std::pow(b, 2));
+            double tmp_dist = (0.01 * std::pow(l, 2) + 0.49 * std::pow(a, 2) + 0.49 * std::pow(b, 2));
             tmp_dist = std::sqrt(tmp_dist);
 
             if(c2_int[iDBColor].second != 0 && tmp_dist < min_dist)
@@ -295,7 +296,6 @@ double vbs::Matching::compareWithOCCD(const std::vector<std::pair<cv::Vec3b, flo
 
                 rest = std::make_pair(cp_c1[iQColor].first, r);
                 q_stack.push_back(rest);
-
 
             }
             else if(qp < dbp)
@@ -379,9 +379,9 @@ double vbs::Matching::compareWithOCCD(const std::vector<std::pair<cv::Vec3b, flo
 
         std::cout << "QC: " << qc.first << " DB: " << dbc.first << std::endl;
 
-        double l = (dbc.first[0] - qc.first[0]);
-        double a = (dbc.first[1] - qc.first[1]);
-        double b = (dbc.first[2] - qc.first[2]);
+        double l = (dbc.first[0] - qc.first[0]) / 255.0;
+        double a = (dbc.first[1] - qc.first[1]) / 255.0;
+        double b = (dbc.first[2] - qc.first[2]) / 255.0;
         double tmp_dist = (0.01 * std::pow(l, 2) + 0.49 * std::pow(a, 2) + 0.49 * std::pow(b, 2));
         tmp_dist = std::sqrt(tmp_dist);
 
@@ -398,4 +398,12 @@ double vbs::Matching::compareWithOCCD(const std::vector<std::pair<cv::Vec3b, flo
 
     dist = dist / double(nrOfDists);
     return dist;
+}
+
+double vbs::Matching::compareWithMOCCD(
+	const std::vector<std::tuple<cv::Vec3b, float, std::vector<cv::Point>, cv::Rect>>& c1,
+	std::vector<std::tuple<cv::Vec3b, float, std::vector<cv::Point>, cv::Rect>>& c2, int area)
+{
+
+    return 0.0;
 }

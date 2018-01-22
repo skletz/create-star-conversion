@@ -8,39 +8,22 @@
  *  |___/_|\_\_|\___|\__/___|
  *
  * ******************************************************
- * Purpose:
- * Input/Output:
+ * Purpose: The program aims to search videos using a rough sketch.
+ * Input/Output: An image, as well as an input directory containing a dataset. As output, the discriptor of the image.
  * @author skletz
  * @version 1.0 12/01/18
  *
  **/
 
 
-#include "opencv2/opencv.hpp"
-#include "boost/version.hpp"
-//#include "opencv2/imgcodecs.hpp"
-//#include "opencv2/highgui.hpp"
-//#include "opencv2/imgproc.hpp"
-//#include <opencv2/core/utility.hpp>
-
 #include <iostream>
-#include "src/cvsketch.hpp"
 #include <boost/program_options.hpp>
-#include <boost/filesystem.hpp>
-
-//std::string ENV_DIR="/Users/skletz/Dropbox/Programming/CUPCakes/vbssketch/cvsketch";
-std::string ENV_DIR = "E:\\Dropbox\\Programming\\CUPCakes\\vbssketch\\cvsketch";
+#include "src/cvsketch.hpp"
 
 int main(int argc, const char * argv[]) {
 
-	boost::filesystem::path p(ENV_DIR);
-    std::string path = p.string() + "/data/sketch_sample";
-    std::string path_sketches = path + "/sketches/";
-    std::string path_images = path + "/images/";
-    
     boost::program_options::variables_map args;
-    
-   
+
     vbs::cvSketch* sketch = new vbs::cvSketch();
     std::cout << sketch->get_info() << std::endl;
     
@@ -55,7 +38,6 @@ int main(int argc, const char * argv[]) {
     }
     
     sketch->init(args);
-    
     sketch->run();
     delete sketch;
 

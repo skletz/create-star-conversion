@@ -86,7 +86,7 @@ namespace vbs {
 
         int pad_top = 250;
         int pad_left = 50;
-        int nr_input_images = -1;
+        int nr_input_images = 50;
         int top_kresults = 50;
 
         vbs::Segmentation* segmentation;
@@ -128,11 +128,11 @@ namespace vbs {
         void run();
 
 		/**
-		 * Search a given image in an set of images
+		 * Search a given image in an set of images using color segmentation approach
 		 *
 		 */
-        void search_image(std::string query_path, std::string dataset_path);
-
+        void search_image_color_segments(std::string query_path, std::string dataset_path);
+        
 
         /**
          * Callback for setting up kmeans clustering
@@ -151,36 +151,34 @@ namespace vbs {
          *
          *
          */
-        void testColorSegmentation(cv::Mat& image, cv::Mat& colorSegments, cv::Mat& colorLabels, std::map<cv::Vec3b, int, lessVec3b>& palette);
+        void test_color_segmentation(const cv::Mat& _image, cv::Mat& _color_segments, cv::Mat& _color_labels, std::vector<std::pair<cv::Vec3b, float>>& _palette);
 
         /**
          *
          *
          */
-        void describeColorSegmentation(cv::Mat& image, cv::Mat& colorSegments, cv::Mat& colorLabels, std::map<cv::Vec3b, int, lessVec3b>& palette, cv::Mat& descriptors);
+        void describe_color_segmentation(const cv::Mat& _image, cv::Mat& _color_segments, cv::Mat& _color_labels, std::vector<std::pair<cv::Vec3b, float>>& _palette, cv::Mat& _descriptors);
 
+		void find_contours(const cv::Mat& _color_segments, const std::vector<std::pair<cv::Vec3b, float>>& _palette,
+			std::vector<std::tuple<cv::Vec3b, float, std::vector<cv::Point>, cv::Rect>>& _output);
 
         void reduce_colors(const cv::Mat& image, int kvalue, cv::Mat& output);
 
         void extract_superpixels(cv::Mat& image, cv::Mat& output, cv::Mat& mask, int& num_output, int num_superpixels, int num_levels, int prior, int num_histogram_bins, bool double_step, int num_iterations);
 
-        static void getColorchart(std::map<cv::Vec3b, int, lessVec3b>& palette, cv::Mat& output, int chartwidth, int chartheight, int area);
-
-        static void getColorchart(std::vector<std::pair<cv::Vec3b, int>>& palette, cv::Mat& output, int chartwidth, int chartheight, int area);
-
         void get_colorchart(std::vector<std::pair<cv::Vec3b, float>>& colors, cv::Mat& output, int chartwidth, int chartheight, int area);
-
-
-        //static void convertDefault(std::map<cv::Vec3b, int, lessVec3b>& palette, cv::Mat& output, int chartwidth, int chartheight);
-
-        static void getDefaultColorchart(std::map<cv::Vec3b, int, lessVec3b>& palette, cv::Mat& output, int chartwidth, int chartheight);
 
         void quantize_colors(const cv::Mat& image, cv::Mat& lables, int num_labels, cv::Mat& output, std::vector<std::pair<cv::Vec3b, float>>& colorpalette);
 
         void show_image(const cv::Mat& image, std::string winname, int x = -1, int y = -1);
 
-        void process_image(const cv::Mat& image, int width, int height, int colors, cv::Mat& image_withbarchart, std::vector<std::pair<cv::Vec3b, int>>& sorted_colorpalette);
+        void process_image(const cv::Mat& image, int width, int height, int colors, cv::Mat& image_withbarchart, std::vector<std::pair<cv::Vec3b, int>>& sorted_colorpalette, cv::Mat& _descriptors);
 
+        
+        //@TODO change
+        static void getColorchart(std::map<cv::Vec3b, int, lessVec3b>& palette, cv::Mat& output, int chartwidth, int chartheight, int area);
+        static void getColorchart(std::vector<std::pair<cv::Vec3b, int>>& palette, cv::Mat& output, int chartwidth, int chartheight, int area);
+        static void getDefaultColorchart(std::map<cv::Vec3b, int, lessVec3b>& palette, cv::Mat& output, int chartwidth, int chartheight);
 
 
 		/**
@@ -195,7 +193,7 @@ namespace vbs {
 
 		bool store_image(std::string originalfile, std::string append, std::string extension, cv::Mat& image);
 
-    void set_label(cv::Mat& _im, const std::string _label, const cv::Point& _point, float _scale = 0.4f);
+        void set_label(cv::Mat& _im, const std::string _label, const cv::Point& _point, float _scale = 0.4f);
 
         ~cvSketch();
 

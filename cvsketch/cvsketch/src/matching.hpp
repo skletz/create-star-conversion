@@ -41,6 +41,9 @@ namespace vbs
 		static double compareWithCIEDE(const std::vector<std::pair<cv::Vec3b, float>>& c1, const std::vector<std::pair<cv::Vec3b, float>>& c2);
 		static double compareWithOCCD(const std::vector<std::pair<cv::Vec3b, float>>& c1, const std::vector<std::pair<cv::Vec3b, float>>& c2, int area);
 
+		static double compareWithMOCCD(const std::vector<std::tuple<cv::Vec3b, float, std::vector<cv::Point>, cv::Rect>>& c1, std::vector<std::tuple<cv::Vec3b, float, std::vector<cv::Point>, cv::Rect>>& c2, int area);
+
+
 		static void show_image(const cv::Mat& image, const std::string winname, int x, int y);
 		static void print_stack(const std::vector<std::pair<cv::Vec3b, float>>& colorpalette, cv::Mat& image);
 		static void sortPaletteByArea(std::vector<std::pair<cv::Vec3b, int>> input, std::vector<std::pair<cv::Vec3b, int>>& output);

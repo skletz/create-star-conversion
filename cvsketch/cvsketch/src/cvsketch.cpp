@@ -23,21 +23,17 @@ vbs::cvSketch::cvSketch(bool _verbose, bool _display, int _max_width, int _max_h
 	this->display = _display;
 	this->max_width = _max_width;
 	this->max_height = _max_height;
-    
-    
+
+
     this->segmentation = new vbs::Segmentation();
     this->set_kmeans = new SettingsKmeansCluster();
     this->set_seeds = new SettingsSuperpixelSEEDS();
     this->set_exchange = new KmeansClusterSEEDSExchange();
-    
+
 
     if (verbose)
         std::cout << "cvSketch created ..." << std::endl;
 }
-
-//cv::Ptr<cv::ximgproc::SuperpixelSEEDS> vbs::Segmentation::seeds;
-//std::map<cv::Vec3b, int, vbs::lessVec3b> vbs::Segmentation::query_colorpalette;
-//std::vector<std::pair<cv::Vec3b, int>> vbs::Segmentation::sorted_query_colorpalette;
 
 std::string vbs::cvSketch::help(const boost::program_options::options_description& _desc)
 {
@@ -100,7 +96,7 @@ bool vbs::cvSketch::init(boost::program_options::variables_map _args)
     std::cout << "INPUT: " << in_query << std::endl;
     std::cout << "OUTPUT: " << output << std::endl;
 
-    
+
     this->set_kmeans->kvalue = 4;
     this->set_kmeans->kvalue_max = 10;
 
@@ -115,13 +111,12 @@ bool vbs::cvSketch::init(boost::program_options::variables_map _args)
     this->set_seeds->double_step = int(true);
     this->set_seeds->num_histogram_bins = 2;
     this->set_seeds->num_histogram_bins_max = 10;
-    
+
     if(verbose)
         std::cout << "cvSketch initialized ..." << std::endl;
-    
+
     return true;
 }
-
 
 void vbs::cvSketch::run()
 {
@@ -132,19 +127,19 @@ void vbs::cvSketch::run()
 	cv::Mat reduced;
 	cv::resize(image, reduced, cv::Size(max_height, max_width));
 
-	//    cv::Mat colorSegments;
-	//    testColorSegmentation(reduced, colorSegments);
+ //   cv::destroyAllWindows();
+	//display = false;
+	//cv::Mat color_segments, color_labels;
+	//std::vector<std::pair<cv::Vec3b, float>> palette;
+	//test_color_segmentation(reduced, color_segments, color_labels, palette);
 
-	cv::Mat colorSegments, colorLabels;
-	std::map<cv::Vec3b, int, lessVec3b> palette;
-	testColorSegmentation(reduced, colorSegments, colorLabels, palette);
-
+	//display = false;
 	//cv::Mat descriptors;
-	//describeColorSegmentation(image, colorSegments, colorLabels, palette, descriptors);
+	//describe_color_segmentation(reduced, color_segments, color_labels, palette, descriptors);
 
+//	display = true;
+// 	search_image_color_segments(in_query, in_dataset);
 
-	search_image(in_query, in_dataset);
-    
     if (verbose)
         std::cout << "cvSketch finished ..." << std::endl;
 }
@@ -153,11 +148,11 @@ void vbs::cvSketch::on_trackbar_colorReduction_kMeans(int, void* _object)
 {
     //global callback
     //vbs::SettingsKmeansCluster settings = *static_cast<vbs::SettingsKmeansCluster*>(_object);
-    
+
     vbs::cvSketch* sketch = (vbs::cvSketch*)(_object);
     vbs::SettingsKmeansCluster* settings = sketch->set_kmeans;
     vbs::KmeansClusterSEEDSExchange* inout = sketch->set_exchange;
-    
+
     std::string winname = settings->winname;
     cv::Mat src, dst;
     inout->image.copyTo(src);
@@ -177,7 +172,7 @@ void vbs::cvSketch::on_trackbar_colorReduction_kMeans(int, void* _object)
     sketch->segmentation->get_colorpalette(dst, colorpalette);
 
     inout->colors = colorpalette;
-    
+
     cv::Mat colorchart;
     sketch->get_colorchart(colorpalette, colorchart, src.cols, 50, (dst.cols * dst.rows));
 
@@ -215,16 +210,16 @@ void vbs::cvSketch::on_trackbar_superpixel_SEEDS(const int, void* _object)
     //const cv::Mat src = *static_cast<cv::Mat*>(data);
     //Global callback
     //vbs::SettingsSuperpixelSEEDS settings = *static_cast<vbs::SettingsSuperpixelSEEDS*>(data);
-    
+
     vbs::cvSketch* sketch = (vbs::cvSketch*)(_object);
     vbs::SettingsSuperpixelSEEDS* settings = sketch->set_seeds;
     vbs::KmeansClusterSEEDSExchange* inout = sketch->set_exchange;
-    
+
     std::string winname = settings->winname;
 
     cv::Mat src, labels, dst, mask;
     inout->image.copyTo(src);
-    
+
     int num_superpixel_found;
     int num_superpixels = settings->num_superpixels;
     int prior = settings->prior;
@@ -239,10 +234,10 @@ void vbs::cvSketch::on_trackbar_superpixel_SEEDS(const int, void* _object)
 
     //Update also quantized color image
     cv::Mat quantized_image;
-    
+
     std::vector<std::pair<cv::Vec3b, float>> colorpalette;
     colorpalette = inout->colors;
-    
+
     sketch->quantize_colors(src, labels, num_superpixel_found, quantized_image, colorpalette);
 
     cv::Mat dst_show;
@@ -251,80 +246,88 @@ void vbs::cvSketch::on_trackbar_superpixel_SEEDS(const int, void* _object)
     text << "Superpixels: " << num_superpixels << ", ";
     text << "Prior: " << prior;
     sketch->set_label(dst_show, text.str(), cvPoint(30, 30));
-    
+
     text.str("");
     text << "Levels: " << num_levels  << ", ";
     text << "Double Step: " << ((double_step = 1) ? "true" : "false");
     sketch->set_label(dst_show, text.str(), cvPoint(30, 45));
-    
+
     text.str("");
     text << "Iterations: " << num_iterations  << ", ";
     text << "Hist Bins: " << num_histogram_bins;
     sketch->set_label(dst_show, text.str(), cvPoint(30, 60));
-    
+
     sketch->show_image(dst_show, winname);
     sketch->show_image(quantized_image, inout->winnameQuantizedColors);
-    
+
     dst.copyTo(inout->superpixel_image);
     mask.copyTo(inout->mask);
     labels.copyTo(inout->labels);
     inout->num_labels = num_superpixel_found;
 }
 
-
-
-void vbs::cvSketch::testColorSegmentation(cv::Mat& image, cv::Mat& colorSegments, cv::Mat& colorLabels, std::map<cv::Vec3b, int, lessVec3b>& palette)
+void vbs::cvSketch::test_color_segmentation(const cv::Mat& _image, cv::Mat& _color_segments, cv::Mat& _color_labels, std::vector<std::pair<cv::Vec3b, float>>& _palette)
 {
 
     if(verbose)
         std::cout << "Test cvSketch color segmentation ..." << std::endl;
 
-    cv::Mat input;
-    image.copyTo(input);
+    cv::Mat input, color_segments, color_labels;
+    std::vector<std::pair<cv::Vec3b, float>> palette;
+    cv::Mat labels, mask, quantized_image, colorchart;
+    int num_labels;
+
+    _image.copyTo(input);
 
     //exection time measure
     double t = 0.0;
 
-    const int width = image.cols;
-    const int height = image.rows;
+    const int width = input.cols;
+    const int height = input.rows;
 
     std::cout << "Convert colors to LAB ..." << std::endl;
     t = double(cv::getTickCount());
 
     //Convert to LAB color space
-    cv::cvtColor(image, input, cv::COLOR_BGR2Lab);
+    cv::cvtColor(input, input, cv::COLOR_BGR2Lab);
 
     t = (double(cv::getTickCount()) - t) / cv::getTickFrequency();
     printf("Color conversion took %i ms with %3ix%3i px resoultion \n",int(t * 1000), width, height);
 
-    
     if(display)
     {
         //int win_h = input.rows;
         int win_w = input.cols;
 
         std::string winnameOrig = "Original";
+//        std::string winnameBlurry = "Blurry";
         std::string winnameChart = "Color Chart";
         std::string winnameQuantizedColors = "Quantized Color Image";
         this->set_kmeans->winname = "Reduced Colors";
         this->set_seeds->winname = "Superpixels";
-        
+
         cv::namedWindow(winnameOrig);
         cv::moveWindow(winnameOrig, pad_left, pad_top);
-        cv::imshow(winnameOrig, image);
+        cv::imshow(winnameOrig, _image);
+
+//        cv::namedWindow(winnameBlurry);
+//        cv::moveWindow(winnameBlurry, pad_left, pad_top);
+//        cv::Mat blur;
+//        cv::blur(input, blur, cv::Size( 4, 4 ));
+//        show_image(blur,winnameBlurry);
 
         cv::namedWindow(winnameChart);
         cv::moveWindow(winnameChart, pad_left + win_w * 4, pad_top);
 
         cv::namedWindow(winnameQuantizedColors, 1);
         cv::moveWindow(winnameQuantizedColors, pad_left + win_w * 3, pad_top);
-        
+
         cv::namedWindow(this->set_kmeans->winname, 1);
         cv::moveWindow(this->set_kmeans->winname, pad_left + win_w, pad_top);
-        
+
         cv::namedWindow(this->set_seeds->winname, 1);
         cv::moveWindow(this->set_seeds->winname, pad_left + win_w * 2, pad_top);
-        
+
         input.copyTo(this->set_exchange->image);//
         this->set_exchange->winnameColorchart = winnameChart;
         this->set_exchange->winnameQuantizedColors = winnameQuantizedColors;
@@ -351,70 +354,367 @@ void vbs::cvSketch::testColorSegmentation(cv::Mat& image, cv::Mat& colorSegments
             }
             c = cv::waitKey(0);
         }
-
     }
+
+    reduce_colors(input, this->set_kmeans->kvalue, color_segments);
+    segmentation->get_colorpalette(color_segments, palette);
+    get_colorchart(palette, colorchart, input.cols, 50, (color_segments.cols * color_segments.rows));
+    extract_superpixels(input, labels, mask, num_labels, set_seeds->num_superpixels, set_seeds->num_levels, set_seeds->prior, set_seeds->num_histogram_bins, set_seeds->double_step, set_seeds->num_iterations);
+    quantize_colors(input, labels, num_labels, quantized_image, palette);
+
+    quantized_image.copyTo(_color_segments);
+    labels.copyTo(_color_labels);
+    _palette.assign(palette.begin(), palette.end());
+
 }
 
-void vbs::cvSketch::describeColorSegmentation(cv::Mat& image, cv::Mat& colorSegments, cv::Mat& colorLabels, std::map<cv::Vec3b, int, lessVec3b>& palette, cv::Mat& descriptors)
+void vbs::cvSketch::find_contours(const cv::Mat& _color_segments, const std::vector<std::pair<cv::Vec3b, float>>& _palette, 
+	std::vector<std::tuple<cv::Vec3b, float, std::vector<cv::Point>, cv::Rect>>& _output)
 {
-    cv::Mat describtor;
+	std::vector<std::tuple<cv::Vec3b, float, std::vector<cv::Point>, cv::Rect>> result;
 
-    //hist(image);
-    //int winSize=20;
-    //pair<Mat, vector<pair<pair<Point, Vec3b> ,int > > >retVal=
-    //cv::Mat combined = colSeg(image, winSize);
+	cv::Mat mask;
+	//cv::blur(_color_segments, _color_segments, cv::Size(16, 16));
 
-    //cv::cvtColor(colorSegments, colorSegments, cv::COLOR_BGR2Lab);
-    //cv::imshow("Color Segments", colorSegments);
-    //crop(colorSegments, image);
-    RNG rng(12345);
-    for(auto color : palette)
-    {
-        cv::Mat mask;
-        cv::Vec3b lab = color.first;
-        cv::Scalar rgb_scalar = vbs::Segmentation::ScalarLAB2BGR(color.first[0], color.first[1], color.first[2]);
+	for (auto color : _palette)
+	{
+		const cv::Scalar lab_color = cv::Scalar(color.first[0], color.first[1], color.first[2]);
+		cv::inRange(_color_segments, lab_color, lab_color, mask);
 
-        cv::inRange(colorSegments, rgb_scalar, rgb_scalar, mask);
+		cv::Mat current_color(50, _color_segments.cols, CV_8UC3, lab_color);
 
-        //colorSegments.setTo(cv::Scalar(255,255,255), colorSegments = bgr);
-        cv::Mat c(50,50, CV_8UC3, rgb_scalar);
+		std::vector<std::vector<cv::Point>> contours;
+		cv::findContours(mask, contours, cv::RETR_LIST, cv::CHAIN_APPROX_NONE);
 
-        cv::imshow("Color Segments", colorSegments);
-        cv::imshow("Color", c);
-        cv::imshow("Mask", mask);
+		if (contours.size() == 0)
+		{
+			std::cerr << "No contours found" << std::endl;
+		}
 
-        std::vector<std::vector<cv::Point> > contours;
-        cv::findContours(mask, contours, cv::RETR_LIST, cv::CHAIN_APPROX_NONE);
+		//Merge small parts into one 
+		std::vector<cv::Point> points;
+		for (auto conts : contours)
+		{
+			std::move(conts.begin(), conts.end(), std::back_inserter(points));
+		}
 
+		contours.clear();
+		contours.push_back(points);
 
-        std::vector<std::vector<cv::Point> > contours_poly( contours.size() );
-        std::vector<cv::Rect> boundRect( contours.size() );
-        std::vector<Point2f>center( contours.size() );
-        std::vector<float>radius( contours.size() );
+		std::vector<cv::Point> contours_poly(points.size());
 
-        for( int i = 0; i < contours.size(); i++ )
-        {
-            approxPolyDP( Mat(contours[i]), contours_poly[i], 10, true );
-            boundRect[i] = boundingRect( Mat(contours_poly[i]) );
-            minEnclosingCircle( (Mat)contours_poly[i], center[i], radius[i] );
-        }
+		cv::Rect boundRect;
+		
+		if (points.size() != 0)
+		{
+			approxPolyDP(points, contours_poly, 5, true);
+			boundRect = boundingRect(contours_poly);
+		}else
+		{
+			cv::Rect(0, 0, 0, 0);
+		}
 
-        cv::Mat drawing = cv::Mat::zeros( mask.size(), CV_8UC3 );
-        for( int i = 0; i< contours.size(); i++ )
-        {
-            cv::Scalar color = Scalar( rng.uniform(0, 255), rng.uniform(0,255), rng.uniform(0,255) );
-            drawContours( drawing, contours_poly, i, color, 1, 8, vector<Vec4i>(), 0, Point() );
-            rectangle( drawing, boundRect[i].tl(), boundRect[i].br(), color, 2, 8, 0 );
-            //circle( drawing, center[i], (int)radius[i], color, 2, 8, 0 );
-        }
+		result.push_back(std::make_tuple(color.first, color.second, points, boundRect));
+	}
 
-        cv::imshow("Contours", drawing);
-
-        waitKey(0);
-    }
-
+	_output.assign(result.begin(), result.end());
+	//_boundRect.assign(boundRect.be)
 
 }
+
+void vbs::cvSketch::describe_color_segmentation(const cv::Mat& _image, cv::Mat& _color_segments, cv::Mat& _color_labels, std::vector<std::pair<cv::Vec3b, float>>& _palette, cv::Mat& _descriptors)
+{
+    cv::Mat input;
+
+    _image.copyTo(input);
+
+	int dim = 6;
+	/*
+	* l, a, b, cx, xy, s
+	* cx = center of mass x position
+	* cy = center of mass y position
+	* s = size (number of pixels belonging to the color region)
+	*/
+	cv::Mat describtor(_palette.size(), dim, CV_32F, cv::Scalar(0));
+
+	std::vector<std::tuple<cv::Vec3b, float, std::vector<cv::Point>, cv::Rect>> contours;
+	find_contours(_color_segments, _palette, contours);
+
+	display = false;
+	if(display)
+	{
+		std::string winnameColorsegment = "Color Segments";
+		std::string winnameContours = "Color Contours";
+		//std::string winnameMContours = "Merged Color Contours";
+
+		cv::namedWindow(winnameColorsegment);
+		cv::namedWindow(winnameContours);
+		//cv::namedWindow(winnameMContours);
+
+		cv::moveWindow(winnameColorsegment, pad_left, pad_top);
+		cv::moveWindow(winnameContours, pad_left + (input.cols), pad_top);
+		//cv::moveWindow(winnameMContours, pad_left + (input.cols * 2), pad_top);
+
+		show_image(_color_segments, winnameColorsegment);
+		cv::Mat drawing = cv::Mat::zeros(input.size(), CV_8UC3);
+		cv::cvtColor(drawing, drawing, COLOR_RGB2Lab);
+		std::vector<cv::Point> points;
+
+		std::vector <std::vector<cv::Point>> c;
+		for (auto contour : contours)
+		{
+			std::vector <std::vector<cv::Point>> c;
+			points = std::get<2>(contour);
+			c.push_back(points);
+			cv::Scalar color = cv::Scalar(std::get<0>(contour)[0], std::get<0>(contour)[1], std::get<0>(contour)[2]);
+			drawContours(drawing, c, 0, color, CV_FILLED, 8, vector<Vec4i>(), 0, Point());
+			rectangle(drawing, std::get<3>(contour).tl(), std::get<3>(contour).br(), color, 2, 8, 0);
+			points.clear();
+		}
+
+		show_image(drawing, winnameContours);
+		cv::waitKey(0);
+	}
+	int idx = 0;
+	for (auto contour : contours)
+	{
+		auto moments = cv::moments(std::get<2>(contour));
+		//calculate the mass center
+		cv::Point mass_center(cvRound(moments.m10 / moments.m00), cvRound(moments.m01 / moments.m00));
+
+		float l = std::get<0>(contour)[0] / 255.0;
+		float a = std::get<0>(contour)[1] / 255.0;
+		float b = std::get<0>(contour)[2] / 255.0;
+		float mx = mass_center.x / float(input.cols);
+		float my = mass_center.y / float(input.rows);
+
+		//@TODO change either normalized or not - do not mix up
+		float size = 0.0;
+		if(std::get<1>(contour) <= 1)
+			size = std::get<1>(contour) ;
+		else
+			size = std::get<1>(contour) * float(input.cols * input.rows);
+
+		describtor.at<float>(idx, 0) = l;
+		describtor.at<float>(idx, 1) = a;
+		describtor.at<float>(idx, 2) = b;
+		describtor.at<float>(idx, 3) = mx;
+		describtor.at<float>(idx, 4) = my;
+		describtor.at<float>(idx, 5) = size;
+
+		//float l = std::get<0>(contour)[0];
+		//float a = std::get<0>(contour)[1];
+		//float b = std::get<0>(contour)[2];
+		//float mx = mass_center.x;
+		//float my = mass_center.y;
+
+		////@TODO change either normalized or not - do not mix up
+		//float size = 0.0;
+		//if (std::get<1>(contour) < 1)
+		//	size = std::get<1>(contour) * float(input.cols * input.rows);
+		//else
+		//	size = std::get<1>(contour);
+
+		//describtor.at<float>(idx, 0) = l;
+		//describtor.at<float>(idx, 1) = a;
+		//describtor.at<float>(idx, 2) = b;
+		//describtor.at<float>(idx, 3) = mx;
+		//describtor.at<float>(idx, 4) = my;
+		//describtor.at<float>(idx, 5) = size;
+		//cv::waitKey(0);
+		idx++;
+	}
+
+	describtor.copyTo(_descriptors);
+}
+
+
+
+bool compareMatchesByDist(const vbs::Match & a, const vbs::Match & b)
+{
+	return a.dist < b.dist;
+}
+
+void vbs::cvSketch::search_image_color_segments(std::string query_path, std::string dataset_path)
+{
+	double t;
+	t = double(cv::getTickCount());
+
+	using namespace boost::filesystem;
+	const path dir(dataset_path);
+	const recursive_directory_iterator it(dir), end;
+
+	std::vector<std::string> files;
+	for (auto& entry : boost::make_iterator_range(it, end))
+	{
+		boost::filesystem::path t(entry.path());
+		std::string filepath = t.string();
+
+		if ((t.filename() != ".DS_Store") && is_regular(entry))
+		{
+			files.push_back(filepath);
+		}
+	}
+
+	path query(query_path);
+	cv::Mat query_image = cv::imread(query.string(), 1);
+	//cv::Mat q_reduced;
+	int max_width = 352, max_height = 240; //int max_width = 720, max_height = 480;
+										   //int area = max_width * max_height;
+
+	std::string orientation = "";
+
+	const int numberOfColors = 4;
+
+	cv::Mat q_colorchart, q_descriptor;
+	std::vector<std::pair<cv::Vec3b, int>> q_colorpalette;
+	process_image(query_image, max_width, max_height, numberOfColors, q_colorchart, q_colorpalette, q_descriptor);
+
+
+	std::vector<std::pair<cv::Vec3b, float>> q_colorpalette_weights(q_colorpalette.size());
+	for (int i = 0; i < q_colorpalette.size(); i++)
+	{
+		float weight = float(q_colorpalette[i].second) / float(max_height * max_width);
+		q_colorpalette_weights[i].second = weight;
+		q_colorpalette_weights[i].first = q_colorpalette[i].first;
+		std::cout << "Color: " << q_colorpalette_weights[i].first << " \t - Area: " << float(q_colorpalette_weights[i].second) << "%" << std::endl;
+	}
+
+	cv::destroyAllWindows();
+	std::string winnameQuery = "Query Image: " + query.filename().string();
+	cv::namedWindow(winnameQuery, WINDOW_NORMAL);
+	show_image(q_colorchart, winnameQuery, 25, 50);
+
+
+	std::vector<Match> matches;
+	cv::Mat image;
+	cv::Mat colorchart;
+	int area = max_width * max_height;
+
+	int max_files = 0;
+	if (nr_input_images == -1) {
+		max_files = int(files.size());
+	}
+	else {
+		max_files = nr_input_images;
+	}
+
+	cv::Mat descriptor;
+
+	for (int i = 0; i < max_files; i++)
+	{
+		path db(files.at(i));
+
+		image = cv::imread(files.at(i), 1);
+
+		std::vector<std::pair<cv::Vec3b, int>> db_colorpalette;
+		process_image(image, max_width, max_height, numberOfColors, colorchart, db_colorpalette, descriptor);
+
+		std::vector<std::pair<cv::Vec3b, float> > db_colorpalette_weights(db_colorpalette.size());
+		for (int i = 0; i < db_colorpalette.size(); i++)
+		{
+			float weight = float(db_colorpalette[i].second) / float(max_height * max_width);
+			db_colorpalette_weights[i].second = weight;
+			db_colorpalette_weights[i].first = db_colorpalette[i].first;
+
+			std::cout << "Sorted Color: " << db_colorpalette_weights[i].first << " \t - Area: " << float(db_colorpalette_weights[i].second) << "%" << std::endl;
+
+		}
+
+		if(query.filename().string() == db.filename().string())
+		{
+		    std::cout << "DB Image is the Query image at position: " << i << std::endl;
+		
+		    //std::cout << "DB Image Colors: " << std::endl;
+		    //for (auto color : sorted_colorpalette)
+		    //{
+		    //    std::cout << "DB Color: " << color.first << " \t - Area: " << 100.f * float(color.second) / float(max_height * max_width) << "%" << std::endl;
+		    //}
+		
+		    //std::cout << "Query Image Colors: " << std::endl;
+		    //for (auto color : sorted_q_colorpalette)
+		    //{
+		    //    std::cout << "Query Color: " << color.first << " \t - Area: " << 100.f * float(color.second) / float(max_height * max_width) << "%" << std::endl;
+		    //}
+		
+		    std::cout << "====================================" << i << std::endl;
+		}
+
+		double color_dist = vbs::Matching::compareWithOCCD(q_colorpalette_weights, db_colorpalette_weights, area);
+
+		double mass_dist = 0.0;
+		for(int iRow_q = 0; iRow_q < q_descriptor.rows; iRow_q++)
+		{
+			//for (int iRow = 0; iRow < descriptor.rows; iRow++)
+			//{
+				float l = q_descriptor.at<float>(iRow_q, 0) - descriptor.at<float>(iRow_q, 0);
+				float a = q_descriptor.at<float>(iRow_q, 1) - descriptor.at<float>(iRow_q, 1);
+				float b = q_descriptor.at<float>(iRow_q, 2) - descriptor.at<float>(iRow_q, 2);
+				float mx = q_descriptor.at<float>(iRow_q, 3) - descriptor.at<float>(iRow_q, 3);
+				float my = q_descriptor.at<float>(iRow_q, 4) - descriptor.at<float>(iRow_q, 4);
+				float size = q_descriptor.at<float>(iRow_q, 5) - descriptor.at<float>(iRow_q, 5);
+
+				double tmp_dist = (0.9 * std::pow(mx, 2) + 0.9 * std::pow(my, 2) + 0.9 * std::pow(size, 2));
+				tmp_dist = std::sqrt(tmp_dist);
+				mass_dist += tmp_dist;
+			//}
+		}
+
+		mass_dist = mass_dist / float(q_descriptor.rows);
+
+		//double dist = vbs::Matching::compareWithEuclid(q_colorpalette_weights, db_colorpalette_weights);
+
+		//Display the retrieval results
+		cv::Mat result;
+		colorchart.copyTo(result);
+
+		//set_label(result, std::to_string(color_dist), cvPoint(10, 40), 2);
+		//set_label(result, std::to_string(mass_dist), cvPoint(10, 100), 2);
+
+		cv::putText(result, std::to_string(color_dist), cvPoint(30, 30), cv::FONT_HERSHEY_COMPLEX_SMALL, 2.0, cv::Scalar(0, 0, 255), 1, CV_AA);
+		cv::putText(result, std::to_string(mass_dist), cvPoint(30, 60), cv::FONT_HERSHEY_COMPLEX_SMALL, 2.0, cv::Scalar(0, 0, 255), 1, CV_AA);
+
+		Match match;
+		match.path = files.at(i);
+		match.dist = (color_dist + mass_dist);
+		match.image = result;
+		matches.push_back(match);
+
+		image.release();
+		descriptor.release();
+
+	}
+
+	std::sort(matches.begin(), matches.end(), compareMatchesByDist);
+
+	std::vector<cv::Mat> images;
+
+	int max_results = 0;
+	if (top_kresults == -1) {
+		max_results = max_files;
+	}
+	else {
+		max_results = top_kresults;
+	}
+
+	for (int i = 0; i < top_kresults; i++)
+	{
+		images.push_back(matches.at(i).image);
+	}
+
+	t = (double(cv::getTickCount()) - t) / cv::getTickFrequency();
+	printf("Searching took %i ms %3ix%3i px resoultion; %i colos; %i files \n", int(t * 1000), max_width, max_height, numberOfColors, int(files.size()));
+	printf("Searching took %i ms per file \n", int(float(t * 1000) / float(files.size())));
+
+
+	cv::Mat results = make_canvas(images, 700, 7);
+	std::string winnameResults = "Retrieval Results Top: " + std::to_string(top_kresults) + " of " + std::to_string(files.size());
+	cv::namedWindow(winnameResults);
+	show_image(results, winnameResults, q_colorchart.cols + 25, 50);
+
+	cv::waitKey(0);
+}
+
 
 //Input - Lab color space
 void vbs::cvSketch::reduce_colors(const cv::Mat& image, int kvalue, cv::Mat& output)
@@ -437,9 +737,9 @@ void vbs::cvSketch::get_colorchart(std::vector<std::pair<cv::Vec3b, float>>& col
     cv::Mat chart(chartheight, chartwidth, CV_8UC3);
     int coloridx = 0;
     int maxidx = 0;
-    
+
     cv::Vec3b lastcolor;
-    
+
     for (auto color : colors)
     {
         float scope = 0.0;
@@ -447,7 +747,7 @@ void vbs::cvSketch::get_colorchart(std::vector<std::pair<cv::Vec3b, float>>& col
             scope = float(color.second) / float(area);
         else
             scope = float(color.second);
-            
+
         std::cout << "Color: " << color.first << " \t - Area: " << 100.f * scope << "%" << std::endl;
         int max_width = chartwidth * scope;
         maxidx += max_width;
@@ -457,17 +757,17 @@ void vbs::cvSketch::get_colorchart(std::vector<std::pair<cv::Vec3b, float>>& col
             {
                 cv::Vec3b lab = color.first;
                 chart.at<cv::Vec3b>(i, j) = cv::Vec3b(lab[0], lab[1], lab[2]);
-                
+
                 if(j == maxidx)
                     chart.at<cv::Vec3b>(i, j) = cv::Vec3b(0, 127, 127);
             }
         }
-        
+
         coloridx = coloridx + max_width;
-        
+
         lastcolor = color.first;
     }
-    
+
     //fill up barchart
     if(maxidx < chartwidth)
     {
@@ -479,7 +779,7 @@ void vbs::cvSketch::get_colorchart(std::vector<std::pair<cv::Vec3b, float>>& col
             }
         }
     }
-    
+
     chart.copyTo(output);
 }
 
@@ -547,14 +847,7 @@ void vbs::cvSketch::getColorchart(std::vector<std::pair<cv::Vec3b, int>>& palett
                 if(j == maxidx)
                     chart.at<cv::Vec3b>(i, j) = cv::Vec3b(0, 127, 127);
             }
-
-
-
         }
-
-//        cv::Mat space(chart.rows,5,CV_8UC3,cv::Scalar(0,127,127));
-//        cv::hconcat(chart, space, chart);
-
 
         coloridx = coloridx + max_width;
 
@@ -641,179 +934,19 @@ void vbs::cvSketch::extract_superpixels(cv::Mat& image, cv::Mat& output, cv::Mat
     mask_labels.copyTo(mask);
 }
 
-
-
-bool compareMatchesByDist(const vbs::Match & a, const vbs::Match & b)
-{
-	return a.dist < b.dist;
-}
-
-
-
-void vbs::cvSketch::search_image(std::string query_path, std::string dataset_path)
-{
-    double t;
-    t = double(cv::getTickCount());
-
-	using namespace boost::filesystem;
-	const path dir(dataset_path);
-	const recursive_directory_iterator it(dir), end;
-
-	std::vector<std::string> files;
-	for (auto& entry : boost::make_iterator_range(it, end))
-	{
-        boost::filesystem::path t(entry.path());
-        std::string filepath = t.string();
-
-		if ((t.filename() != ".DS_Store") && is_regular(entry))
-		{
-			files.push_back(filepath);
-		}
-	}
-
-    path query(query_path);
-    cv::Mat query_image = cv::imread(query.string(),1);
-	//cv::Mat q_reduced;
-	int max_width = 352, max_height = 240; //int max_width = 720, max_height = 480;
-	//int area = max_width * max_height;
-
-    std::string orientation = "";
-
-	const int numberOfColors = 4;
-
-    cv::Mat q_colorchart;
-    std::vector<std::pair<cv::Vec3b, int>> q_colorpalette;
-    process_image(query_image, max_width, max_height, numberOfColors, q_colorchart, q_colorpalette);
-
-    std::vector<std::pair<cv::Vec3b, float>> q_colorpalette_weights(q_colorpalette.size());
-    for (int i = 0; i < q_colorpalette.size(); i++)
-    {
-        float weight = float(q_colorpalette[i].second) / float(max_height * max_width);
-        q_colorpalette_weights[i].second = weight;
-        q_colorpalette_weights[i].first = q_colorpalette[i].first;
-        std::cout << "Color: " << q_colorpalette_weights[i].first << " \t - Area: " << float(q_colorpalette_weights[i].second) << "%" << std::endl;
-    }
-
-    cv::destroyAllWindows();
-    std::string winnameQuery = "Query Image: " + query.filename().string();
-    cv::namedWindow(winnameQuery, WINDOW_NORMAL);
-    show_image(q_colorchart, winnameQuery, 25, 50);
-
-
-    std::vector<Match> matches;
-    cv::Mat image;
-    cv::Mat colorchart;
-    int area = max_width * max_height;
-    
-    int max_files = 0;
-    if(nr_input_images == -1){
-        max_files = int(files.size());
-    }else{
-        max_files = nr_input_images;
-    }
-    
-	for(int i = 0; i < max_files; i++)
-	{
-        path db(files.at(i));
-
-        image = cv::imread(files.at(i), 1);
-
-        std::vector<std::pair<cv::Vec3b, int>> db_colorpalette;
-        process_image(image, max_width, max_height, numberOfColors, colorchart, db_colorpalette);
-
-        std::vector<std::pair<cv::Vec3b, float> > db_colorpalette_weights(db_colorpalette.size());
-        for (int i = 0; i < db_colorpalette.size(); i++)
-        {
-            float weight = float(db_colorpalette[i].second) / float(max_height * max_width);
-            db_colorpalette_weights[i].second = weight;
-            db_colorpalette_weights[i].first = db_colorpalette[i].first;
-
-            std::cout << "Sorted Color: " << db_colorpalette_weights[i].first << " \t - Area: " << float(db_colorpalette_weights[i].second) << "%" << std::endl;
-
-        }
-
-//        if(query.filename().string() == db.filename().string())
-//        {
-//            std::cout << "DB Image is the Query image at position: " << i << std::endl;
-//
-//            std::cout << "DB Image Colors: " << std::endl;
-//            for (auto color : sorted_colorpalette)
-//            {
-//                std::cout << "DB Color: " << color.first << " \t - Area: " << 100.f * float(color.second) / float(max_height * max_width) << "%" << std::endl;
-//            }
-//
-//            std::cout << "Query Image Colors: " << std::endl;
-//            for (auto color : sorted_q_colorpalette)
-//            {
-//                std::cout << "Query Color: " << color.first << " \t - Area: " << 100.f * float(color.second) / float(max_height * max_width) << "%" << std::endl;
-//            }
-//
-//            std::cout << "====================================" << i << std::endl;
-//        }
-
-        double dist = vbs::Matching::compareWithOCCD(q_colorpalette_weights, db_colorpalette_weights, area);
-
-        //double dist = vbs::Matching::compareWithEuclid(q_colorpalette_weights, db_colorpalette_weights);
-
-        
-        //Display the retrieval results
-        cv::Mat result;
-        colorchart.copyTo(result);
-  
-        set_label(result, std::to_string(dist),cvPoint(10, 40), 1.5);
-        
-		Match match;
-		match.path = files.at(i);
-        match.dist = dist;
-		match.image = result;
-		matches.push_back(match);
-
-        image.release();
-	}
-
-	std::sort(matches.begin(), matches.end(), compareMatchesByDist);
-
-	std::vector<cv::Mat> images;
-
-    int max_results = 0;
-    if(top_kresults == -1){
-        max_results = max_files;
-    }else{
-        max_results = top_kresults;
-    }
-    
-	for (int i = 0; i < top_kresults; i++)
-	{
-		images.push_back(matches.at(i).image);
-	}
-
-    t = (double(cv::getTickCount()) - t) / cv::getTickFrequency();
-    printf("Searching took %i ms %3ix%3i px resoultion; %i colos; %i files \n", int(t * 1000), max_width, max_height, numberOfColors, int(files.size()));
-    printf("Searching took %i ms per file \n", int( float(t * 1000) / float(files.size())));
-
-
-	cv::Mat results = make_canvas(images, 700, 7);
-    std::string winnameResults = "Retrieval Results Top: " + std::to_string(top_kresults) + " of " + std::to_string(files.size());
-	cv::namedWindow(winnameResults);
-    show_image(results, winnameResults, q_colorchart.cols + 25, 50);
-
-	cv::waitKey(0);
-}
-
-
 void vbs::cvSketch::show_image(const cv::Mat& image, std::string winname, int x, int y)
 {
     cv::Mat result;
     image.copyTo(result);
     cv::cvtColor(result, result, CV_Lab2BGR);
-    
+
     if(x != -1 && y != -1)
         cv::moveWindow(winname, x, y);
-    
+
     cv::imshow(winname, result);
 }
 
-void vbs::cvSketch::process_image(const cv::Mat& image, int width, int height, int colors, cv::Mat& image_withbarchart, std::vector<std::pair<cv::Vec3b, int>>& sorted_colorpalette)
+void vbs::cvSketch::process_image(const cv::Mat& image, int width, int height, int colors, cv::Mat& image_withbarchart, std::vector<std::pair<cv::Vec3b, int>>& sorted_colorpalette, cv::Mat& _descriptors)
 {
     cv::Mat reduced;
     std::string orientation = "";
@@ -856,8 +989,27 @@ void vbs::cvSketch::process_image(const cv::Mat& image, int width, int height, i
     vbs::cvSketch::getColorchart(sorted_colorpalette, colorchart, bar_width, 50, (reduced.cols * reduced.rows));
     cv::Mat space(20,colorchart.cols,CV_8UC3,cv::Scalar(0,127,127));
 
-    cv::vconcat(reduced, space, reduced);
-    cv::vconcat(reduced, colorchart, reduced);
+
+
+	std::vector<std::pair<cv::Vec3b, float>> colorpalette_weights(sorted_colorpalette.size());
+	float weight;
+	for (int i = 0; i < sorted_colorpalette.size(); i++)
+	{
+		weight = float(sorted_colorpalette[i].second) / float(max_height * max_width);
+		colorpalette_weights[i].second = weight;
+		colorpalette_weights[i].first = sorted_colorpalette[i].first;
+
+	}
+
+	int num_labels;
+	cv::Mat descriptor, mask, labels, quer_mask, quantized_image;
+	extract_superpixels(reduced, labels, mask, num_labels, set_seeds->num_superpixels, set_seeds->num_levels, set_seeds->prior, set_seeds->num_histogram_bins, set_seeds->double_step, set_seeds->num_iterations);
+	quantize_colors(reduced, labels, num_labels, quantized_image, colorpalette_weights);
+	describe_color_segmentation(reduced, quantized_image, labels, colorpalette_weights, descriptor);
+
+	cv::vconcat(reduced, space, reduced);
+	cv::vconcat(reduced, colorchart, reduced);
+	descriptor.copyTo(_descriptors);
     reduced.copyTo(image_withbarchart);
 }
 
@@ -957,7 +1109,7 @@ vbs::cvSketch::~cvSketch()
 {
     if(verbose)
         std::cout << "cvSketch destructor ..." << std::endl;
-    
+
     delete set_kmeans;
     delete set_seeds;
     delete set_exchange;
@@ -972,7 +1124,7 @@ cv::Mat vbs::cvSketch::make_canvas(std::vector<cv::Mat>& vecMat, int windowHeigh
     int imagesPerRow = ceil(double(N) / nRows);
     int resizeHeight = floor(2.0 * ((floor(double(windowHeight - edgeThickness) / nRows)) / 2.0)) - edgeThickness;
     int maxRowLength = 0;
-    
+
     std::vector<int> resizeWidth;
     for (int i = 0; i < N;) {
         int thisRowLen = 0;
@@ -989,7 +1141,7 @@ cv::Mat vbs::cvSketch::make_canvas(std::vector<cv::Mat>& vecMat, int windowHeigh
     }
     int windowWidth = maxRowLength;
     cv::Mat canvasImage(windowHeight, windowWidth, CV_8UC3, cv::Scalar(0, 127, 127));
-    
+
     for (int k = 0, i = 0; i < nRows; i++) {
         int y = i * resizeHeight + (i + 1) * edgeThickness;
         int x_end = edgeThickness;
@@ -1024,7 +1176,7 @@ void vbs::cvSketch::set_label(cv::Mat& _im, const std::string _label, const cv::
     double scale = _scale;
     int thickness = 1;
     int baseline = 0;
-    
+
     cv::Size text = cv::getTextSize(_label, fontface, scale, thickness, &baseline);
     cv::rectangle(_im, _point + cv::Point(0, baseline), _point + cv::Point(text.width, -text.height), cv::Scalar(0,127,127), CV_FILLED);
     cv::putText(_im, _label, _point, fontface, scale, CV_RGB(200, 200, 250), thickness, 8);
@@ -1036,7 +1188,7 @@ bool vbs::cvSketch::store_image(std::string originalfile, std::string append, st
     boost::filesystem::path ext = in.filename().extension();
     size_t position = in.filename().string().find(ext.string());
     std::string store = output + DIRECTORY_SEPARATOR + in.filename().string().substr(0, position) + append + extension;
-    
+
     cv::imwrite(store, image);
     return false;
 }
