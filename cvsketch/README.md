@@ -5,11 +5,29 @@ Color-Sketch-based video search is a way to sketch scenes in mind with rough col
 The following directory is a test-bed and currently contains:
 * Color reduction using k-means
 * Superpixels Extracted via Energy-Driven Sampling (SEEDS)
-* Refinement of superpixels using k-color's
+* Refinement of superpixels using k-color's 
 
 ![Alt text](snapshots/settings_color-segmentation_1.png?raw=true "Settings of color segmentation refinement")
 
 ![Alt text](snapshots/retrieval_weighted_OCCD.png?raw=true "Retrieval Results using OCCD")
+
+### Ad-hoc solution
+
+Resolution: 320x240px
+Patch Size: 40x40px
+Block Size: 40x40px
+Cell Size: 20x20px;
+Patch Step Size: 20px (Overlapping)
+
+Descriptor Size: 12288x1 (768 Cells * 16 Basic Colors)
+
+300ms per Image describing + comparing!
+
+![Alt text](snapshots/retrieval_quantized_histogram.png?raw=true "Retrieval Results using Grid-based Quantized Color Histograms")
+
+## Goal
+
+
 
 ## Related Work
 

@@ -9,381 +9,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "../../cvsketch/libs/seeds-revised/lib/Tools.cpp"
-            timestampString = "537458790.497664"
+            filePath = "../../cvsketch/src/cvsketch.cpp"
+            timestampString = "538505603.736262"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "116"
-            endingLineNumber = "116"
-            landmarkName = "Draw::meanImage(int** labels, const cv::Mat &amp;image)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../cvsketch/libs/seeds-revised/lib/Tools.cpp"
-            timestampString = "537458799.632768"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "119"
-            endingLineNumber = "119"
-            landmarkName = "Draw::meanImage(int** labels, const cv::Mat &amp;image)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../cvsketch/src/segmentation.cpp"
-            timestampString = "538047031.0972871"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "25"
-            endingLineNumber = "25"
-            landmarkName = "vbs::Segmentation::reduceColor_kmeans(const cv::Mat3b&amp; src, cv::Mat3b&amp; dst, int k)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../cvsketch/libs/imageSegmentation/imageSegmentation.hpp"
-            timestampString = "537719983.18039"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "318"
-            endingLineNumber = "318"
-            landmarkName = "crop(Mat combined, Mat original)"
-            landmarkType = "9">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../cvsketch/libs/imageSegmentation/imageSegmentation.hpp"
-            timestampString = "537719997.548635"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "324"
-            endingLineNumber = "324"
-            landmarkName = "crop(Mat combined, Mat original)"
-            landmarkType = "9">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../cvsketch/libs/imageSegmentation/imageSegmentation.hpp"
-            timestampString = "537720017.972374"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "372"
-            endingLineNumber = "372"
-            landmarkName = "crop(Mat combined, Mat original)"
-            landmarkType = "9">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../cvsketch/libs/imageSegmentation/imageSegmentation.hpp"
-            timestampString = "537720027.539518"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "377"
-            endingLineNumber = "377"
-            landmarkName = "crop(Mat combined, Mat original)"
-            landmarkType = "9">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../cvsketch/src/segmentation.cpp"
-            timestampString = "538047031.0972871"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "236"
-            endingLineNumber = "236"
-            landmarkName = "vbs::Segmentation::ScalarLAB2BGR(uchar L, uchar A, uchar B)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../cvsketch/src/segmentation.cpp"
-            timestampString = "538047031.0972871"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "19"
-            endingLineNumber = "19"
-            landmarkName = "vbs::Segmentation::reduceColor_kmeans(const cv::Mat3b&amp; src, cv::Mat3b&amp; dst, int k)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../cvsketch/src/matching.cpp"
-            timestampString = "537969566.929545"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "345"
-            endingLineNumber = "345"
-            landmarkName = "vbs::Matching::compareWithOCCD(const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; c1, const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; c2, int area)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../cvsketch/src/matching.cpp"
-            timestampString = "537968911.629295"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "334"
-            endingLineNumber = "334"
-            landmarkName = "vbs::Matching::compareWithOCCD(const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; c1, const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; c2, int area)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../cvsketch/src/matching.cpp"
-            timestampString = "537968911.629295"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "263"
-            endingLineNumber = "263"
-            landmarkName = "vbs::Matching::compareWithOCCD(const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; c1, const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; c2, int area)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../cvsketch/src/matching.cpp"
-            timestampString = "537968911.629295"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "273"
-            endingLineNumber = "273"
-            landmarkName = "vbs::Matching::compareWithOCCD(const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; c1, const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; c2, int area)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../cvsketch/src/matching.cpp"
-            timestampString = "537968911.629295"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "278"
-            endingLineNumber = "278"
-            landmarkName = "vbs::Matching::compareWithOCCD(const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; c1, const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; c2, int area)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../cvsketch/src/matching.cpp"
-            timestampString = "537968911.629295"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "284"
-            endingLineNumber = "284"
-            landmarkName = "vbs::Matching::compareWithOCCD(const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; c1, const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; c2, int area)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../cvsketch/src/matching.cpp"
-            timestampString = "537968911.629295"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "285"
-            endingLineNumber = "285"
-            landmarkName = "vbs::Matching::compareWithOCCD(const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; c1, const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; c2, int area)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../cvsketch/src/matching.cpp"
-            timestampString = "537968911.629295"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "289"
-            endingLineNumber = "289"
-            landmarkName = "vbs::Matching::compareWithOCCD(const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; c1, const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; c2, int area)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../cvsketch/src/matching.cpp"
-            timestampString = "537968911.629295"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "292"
-            endingLineNumber = "292"
-            landmarkName = "vbs::Matching::compareWithOCCD(const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; c1, const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; c2, int area)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../cvsketch/src/matching.cpp"
-            timestampString = "537968911.629295"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "265"
-            endingLineNumber = "265"
-            landmarkName = "vbs::Matching::compareWithOCCD(const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; c1, const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; c2, int area)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../cvsketch/src/matching.cpp"
-            timestampString = "537968911.629295"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "257"
-            endingLineNumber = "257"
-            landmarkName = "vbs::Matching::compareWithOCCD(const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; c1, const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; c2, int area)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../cvsketch/src/matching.cpp"
-            timestampString = "537968911.629295"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "272"
-            endingLineNumber = "272"
-            landmarkName = "vbs::Matching::compareWithOCCD(const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; c1, const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; c2, int area)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../cvsketch/src/matching.cpp"
-            timestampString = "537962978.390493"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "184"
-            endingLineNumber = "184"
-            landmarkName = "vbs::Matching::compareWithOCCD(const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; c1, const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; c2, int area)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../cvsketch/src/matching.cpp"
-            timestampString = "537969566.929545"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "377"
-            endingLineNumber = "377"
-            landmarkName = "vbs::Matching::compareWithOCCD(const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; c1, const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; c2, int area)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../cvsketch/src/matching.cpp"
-            timestampString = "537969566.929545"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "376"
-            endingLineNumber = "376"
-            landmarkName = "vbs::Matching::compareWithOCCD(const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; c1, const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; c2, int area)"
+            startingLineNumber = "901"
+            endingLineNumber = "901"
+            landmarkName = "vbs::cvSketch::get_histograms_patch(const cv::Mat&amp; _patch, int posX, int posY, int _cellSizeX, int _cellSizeY, const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; _palette, cv::Mat&amp; _hist, cv::Mat&amp; _intermim_result, cv::Mat&amp; _result_image)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -394,188 +26,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../cvsketch/src/cvsketch.cpp"
-            timestampString = "538325775.467576"
+            timestampString = "538505603.736262"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1010"
-            endingLineNumber = "1010"
-            landmarkName = "vbs::cvSketch::getColorchart(std::vector&lt;std::pair&lt;cv::Vec3b, int&gt;&gt;&amp; palette, cv::Mat&amp; output, int chartwidth, int chartheight, int area)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../cvsketch/src/matching.cpp"
-            timestampString = "537969566.929545"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "372"
-            endingLineNumber = "372"
-            landmarkName = "vbs::Matching::compareWithOCCD(const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; c1, const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; c2, int area)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../cvsketch/src/matching.cpp"
-            timestampString = "537969566.929545"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "353"
-            endingLineNumber = "353"
-            landmarkName = "vbs::Matching::compareWithOCCD(const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; c1, const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; c2, int area)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../cvsketch/src/matching.cpp"
-            timestampString = "537969566.929545"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "355"
-            endingLineNumber = "355"
-            landmarkName = "vbs::Matching::compareWithOCCD(const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; c1, const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; c2, int area)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../cvsketch/src/matching.cpp"
-            timestampString = "537964036.21288"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "212"
-            endingLineNumber = "212"
-            landmarkName = "vbs::Matching::compareWithOCCD(const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; c1, const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; c2, int area)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../cvsketch/src/matching.cpp"
-            timestampString = "537964036.21288"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "192"
-            endingLineNumber = "192"
-            landmarkName = "vbs::Matching::compareWithOCCD(const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; c1, const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; c2, int area)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../cvsketch/src/matching.cpp"
-            timestampString = "537964036.21288"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "204"
-            endingLineNumber = "204"
-            landmarkName = "vbs::Matching::compareWithOCCD(const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; c1, const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; c2, int area)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../cvsketch/src/matching.cpp"
-            timestampString = "537968911.629295"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "315"
-            endingLineNumber = "315"
-            landmarkName = "vbs::Matching::compareWithOCCD(const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; c1, const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; c2, int area)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../cvsketch/src/matching.cpp"
-            timestampString = "537968911.629295"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "246"
-            endingLineNumber = "246"
-            landmarkName = "vbs::Matching::compareWithOCCD(const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; c1, const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; c2, int area)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../cvsketch/src/matching.cpp"
-            timestampString = "537968911.629295"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "264"
-            endingLineNumber = "264"
-            landmarkName = "vbs::Matching::compareWithOCCD(const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; c1, const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; c2, int area)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../cvsketch/src/matching.cpp"
-            timestampString = "537968711.912616"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "221"
-            endingLineNumber = "221"
-            landmarkName = "vbs::Matching::compareWithOCCD(const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; c1, const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; c2, int area)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../cvsketch/src/matching.cpp"
-            timestampString = "537968934.177955"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "245"
-            endingLineNumber = "245"
-            landmarkName = "vbs::Matching::compareWithOCCD(const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; c1, const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; c2, int area)"
+            startingLineNumber = "937"
+            endingLineNumber = "937"
+            landmarkName = "vbs::cvSketch::get_histogram_cell(const cv::Mat&amp; _cell, const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; _palette, cv::Mat&amp; _hist)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -586,12 +42,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../cvsketch/src/cvsketch.cpp"
-            timestampString = "538325775.467576"
+            timestampString = "538498116.396644"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "913"
-            endingLineNumber = "913"
-            landmarkName = "vbs::cvSketch::reduce_colors(const cv::Mat&amp; image, int kvalue, cv::Mat&amp; output)"
+            startingLineNumber = "647"
+            endingLineNumber = "647"
+            landmarkName = "vbs::cvSketch::search_image_color_histogram(std::string query_path, std::string dataset_path)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -602,12 +58,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../cvsketch/src/cvsketch.cpp"
-            timestampString = "538324935.669441"
+            timestampString = "538504938.30994"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "159"
-            endingLineNumber = "159"
-            landmarkName = "vbs::cvSketch::on_trackbar_colorReduction_kMeans(int, void* _object)"
+            startingLineNumber = "673"
+            endingLineNumber = "673"
+            landmarkName = "vbs::cvSketch::search_image_color_histogram(std::string query_path, std::string dataset_path)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -618,123 +74,43 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../cvsketch/src/cvsketch.cpp"
-            timestampString = "538324935.669441"
+            timestampString = "538505603.736262"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "162"
-            endingLineNumber = "162"
-            landmarkName = "vbs::cvSketch::on_trackbar_colorReduction_kMeans(int, void* _object)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../cvsketch/src/cvsketch.cpp"
-            timestampString = "538325775.467576"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "886"
-            endingLineNumber = "886"
-            landmarkName = "vbs::cvSketch::search_image_color_segments(std::string query_path, std::string dataset_path)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../cvsketch/src/cvsketch.cpp"
-            timestampString = "538324935.669441"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "183"
-            endingLineNumber = "183"
-            landmarkName = "vbs::cvSketch::on_trackbar_colorReduction_kMeans(int, void* _object)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../cvsketch/src/cvsketch.cpp"
-            timestampString = "538324935.669441"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "272"
-            endingLineNumber = "272"
-            landmarkName = "vbs::cvSketch::test_color_segmentation(const cv::Mat&amp; _image, cv::Mat&amp; _color_segments, cv::Mat&amp; _color_labels, std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; _palette)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../cvsketch/src/cvsketch.cpp"
-            timestampString = "538324935.669441"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "190"
-            endingLineNumber = "190"
-            landmarkName = "vbs::cvSketch::on_trackbar_colorReduction_kMeans(int, void* _object)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../cvsketch/src/cvsketch.cpp"
-            timestampString = "538324935.669441"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "193"
-            endingLineNumber = "193"
-            landmarkName = "vbs::cvSketch::on_trackbar_colorReduction_kMeans(int, void* _object)"
+            startingLineNumber = "703"
+            endingLineNumber = "703"
+            landmarkName = "vbs::cvSketch::search_image_color_histogram(std::string query_path, std::string dataset_path)"
             landmarkType = "7">
             <Locations>
                <Location
                   shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "vbs::cvSketch::on_trackbar_colorReduction_kMeans(int, void*)"
+                  symbolName = "vbs::cvSketch::search_image_color_histogram(std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt;, std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt;)"
                   moduleName = "cvsketch"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/skletz/Dropbox/Programming/CUPCakes/vbssketch/cvsketch/cvsketch/src/cvsketch.cpp"
-                  timestampString = "538051124.55748"
+                  timestampString = "538505300.938391"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "190"
-                  endingLineNumber = "190"
-                  offsetFromSymbolStart = "1256">
+                  startingLineNumber = "702"
+                  endingLineNumber = "702"
+                  offsetFromSymbolStart = "8312">
                </Location>
                <Location
                   shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "vbs::cvSketch::on_trackbar_colorReduction_kMeans(int, void*)"
+                  symbolName = "vbs::cvSketch::search_image_color_histogram(std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt;, std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt;)"
                   moduleName = "cvsketch"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/skletz/Dropbox/Programming/CUPCakes/vbssketch/cvsketch/cvsketch/src/cvsketch.cpp"
-                  timestampString = "538051124.5587161"
+                  timestampString = "538505300.940942"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "190"
-                  endingLineNumber = "190"
-                  offsetFromSymbolStart = "1261">
+                  startingLineNumber = "702"
+                  endingLineNumber = "702"
+                  offsetFromSymbolStart = "8317">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -746,12 +122,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../cvsketch/src/cvsketch.cpp"
-            timestampString = "538324935.669441"
+            timestampString = "538481233.114717"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "147"
-            endingLineNumber = "147"
-            landmarkName = "vbs::cvSketch::run()"
+            startingLineNumber = "590"
+            endingLineNumber = "590"
+            landmarkName = "vbs::cvSketch::search_image_color_histogram(std::string query_path, std::string dataset_path)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -762,12 +138,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../cvsketch/src/cvsketch.cpp"
-            timestampString = "538324935.669441"
+            timestampString = "538496536.000615"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "496"
-            endingLineNumber = "496"
-            landmarkName = "vbs::cvSketch::describe_color_segmentation(const cv::Mat&amp; _image, cv::Mat&amp; _color_segments, cv::Mat&amp; _color_labels, std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; _palette, cv::Mat&amp; _descriptors)"
+            startingLineNumber = "610"
+            endingLineNumber = "610"
+            landmarkName = "vbs::cvSketch::search_image_color_histogram(std::string query_path, std::string dataset_path)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -778,12 +154,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../cvsketch/src/cvsketch.cpp"
-            timestampString = "538324935.669441"
+            timestampString = "538496536.000615"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "443"
-            endingLineNumber = "443"
-            landmarkName = "vbs::cvSketch::describe_color_segmentation(const cv::Mat&amp; _image, cv::Mat&amp; _color_segments, cv::Mat&amp; _color_labels, std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; _palette, cv::Mat&amp; _descriptors)"
+            startingLineNumber = "608"
+            endingLineNumber = "608"
+            landmarkName = "vbs::cvSketch::search_image_color_histogram(std::string query_path, std::string dataset_path)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -794,12 +170,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../cvsketch/src/cvsketch.cpp"
-            timestampString = "538324935.669441"
+            timestampString = "538498116.396644"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "441"
-            endingLineNumber = "441"
-            landmarkName = "vbs::cvSketch::describe_color_segmentation(const cv::Mat&amp; _image, cv::Mat&amp; _color_segments, cv::Mat&amp; _color_labels, std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; _palette, cv::Mat&amp; _descriptors)"
+            startingLineNumber = "629"
+            endingLineNumber = "629"
+            landmarkName = "vbs::cvSketch::search_image_color_histogram(std::string query_path, std::string dataset_path)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -810,12 +186,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../cvsketch/src/cvsketch.cpp"
-            timestampString = "538324935.669441"
+            timestampString = "538498116.396644"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "469"
-            endingLineNumber = "469"
-            landmarkName = "vbs::cvSketch::describe_color_segmentation(const cv::Mat&amp; _image, cv::Mat&amp; _color_segments, cv::Mat&amp; _color_labels, std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; _palette, cv::Mat&amp; _descriptors)"
+            startingLineNumber = "641"
+            endingLineNumber = "641"
+            landmarkName = "vbs::cvSketch::search_image_color_histogram(std::string query_path, std::string dataset_path)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -826,140 +202,636 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../cvsketch/src/cvsketch.cpp"
-            timestampString = "538324966.702599"
+            timestampString = "538505603.736262"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "128"
-            endingLineNumber = "128"
-            landmarkName = "vbs::cvSketch::run()"
+            startingLineNumber = "812"
+            endingLineNumber = "812"
+            landmarkName = "vbs::cvSketch::get_histogram(const cv::Mat&amp; _image, const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; _palette, cv::Mat&amp; _descriptor, cv::Mat&amp; _result_image)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../cvsketch/src/cvsketch.cpp"
-            timestampString = "538325769.8126481"
+            timestampString = "538505603.736262"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "635"
-            endingLineNumber = "635"
-            landmarkName = "vbs::cvSketch::get_histogram(const cv::Mat&amp; _image, const int _patchX, const int _patchY, const int _cellStepX, const int _cellStepY, const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; _palette)"
+            startingLineNumber = "817"
+            endingLineNumber = "817"
+            landmarkName = "vbs::cvSketch::get_histogram(const cv::Mat&amp; _image, const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; _palette, cv::Mat&amp; _descriptor, cv::Mat&amp; _result_image)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../cvsketch/src/cvsketch.cpp"
-            timestampString = "538325819.570737"
+            timestampString = "538498116.396644"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "644"
-            endingLineNumber = "644"
-            landmarkName = "vbs::cvSketch::get_histogram(const cv::Mat&amp; _image, const int _patchX, const int _patchY, const int _cellStepX, const int _cellStepY, const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; _palette)"
+            startingLineNumber = "621"
+            endingLineNumber = "621"
+            landmarkName = "vbs::cvSketch::search_image_color_histogram(std::string query_path, std::string dataset_path)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../cvsketch/src/cvsketch.cpp"
-            timestampString = "538325820.43381"
+            timestampString = "538498116.396644"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "646"
-            endingLineNumber = "646"
-            landmarkName = "vbs::cvSketch::get_histogram(const cv::Mat&amp; _image, const int _patchX, const int _patchY, const int _cellStepX, const int _cellStepY, const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; _palette)"
+            startingLineNumber = "624"
+            endingLineNumber = "624"
+            landmarkName = "vbs::cvSketch::search_image_color_histogram(std::string query_path, std::string dataset_path)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../cvsketch/src/cvsketch.cpp"
-            timestampString = "538325833.219981"
+            timestampString = "538505928.9673361"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "660"
-            endingLineNumber = "660"
-            landmarkName = "vbs::cvSketch::get_histograms_patch(const cv::Mat&amp; _patch, int _cellSizeX, int _cellSizeY, const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; _palette, cv::Mat&amp; _hist)"
+            startingLineNumber = "1392"
+            endingLineNumber = "1392"
+            landmarkName = "vbs::cvSketch::show_image_BGR(const cv::Mat&amp; image, std::string winname, int x, int y)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../cvsketch/src/cvsketch.cpp"
-            timestampString = "538325938.254782"
+            timestampString = "538505928.9673361"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "692"
-            endingLineNumber = "692"
-            landmarkName = "vbs::cvSketch::get_histogram_cell(const cv::Mat&amp; _cell, const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; _palette, cv::Mat&amp; _hist)"
+            startingLineNumber = "1397"
+            endingLineNumber = "1397"
+            landmarkName = "vbs::cvSketch::show_image_BGR(const cv::Mat&amp; image, std::string winname, int x, int y)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../cvsketch/src/cvsketch.cpp"
-            timestampString = "538326156.174409"
+            timestampString = "538505928.9673361"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "666"
-            endingLineNumber = "666"
-            landmarkName = "vbs::cvSketch::get_histograms_patch(const cv::Mat&amp; _patch, int _cellSizeX, int _cellSizeY, const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; _palette, cv::Mat&amp; _hist)"
+            startingLineNumber = "1398"
+            endingLineNumber = "1398"
+            landmarkName = "vbs::cvSketch::show_image_BGR(const cv::Mat&amp; image, std::string winname, int x, int y)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../cvsketch/src/cvsketch.cpp"
-            timestampString = "538326181.522119"
+            timestampString = "538498116.396644"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "697"
-            endingLineNumber = "697"
-            landmarkName = "vbs::cvSketch::get_histogram_cell(const cv::Mat&amp; _cell, const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; _palette, cv::Mat&amp; _hist)"
+            startingLineNumber = "656"
+            endingLineNumber = "656"
+            landmarkName = "vbs::cvSketch::search_image_color_histogram(std::string query_path, std::string dataset_path)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../cvsketch/src/cvsketch.cpp"
-            timestampString = "538326219.317453"
+            timestampString = "538502814.477523"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "714"
-            endingLineNumber = "714"
-            landmarkName = "vbs::cvSketch::get_histogram_cell(const cv::Mat&amp; _cell, const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; _palette, cv::Mat&amp; _hist)"
+            startingLineNumber = "664"
+            endingLineNumber = "664"
+            landmarkName = "vbs::cvSketch::search_image_color_histogram(std::string query_path, std::string dataset_path)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../cvsketch/src/cvsketch.cpp"
+            timestampString = "538505603.736262"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "880"
+            endingLineNumber = "880"
+            landmarkName = "vbs::cvSketch::get_histograms_patch(const cv::Mat&amp; _patch, int posX, int posY, int _cellSizeX, int _cellSizeY, const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; _palette, cv::Mat&amp; _hist, cv::Mat&amp; _intermim_result, cv::Mat&amp; _result_image)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../cvsketch/src/cvsketch.cpp"
+            timestampString = "538505603.736262"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "888"
+            endingLineNumber = "888"
+            landmarkName = "vbs::cvSketch::get_histograms_patch(const cv::Mat&amp; _patch, int posX, int posY, int _cellSizeX, int _cellSizeY, const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; _palette, cv::Mat&amp; _hist, cv::Mat&amp; _intermim_result, cv::Mat&amp; _result_image)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../cvsketch/src/cvsketch.cpp"
+            timestampString = "538505603.736262"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "911"
+            endingLineNumber = "911"
+            landmarkName = "vbs::cvSketch::get_histograms_patch(const cv::Mat&amp; _patch, int posX, int posY, int _cellSizeX, int _cellSizeY, const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; _palette, cv::Mat&amp; _hist, cv::Mat&amp; _intermim_result, cv::Mat&amp; _result_image)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../cvsketch/src/cvsketch.cpp"
+            timestampString = "538498116.396644"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "661"
+            endingLineNumber = "661"
+            landmarkName = "vbs::cvSketch::search_image_color_histogram(std::string query_path, std::string dataset_path)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../cvsketch/src/cvsketch.cpp"
+            timestampString = "538498116.396644"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "658"
+            endingLineNumber = "658"
+            landmarkName = "vbs::cvSketch::search_image_color_histogram(std::string query_path, std::string dataset_path)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../cvsketch/src/cvsketch.cpp"
+            timestampString = "538498116.396644"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "659"
+            endingLineNumber = "659"
+            landmarkName = "vbs::cvSketch::search_image_color_histogram(std::string query_path, std::string dataset_path)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../cvsketch/src/cvsketch.cpp"
+            timestampString = "538505603.736262"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "867"
+            endingLineNumber = "867"
+            landmarkName = "vbs::cvSketch::get_histograms_patch(const cv::Mat&amp; _patch, int posX, int posY, int _cellSizeX, int _cellSizeY, const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; _palette, cv::Mat&amp; _hist, cv::Mat&amp; _intermim_result, cv::Mat&amp; _result_image)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../cvsketch/src/cvsketch.cpp"
+            timestampString = "538505603.736262"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "900"
+            endingLineNumber = "900"
+            landmarkName = "vbs::cvSketch::get_histograms_patch(const cv::Mat&amp; _patch, int posX, int posY, int _cellSizeX, int _cellSizeY, const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; _palette, cv::Mat&amp; _hist, cv::Mat&amp; _intermim_result, cv::Mat&amp; _result_image)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../cvsketch/src/cvsketch.cpp"
+            timestampString = "538505603.736262"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "907"
+            endingLineNumber = "907"
+            landmarkName = "vbs::cvSketch::get_histograms_patch(const cv::Mat&amp; _patch, int posX, int posY, int _cellSizeX, int _cellSizeY, const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; _palette, cv::Mat&amp; _hist, cv::Mat&amp; _intermim_result, cv::Mat&amp; _result_image)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../cvsketch/src/cvsketch.cpp"
+            timestampString = "538505603.736262"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "805"
+            endingLineNumber = "805"
+            landmarkName = "vbs::cvSketch::get_histogram(const cv::Mat&amp; _image, const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; _palette, cv::Mat&amp; _descriptor, cv::Mat&amp; _result_image)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../cvsketch/src/cvsketch.cpp"
+            timestampString = "538505603.736262"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "914"
+            endingLineNumber = "914"
+            landmarkName = "vbs::cvSketch::get_histograms_patch(const cv::Mat&amp; _patch, int posX, int posY, int _cellSizeX, int _cellSizeY, const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; _palette, cv::Mat&amp; _hist, cv::Mat&amp; _intermim_result, cv::Mat&amp; _result_image)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../cvsketch/src/cvsketch.cpp"
+            timestampString = "538505603.736262"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "874"
+            endingLineNumber = "874"
+            landmarkName = "vbs::cvSketch::get_histograms_patch(const cv::Mat&amp; _patch, int posX, int posY, int _cellSizeX, int _cellSizeY, const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; _palette, cv::Mat&amp; _hist, cv::Mat&amp; _intermim_result, cv::Mat&amp; _result_image)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../cvsketch/src/cvsketch.cpp"
+            timestampString = "538505603.736262"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "833"
+            endingLineNumber = "833"
+            landmarkName = "vbs::cvSketch::get_histogram(const cv::Mat&amp; _image, const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; _palette, cv::Mat&amp; _descriptor, cv::Mat&amp; _result_image)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../cvsketch/src/cvsketch.cpp"
+            timestampString = "538505603.736262"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "871"
+            endingLineNumber = "871"
+            landmarkName = "vbs::cvSketch::get_histograms_patch(const cv::Mat&amp; _patch, int posX, int posY, int _cellSizeX, int _cellSizeY, const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; _palette, cv::Mat&amp; _hist, cv::Mat&amp; _intermim_result, cv::Mat&amp; _result_image)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../cvsketch/src/cvsketch.cpp"
+            timestampString = "538505603.736262"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "831"
+            endingLineNumber = "831"
+            landmarkName = "vbs::cvSketch::get_histogram(const cv::Mat&amp; _image, const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; _palette, cv::Mat&amp; _descriptor, cv::Mat&amp; _result_image)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../cvsketch/src/cvsketch.cpp"
+            timestampString = "538505603.736262"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "835"
+            endingLineNumber = "835"
+            landmarkName = "vbs::cvSketch::get_histogram(const cv::Mat&amp; _image, const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; _palette, cv::Mat&amp; _descriptor, cv::Mat&amp; _result_image)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../cvsketch/src/cvsketch.cpp"
+            timestampString = "538505603.736262"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "842"
+            endingLineNumber = "842"
+            landmarkName = "vbs::cvSketch::get_histogram(const cv::Mat&amp; _image, const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; _palette, cv::Mat&amp; _descriptor, cv::Mat&amp; _result_image)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../cvsketch/src/cvsketch.cpp"
+            timestampString = "538505603.736262"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "851"
+            endingLineNumber = "851"
+            landmarkName = "vbs::cvSketch::get_histogram(const cv::Mat&amp; _image, const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; _palette, cv::Mat&amp; _descriptor, cv::Mat&amp; _result_image)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../cvsketch/src/cvsketch.cpp"
+            timestampString = "538505603.736262"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "879"
+            endingLineNumber = "879"
+            landmarkName = "vbs::cvSketch::get_histograms_patch(const cv::Mat&amp; _patch, int posX, int posY, int _cellSizeX, int _cellSizeY, const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; _palette, cv::Mat&amp; _hist, cv::Mat&amp; _intermim_result, cv::Mat&amp; _result_image)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../cvsketch/src/cvsketch.cpp"
+            timestampString = "538505603.736262"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "915"
+            endingLineNumber = "915"
+            landmarkName = "vbs::cvSketch::get_histograms_patch(const cv::Mat&amp; _patch, int posX, int posY, int _cellSizeX, int _cellSizeY, const std::vector&lt;std::pair&lt;cv::Vec3b, float&gt;&gt;&amp; _palette, cv::Mat&amp; _hist, cv::Mat&amp; _intermim_result, cv::Mat&amp; _result_image)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../cvsketch/src/cvsketch.cpp"
+            timestampString = "538504938.30994"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "675"
+            endingLineNumber = "675"
+            landmarkName = "vbs::cvSketch::search_image_color_histogram(std::string query_path, std::string dataset_path)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../cvsketch/src/cvsketch.cpp"
+            timestampString = "538505176.312236"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "699"
+            endingLineNumber = "699"
+            landmarkName = "vbs::cvSketch::search_image_color_histogram(std::string query_path, std::string dataset_path)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../cvsketch/src/cvsketch.cpp"
+            timestampString = "538504938.30994"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "683"
+            endingLineNumber = "683"
+            landmarkName = "vbs::cvSketch::search_image_color_histogram(std::string query_path, std::string dataset_path)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../cvsketch/src/cvsketch.cpp"
+            timestampString = "538504938.30994"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "691"
+            endingLineNumber = "691"
+            landmarkName = "vbs::cvSketch::search_image_color_histogram(std::string query_path, std::string dataset_path)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../cvsketch/src/cvsketch.cpp"
+            timestampString = "538505603.736262"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "713"
+            endingLineNumber = "713"
+            landmarkName = "vbs::cvSketch::search_image_color_histogram(std::string query_path, std::string dataset_path)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../cvsketch/src/cvsketch.cpp"
+            timestampString = "538505603.736262"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "712"
+            endingLineNumber = "712"
+            landmarkName = "vbs::cvSketch::search_image_color_histogram(std::string query_path, std::string dataset_path)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../cvsketch/src/cvsketch.cpp"
+            timestampString = "538505193.562862"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "688"
+            endingLineNumber = "688"
+            landmarkName = "vbs::cvSketch::search_image_color_histogram(std::string query_path, std::string dataset_path)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../cvsketch/src/cvsketch.cpp"
+            timestampString = "538505209.072996"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "695"
+            endingLineNumber = "695"
+            landmarkName = "vbs::cvSketch::search_image_color_histogram(std::string query_path, std::string dataset_path)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../cvsketch/src/cvsketch.cpp"
+            timestampString = "538505275.467872"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "700"
+            endingLineNumber = "700"
+            landmarkName = "vbs::cvSketch::search_image_color_histogram(std::string query_path, std::string dataset_path)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../cvsketch/src/cvsketch.cpp"
+            timestampString = "538505386.096627"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "698"
+            endingLineNumber = "698"
+            landmarkName = "vbs::cvSketch::search_image_color_histogram(std::string query_path, std::string dataset_path)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../cvsketch/src/cvsketch.cpp"
+            timestampString = "538505603.736262"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "709"
+            endingLineNumber = "709"
+            landmarkName = "vbs::cvSketch::search_image_color_histogram(std::string query_path, std::string dataset_path)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

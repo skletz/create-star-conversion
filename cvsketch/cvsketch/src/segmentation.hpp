@@ -47,8 +47,10 @@ namespace vbs
 		std::make_pair(cv::Vec3b(255,255,255),1), //white
 	};
 
-	static std::vector<std::pair<cv::Vec3b, float>> default_palette_sorted_rgb = {
-		std::make_pair(cv::Vec3b(254,39,18),1), //red
+    static std::vector<std::pair<cv::Vec3b, float>> default_palette_sorted_rgb = {
+		std::make_pair(cv::Vec3b(110,73,49),1), //brown
+        std::make_pair(cv::Vec3b(173,131,104),1), //light_brown
+        std::make_pair(cv::Vec3b(254,39,18),1), //red
 		std::make_pair(cv::Vec3b(253,83,8),1), //dark_orange
 		std::make_pair(cv::Vec3b(251,153,2),1), //orange
 		std::make_pair(cv::Vec3b(250,188,2),1), //light_orange
@@ -56,10 +58,15 @@ namespace vbs
 
 		std::make_pair(cv::Vec3b(208,234,43),1), //ligh_green
 		std::make_pair(cv::Vec3b(102,176,50),1), //green
+        //std::make_pair(cv::Vec3b(42,120,0),1), //dark_green
+        std::make_pair(cv::Vec3b(0,161,160),1), //türkis
 		std::make_pair(cv::Vec3b(3,145,206),1), //light_blue
+        //std::make_pair(cv::Vec3b(142,183,208),1), //light_light_blue
+        //std::make_pair(cv::Vec3b(0,219,219),1), //light_türkis
 		std::make_pair(cv::Vec3b(2,71,254),1), //blue
 		std::make_pair(cv::Vec3b(61,1,164),1), //dark_blue
 		std::make_pair(cv::Vec3b(134,1,175),1), //violett
+        //std::make_pair(cv::Vec3b(230,200,189),1), //rose
 		std::make_pair(cv::Vec3b(167,25,75),1), //purpel
 		std::make_pair(cv::Vec3b(0,0,0),1), //black
 		std::make_pair(cv::Vec3b(64,64,64),1), //dark_gray

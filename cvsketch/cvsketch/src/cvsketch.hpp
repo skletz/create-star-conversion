@@ -87,7 +87,7 @@ namespace vbs {
         int pad_top = 250;
         int pad_left = 50;
         int nr_input_images = 50;
-        int top_kresults = 50;
+        int top_kresults = 30;
 
         vbs::Segmentation* segmentation;
 		SettingsKmeansCluster* set_kmeans;
@@ -142,9 +142,9 @@ namespace vbs {
          */
         void search_image_color_histogram(std::string query_path, std::string dataset_path);
         
-        void get_histogram(const cv::Mat& _image, const int _patchX, const int _patchY, const int _cellStepX, const int _cellStepY, const std::vector<std::pair<cv::Vec3b, float>>& _palette);
+        void get_histogram(const cv::Mat& _image, const std::vector<std::pair<cv::Vec3b, float>>& _palette, cv::Mat& _descriptor, cv::Mat& _result_image);
         
-        void get_histograms_patch(const cv::Mat& _patch, int _cellSizeX, int _cellSizeY, const std::vector<std::pair<cv::Vec3b, float>>& _palette, cv::Mat& _hist);
+        void get_histograms_patch(const cv::Mat& _patch, int posX, int posY, int _cellSizeX, int _cellSizeY, const std::vector<std::pair<cv::Vec3b, float>>& _palette, cv::Mat& _hist, cv::Mat& _intermim_result, cv::Mat& _result_image);
         
         void get_histogram_cell(const cv::Mat& _cell, const std::vector<std::pair<cv::Vec3b, float>>& _palette, cv::Mat& _hist);
         
@@ -188,7 +188,11 @@ namespace vbs {
 
         void show_image(const cv::Mat& image, std::string winname, int x = -1, int y = -1);
 
+        void show_image_BGR(const cv::Mat& image, std::string winname, int x = -1, int y = -1);
+
         void process_image(const cv::Mat& image, int width, int height, int colors, cv::Mat& image_withbarchart, std::vector<std::pair<cv::Vec3b, int>>& sorted_colorpalette, cv::Mat& _descriptors);
+        
+        void process_image_hist(const cv::Mat& _image, int _maxwidth, int _maxheight, std::vector<std::pair<cv::Vec3b, float>>& _palette, cv::Mat& _reduced, cv::Mat& _algovis, cv::Mat& _descriptors);
 
         
         //@TODO change
@@ -205,7 +209,7 @@ namespace vbs {
 		*              depending on the value of total number of images).
 		* @return new composite image.
 		*/
-		cv::Mat make_canvas(std::vector<cv::Mat>& vecMat, int windowHeight, int nRows);
+		cv::Mat make_canvas(std::vector<cv::Mat>& vecMat, int windowHeight, int nRows, cv::Scalar _bg);
 
 		bool store_image(std::string originalfile, std::string append, std::string extension, cv::Mat& image);
 

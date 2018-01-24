@@ -122,6 +122,8 @@ void vbs::cvSketch::run()
 {
 	if (verbose)
 		std::cout << "Run cvSketch ..." << std::endl;
+    
+    std::cout.setstate(std::ios::failbit) ;
 
 	//cv::Mat image = cv::imread(in_query, IMREAD_COLOR);
 	//cv::Mat reduced;
@@ -570,129 +572,352 @@ void vbs::cvSketch::search_image_color_histogram(std::string query_path, std::st
     }
     
     path query(query_path);
-    cv::Mat query_image = cv::imread(query.string(), IMREAD_COLOR);
+    cv::Mat query_image = cv::imread(query.string(), IMREAD_UNCHANGED); //To read transparent png's
 
-    int max_width = 640, max_height = 480; //int max_width = 720, max_height = 480;
-    int width = 0, height = 0;
+    std::string image_type = "";
+    if(query_image.type() == 24)
+    {
+        image_type = "CV_8UC4";
+    }else if(query_image.type() == 16)
+    {
+        image_type = "CV_8UC3";
+    }else{
+        image_type = "Unknown";
+    }
+    
+    std::cout << "Read query image; Channels: " << query_image.channels() << "; Type: " << image_type << " " << std::endl;
+
+    int max_width = 320, max_height = 240;
     std::string orientation = "";
-    cv::Mat q_reduced;
-    int bar_width = 0;
-    if (query_image.rows > query_image.cols)
-    {
-        width = max_height;
-        height = max_width;
-        orientation = "Portrait";
-        cv::resize(query_image, q_reduced, cv::Size(max_height, max_width));
+
+    
+    cv::destroyAllWindows();
+    std::string winnameQuery = "Query Image: " + query.filename().string();
+    std::string winnameBasicColors= "Default Color Chart";
+    cv::namedWindow(winnameQuery, WINDOW_NORMAL);
+    cv::namedWindow(winnameBasicColors, WINDOW_NORMAL);
+    
+    cv::Mat r_query_image, q_vis_algo, q_descriptor, basic_colorchart, q_dispaly;
+
+    std::vector<std::pair<cv::Vec3b, float>> basic_colors;
+    this->segmentation->get_default_palette_lab(basic_colors);
+    
+    int numberOfColors = int(basic_colors.size());
+
+    process_image_hist(query_image, max_width, max_height, basic_colors, r_query_image, q_vis_algo, q_descriptor);
+    get_colorchart(basic_colors, basic_colorchart, r_query_image.cols, 50, (r_query_image.cols * r_query_image.rows));
+    
+    std::cout << "Descriptor Size: " << q_descriptor.cols << "x" << q_descriptor.rows << std::endl;
+    std::cout << q_descriptor << std::endl;
+
+    cv::cvtColor(r_query_image, r_query_image, CV_BGRA2BGR);
+    cv::cvtColor(q_vis_algo, q_vis_algo, CV_BGRA2BGR);
+    
+    std::cout << "Channels: r_query_image: " << r_query_image.channels() << std::endl;
+    std::cout << "Channels: q_vis_algo: " << q_vis_algo.channels() << std::endl;
+    cv::cvtColor(q_vis_algo, q_vis_algo, CV_BGRA2BGR);
+    
+    //set the visualization left to the query image
+    cv::hconcat(r_query_image, q_vis_algo, q_dispaly);
+
+
+    show_image_BGR(q_vis_algo, "Algo", 25, 50);
+    show_image_BGR(r_query_image, winnameQuery, 25, 50);
+    show_image(basic_colorchart, winnameBasicColors, 25, q_dispaly.rows + 80);
+    //cv::waitKey(0);
+    
+    std::vector<Match> matches;
+    int max_files = 0;
+    if (nr_input_images == -1) {
+        max_files = int(files.size());
     }
-    else if(query_image.rows < query_image.cols)
+    else {
+        max_files = nr_input_images;
+    }
+
+    cv::Mat image, r_image, r_image2, descriptor, descriptor2, vis_algo, vis_algo2, display_result;
+    for (int i = 0; i < max_files; i++)
     {
-        width = max_width;
-        height = max_height;
-        orientation = "Landscape";
-        cv::resize(query_image, q_reduced, cv::Size(max_width, max_height));
-    }else
-    {
-        width = max_height;
-        height = max_height;
-        orientation = "Quadratic";
-        cv::resize(query_image, q_reduced, cv::Size(max_height, max_height));
+        path db(files.at(i));
+        
+        image = cv::imread(files.at(i), IMREAD_COLOR);
+
+//        if(query.filename().string() == db.filename().string())
+//        {
+//            std::cout << "DB Image is the Query image at position: " << i << std::endl;
+//            std::cout << "====================================" << i << std::endl;
+//            //show_image(image, "Debug Input");
+//            std::cout << "Query Descriptor Bevore: " << q_descriptor << std::endl;
+//            
+//            r_query_image.release();
+//            q_vis_algo.release();
+//            q_descriptor.release();
+//            
+//            process_image_hist(image, max_width, max_height, basic_colors, r_query_image, q_vis_algo, q_descriptor);
+//            //cv::imshow("Debug Input Image", image);
+//            std::cout << "Query Descriptor After: " << q_descriptor << std::endl;
+//        }
+        
+        process_image_hist(image, max_width, max_height, basic_colors, r_image, vis_algo, descriptor);
+        //std::cout << "DB Descriptor: " << descriptor << std::endl;
+
+        cv::cvtColor(vis_algo, vis_algo, CV_BGRA2BGR);
+        cv::hconcat(r_image, vis_algo, display_result);
+
+        double dist = 0;
+        
+        if(q_descriptor.cols == descriptor.cols && q_descriptor.rows == descriptor.rows){
+            cv::Mat mask;
+            double debug_dist = 0;
+            debug_dist = cv::norm(q_descriptor, descriptor, NORM_L2);
+
+            double tmp_dist = 0;
+            //165 rows x 16 cols
+            for(int iRow = 0; iRow < q_descriptor.rows; iRow++)
+            {
+                cv::Mat row = q_descriptor.row(iRow);
+                Scalar sum = cv::sum(row);
+                
+                if(sum[0] > 0)
+                {
+                    for(int iCol = 0; iCol < q_descriptor.cols; iCol++)
+                    {
+                        float q1 = q_descriptor.at<float>(iRow,iCol);
+                        float q2 = descriptor.at<float>(iRow,iCol);
+                        float diff = q1 - q2;
+                        tmp_dist += std::pow(diff, 2);
+                    }
+                }else{
+                    std::cout << "Skip transparent Hist: " << iRow << std::endl;
+                }
+                
+                
+                dist += std::sqrt(tmp_dist);
+            }
+            
+            dist = std::sqrt(tmp_dist);
+            
+            std::cout << "DEBUG Dist: " << debug_dist << std::endl;
+            std::cout << "Dist: " << dist << std::endl;
+        }else{
+            dist = std::numeric_limits<double>::max();
+        }
+        
+//        int const h = 3;
+//        float test = float(h) + 2;
+
+        stringstream stream;
+        stream << fixed << setprecision(2) << dist;
+        string s = stream.str();
+        
+        cv::putText(display_result, s, cvPoint(30, 30), cv::FONT_HERSHEY_COMPLEX_SMALL, 2.0, cv::Scalar(0, 0, 255), 1, CV_AA);
+
+        Match match;
+        match.path = files.at(i);
+        match.dist = (dist);
+        display_result.copyTo(match.image);
+        matches.push_back(match);
+
+        image.release();
+        r_image.release();
+        descriptor.release();
+        vis_algo.release();
+        display_result.release();
+        
     }
     
-    std::cout << "Image: "<< orientation <<  "..." << std::endl;
-    std::cout << "Image: Convert colors to LAB ..." << std::endl;
-    //cv::cvtColor(q_reduced, q_reduced, cv::COLOR_BGR2Lab);
+    std::sort(matches.begin(), matches.end(), compareMatchesByDist);
     
-    int const patchSizeX = 80;
-    int const patchSizeY = 80;
+    std::vector<cv::Mat> images;
     
-    int const cellSizeX = 40;
-    int const cellSizeY = 40;
-
-    int patchStepX = 40;
-    int patchStepY = 40;
+    int max_results = 0;
+    if (top_kresults == -1) {
+        max_results = max_files;
+    }
+    else {
+        max_results = top_kresults;
+    }
     
-    log("# image size: (w=%d,h=%d)", width, height);
-    log("# patch size: (w=%d,h=%d)", patchSizeX, patchSizeY);
-    log("# step size: (x=%d,y=%d)", patchStepX, patchStepY);
-    log("# cell size: (w=%d,h=%d)", cellSizeX, cellSizeY);
-
-	std::vector<std::pair<cv::Vec3b, float>> basic_colors;
-	this->segmentation->get_default_palette_lab(basic_colors);
-
-	cv::Mat colorchart;
-	get_colorchart(basic_colors, colorchart, width, 50, (width*height));
-
-	show_image(colorchart, "Default Color Chart");
-	//cv::waitKey(0);
-
-    get_histogram(q_reduced, patchSizeX, patchSizeX, cellSizeX, cellSizeY, basic_colors);
+    for (int i = 0; i < top_kresults; i++)
+    {
+        images.push_back(matches.at(i).image);
+    }
+    
+    t = (double(cv::getTickCount()) - t) / cv::getTickFrequency();
+    printf("Searching took %i ms %3ix%3i px resoultion; %i colos; %i files \n", int(t * 1000), max_width, max_height, numberOfColors, int(files.size()));
+    printf("Searching took %i ms per file \n", int(float(t * 1000) / float(files.size())));
+    
+    
+    cv::Mat results = make_canvas(images, 700, 7, cv::Scalar(0, 0, 0));
+    std::string winnameResults = "Retrieval Results Top: " + std::to_string(top_kresults) + " of " + std::to_string(files.size());
+    cv::namedWindow(winnameResults);
+    show_image_BGR(results, winnameResults, (q_dispaly.cols * 2) + 25, 50);
+   
+    std::cout << "Min Distance: " << matches.front().dist;
+    std::cout << "Max Distance: " << matches.back().dist;
+    
+    cv::waitKey(0);
+    
+    
     
 }
 
-void vbs::cvSketch::get_histogram(const cv::Mat& _image, const int _patchX, const int _patchY, const int _cellStepX, const int _cellStepY, const std::vector<std::pair<cv::Vec3b, float>>& _palette)
+void vbs::cvSketch::get_histogram(const cv::Mat& _image, const std::vector<std::pair<cv::Vec3b, float>>& _palette, cv::Mat& _descriptor, cv::Mat& _result_image)
 {
-    int patchStepX = _cellStepX;
-    int patchStepY = _cellStepY;
-    int maxX = _image.cols;
-    int maxY = _image.rows;
+    if(verbose)
+        std::cout << "Image Type: " << _image.type() << std::endl;
+        std::cout << "Image Channels: " << _image.channels() << std::endl;
     
-	int dim = int(_palette.size()) * (_patchX / float(_cellStepX) * _patchY / float(_cellStepY));
-
-	int tmp = (_image.cols / float(_cellStepX) * (_image.rows / float(_cellStepY)));
-
-    int hist_dim = dim * tmp;
+    int patchSizeX = 40;
+    int patchSizeY = 40;
     
-    cv::Mat descriptor;
-    cv::Mat patch(maxY, maxX, CV_8UC3);
-    for (int iPatchx = 0; iPatchx < maxX; iPatchx = iPatchx + patchStepX)
+    int cellSizeX = 20;
+    int cellSizeY = 20;
+    
+    int patchStepX = 20;
+    int patchStepY = 20;
+    
+    int width = _image.cols;
+    int height = _image.rows;
+    
+//    log("# image size: (w=%d,h=%d)", width, height);
+//    log("# patch size: (w=%d,h=%d)", patchSizeX, patchSizeY);
+//    log("# step size: (x=%d,y=%d)", patchStepX, patchStepY);
+//    log("# cell size: (w=%d,h=%d)", cellSizeX, cellSizeY);
+    
+//    int patchStepX = _cellStepX;
+//    int patchStepY = _cellStepY;
+//    
+//	int dim = int(_palette.size()) * (_patchX / float(_cellStepX) * _patchY / float(_cellStepY));
+//
+//	int tmp = (_image.cols / float(_cellStepX) * (_image.rows / float(_cellStepY)));
+//
+//    int hist_dim = dim * tmp;
+//    
+    
+    int numColors = int(_palette.size());
+    //4 cells per patch, one hist for 4 cells, patches are overlapped
+    //4 cells = 1 patch = 16 dims per patch
+    int numHistsX = (width / float(patchSizeX) * 2) - 1; //overlapping - last col not
+    int numHistsY = (height / float(patchSizeY) * 2) - 1; //overlapping - last row not
+    int hist_dim = numColors * numHistsX * numHistsY;
+    
+    cv::Mat descriptor, patch, intermim_result, algorithm_result;
+     _image.copyTo(intermim_result);
+    
+    
+    //process transparency
+    if(_image.channels() == 4)
     {
-        for (int iPatchy = 0; iPatchy < maxY; iPatchy = iPatchy + patchStepY)
+        patch = cv::Mat::zeros(patchSizeY, patchSizeX, CV_8UC4);
+        algorithm_result = cv::Mat::zeros(height, width, CV_8UC4);
+    }
+    else
+    {
+        patch = cv::Mat::zeros(patchSizeY, patchSizeX, CV_8UC3);
+        algorithm_result = cv::Mat::zeros(height, width, CV_8UC3);
+    }
+                     
+    descriptor = cv::Mat::zeros(1, hist_dim, CV_32F);
+
+    for (int iPatchx = 0; iPatchx < width - patchStepX; iPatchx = iPatchx + patchStepX)
+    {
+        for (int iPatchy = 0; iPatchy < height - patchStepY; iPatchy = iPatchy + patchStepY)
         {
-            cv::Mat subhist(1, hist_dim, CV_32F);
-            cv::Rect mask = cv::Rect(iPatchx, iPatchy, patchStepX, patchStepY);
+            cv::Mat subhist(1, numColors, CV_32F);
+            cv::Rect mask = cv::Rect(iPatchx, iPatchy, patchSizeX, patchSizeY);
 			_image(mask).copyTo(patch);
-            get_histograms_patch(patch, _cellStepX, _cellStepY, _palette, subhist);
+            
+            cv::rectangle(intermim_result, mask.tl(), mask.br(), cvScalar(0,0,0), 2);
+
+            get_histograms_patch(patch, iPatchx, iPatchy, cellSizeX, cellSizeY, _palette, subhist, intermim_result, algorithm_result);
+
             if (iPatchx == 0 && iPatchy == 0)
                 descriptor = subhist;
             else
-                cv::hconcat(subhist, descriptor, descriptor);
-            
+                cv::vconcat(subhist, descriptor, descriptor);
         }
     }
+    
+    cv::Mat norm_descriptor;
+    cv::normalize(descriptor, norm_descriptor, 1, 0, NORM_L2, -1);
+ 
+//    if(display){
+//        show_image_BGR(intermim_result, "Visualize Algorithm", 0, 150);
+//        cv::waitKey(0);
+//    }
+
+    norm_descriptor.copyTo(_descriptor);
+    algorithm_result.copyTo(_result_image);
+
 }
 
-void vbs::cvSketch::get_histograms_patch(const cv::Mat& _patch, int _cellSizeX, int _cellSizeY, const std::vector<std::pair<cv::Vec3b, float>>& _palette, cv::Mat& _hist)
+void vbs::cvSketch::get_histograms_patch(const cv::Mat& _patch, int posX, int posY, int _cellSizeX, int _cellSizeY, const std::vector<std::pair<cv::Vec3b, float>>& _palette, cv::Mat& _hist, cv::Mat& _intermim_result, cv::Mat& _result_image)
 {
-    int cellStepX = float(_cellSizeX) / float(2);
-    int cellStepY = float(_cellSizeY) / float(2);
+    cv::Mat algorithm_result;
+    _result_image.copyTo(algorithm_result);
     
-    int dim = int(_palette.size()) * (_patch.cols / float(cellStepX) * _patch.rows / float(cellStepY));
+    int cellStepX = _cellSizeX;
+    int cellStepY = _cellSizeY;
     
-    cv::Mat gridCell, hist(1, dim, CV_32F), subhist;
+    //int dim = int(_palette.size()) * (_patch.cols / float(cellStepX) * _patch.rows / float(cellStepY));
+    int dim = int(_palette.size());
+    cv::Mat gridCell, subhist, hist;
+    hist = cv::Mat::zeros(1, dim, CV_32F);
     for (int iCellx = 0; iCellx < _patch.cols; iCellx = iCellx + cellStepX)
     {
         for (int iCelly = 0; iCelly < _patch.rows; iCelly = iCelly + cellStepY)
         {
             cv::Rect mask = cv::Rect(iCellx, iCelly, cellStepX, cellStepY);
             _patch(mask).copyTo(gridCell);
-            get_histogram_cell(gridCell, _palette, subhist);
+
+            cv::rectangle(_intermim_result, cv::Point(mask.tl().x + posX, mask.tl().y + posY), cv::Point(mask.br().x + posX, mask.br().y + posY), cvScalar(255,255,255), 1);
+
+//            show_image_BGR(_intermim_result, "Result");
+//            cv::waitKey(0);
             
-            if (iCellx == 0 && iCelly == 0)
-                hist = subhist;
-            else
-                cv::hconcat(subhist, hist, hist);
+            get_histogram_cell(gridCell, _palette, subhist);
+
+//
+//            if (iCellx == 0 && iCelly == 0)
+//                hist = subhist;
+//            else
+//                cv::hconcat(subhist, hist, hist);
+//            
+//            
+            hist = hist + subhist;
+            
+
+            double minVal;
+            double maxVal;
+            Point minLoc;
+            Point maxLoc;
+            minMaxLoc( subhist, &minVal, &maxVal, &minLoc, &maxLoc );
+
+            cv::Scalar dominant_color = _palette.at(maxLoc.x).first;
+            dominant_color = vbs::Segmentation::ScalarLAB2BGR(dominant_color[0], dominant_color[1], dominant_color[2]);
+            
+            if((minVal == 0) && (maxVal == 0)){
+                dominant_color[0] = 0;
+                dominant_color[1] = 0;
+                dominant_color[2] = 0;
+                dominant_color[3] = 255;
+            }
+
+            cv::rectangle(algorithm_result, cv::Point(mask.tl().x + posX, mask.tl().y + posY), cv::Point(mask.br().x + posX, mask.br().y + posY), dominant_color, CV_FILLED);
+            cv::rectangle(algorithm_result, cv::Point(mask.tl().x + posX, mask.tl().y + posY), cv::Point(mask.br().x + posX, mask.br().y + posY), cvScalar(255,255,255,255), 1);
+
         }
         subhist.release();
     }
-    
-    
-    //cv::normalize(hist, hist, cv::NORM_L2);
+
     hist.copyTo(_hist);
+    algorithm_result.copyTo(_result_image);
 }
 
 void vbs::cvSketch::get_histogram_cell(const cv::Mat& _cell, const std::vector<std::pair<cv::Vec3b, float>>& _palette, cv::Mat& _hist)
 {
-    int dim = int(_palette.size()); //16 in case of basic colors plus black, white, and two grayscales
+    int dim = int(_palette.size());
     
     cv::Mat hist = cv::Mat::zeros(1, dim, CV_32F);
     
@@ -700,23 +925,35 @@ void vbs::cvSketch::get_histogram_cell(const cv::Mat& _cell, const std::vector<s
     {
         for (int iRow = 0; iRow < _cell.rows; iRow++)
         {
-
-            cv::Scalar pixel_bgra = _cell.at<cv::Vec3b>(iCol, iRow);
-
+//
+            cv::Scalar pixel_bgra = _cell.at<cv::Vec4b>(iCol, iRow);
+//
 			cv::Scalar pixel_lab = vbs::Segmentation::ScalarBGR2LAB(pixel_bgra[0], pixel_bgra[1], pixel_bgra[2]);
-
-            cv::Vec3b c1 = cv::Vec3b(pixel_lab[0], pixel_lab[1], pixel_lab[2]);
-            
-            int min_idx = dim;
+//
+            cv::Vec4b c1 = cv::Vec4b(pixel_lab[0], pixel_lab[1], pixel_lab[2], pixel_lab[3]);
+//            
+            if(_cell.channels() == 4 && pixel_bgra[3] == 0)
+            {
+                std::cout << "Transparenz: " << pixel_bgra << std::endl;
+                continue;
+            }else
+            {
+                //std::cout << "Color: " << pixel_bgra << std::endl;
+            }
+//
+            int min_idx = int(_palette.size() - 1);
             double min_dist = std::numeric_limits<double>::max();
             for(int iColor = 0; iColor < _palette.size(); iColor++)
             {
+                //std::cout << "Palette: " << _palette.at(iColor).first << std::endl;
+                
                 cv::Vec3b c2 = _palette.at(iColor).first;
                 
                 double l = (c1[0] - c2[0]);
                 double a = (c1[1] - c2[1]);
                 double b = (c1[2] - c2[2]);
-                double tmp_dist = (std::pow(a, 2) + std::pow(b, 2));
+                double tmp_dist = (0.90 * std::pow(l, 2) + 0.20 * std::pow(a, 2) + 0.20 * std::pow(b, 2));
+                //double tmp_dist = (std::pow(l, 2) + std::pow(a, 2) + std::pow(b, 2));
                 tmp_dist = std::sqrt(tmp_dist);
                 
                 if(tmp_dist < min_dist)
@@ -725,11 +962,11 @@ void vbs::cvSketch::get_histogram_cell(const cv::Mat& _cell, const std::vector<s
                     min_idx = iColor;
                 }
             }
-            
+
             hist.at<float>(0, min_idx) = hist.at<float>(0, min_idx) + 1.0;
         }
     }
-    
+    //std::cout << "Hist: " << hist << std::endl;
     hist.copyTo(_hist);
 }
 
@@ -905,7 +1142,7 @@ void vbs::cvSketch::search_image_color_segments(std::string query_path, std::str
 	printf("Searching took %i ms per file \n", int(float(t * 1000) / float(files.size())));
 
 
-	cv::Mat results = make_canvas(images, 700, 7);
+    cv::Mat results = make_canvas(images, 700, 7, cv::Scalar(0,128,128));
 	std::string winnameResults = "Retrieval Results Top: " + std::to_string(top_kresults) + " of " + std::to_string(files.size());
 	cv::namedWindow(winnameResults);
 	show_image(results, winnameResults, q_colorchart.cols + 25, 50);
@@ -1149,6 +1386,57 @@ void vbs::cvSketch::show_image(const cv::Mat& image, std::string winname, int x,
     cv::imshow(winname, result);
 }
 
+void vbs::cvSketch::show_image_BGR(const cv::Mat& image, std::string winname, int x, int y)
+{
+    cv::Mat result;
+    image.copyTo(result);
+
+    if(x != -1 && y != -1)
+        cv::moveWindow(winname, x, y);
+    
+    cv::imshow(winname, result);
+}
+
+void vbs::cvSketch::process_image_hist(const cv::Mat& _image, int _maxwidth, int _maxheight, std::vector<std::pair<cv::Vec3b, float>>& _palette, cv::Mat& _reduced, cv::Mat& _algovis, cv::Mat& _descriptors)
+{
+    cv::Mat reduced;
+    std::string orientation = "";
+    int width = 0, height = 0;
+    int bar_width = 0;
+    if (_image.rows > _image.cols)
+    {
+        height = _maxheight;
+        width = _maxwidth;
+        orientation = "Portrait";
+        cv::resize(_image, reduced, cv::Size(_maxheight, _maxwidth));
+    }
+    else if(_image.rows < _image.cols)
+    {
+        width = _maxwidth;
+        height = _maxheight;
+        orientation = "Landscape";
+        cv::resize(_image, reduced, cv::Size(_maxwidth, _maxheight));
+    }else
+    {
+        width = _maxheight;
+        height = _maxheight;
+        orientation = "Quadratic";
+        cv::resize(_image, reduced, cv::Size(_maxheight, _maxheight));
+    }
+    
+    if(verbose)
+        std::cout << "Image: "<< orientation <<  "..." << std::endl;
+    
+    
+    cv::Mat descriptor, visualization;
+    
+    get_histogram(reduced,_palette, descriptor, visualization);
+
+    descriptor.copyTo(_descriptors);
+    visualization.copyTo(_algovis);
+    reduced.copyTo(_reduced);
+}
+
 void vbs::cvSketch::process_image(const cv::Mat& image, int width, int height, int colors, cv::Mat& image_withbarchart, std::vector<std::pair<cv::Vec3b, int>>& sorted_colorpalette, cv::Mat& _descriptors)
 {
     cv::Mat reduced;
@@ -1319,7 +1607,7 @@ vbs::cvSketch::~cvSketch()
 }
 
 
-cv::Mat vbs::cvSketch::make_canvas(std::vector<cv::Mat>& vecMat, int windowHeight, int nRows)
+cv::Mat vbs::cvSketch::make_canvas(std::vector<cv::Mat>& vecMat, int windowHeight, int nRows, cv::Scalar _bg)
 {
     int N = int(vecMat.size());
     nRows = nRows > N ? N : nRows;
@@ -1343,7 +1631,10 @@ cv::Mat vbs::cvSketch::make_canvas(std::vector<cv::Mat>& vecMat, int windowHeigh
         }
     }
     int windowWidth = maxRowLength;
-    cv::Mat canvasImage(windowHeight, windowWidth, CV_8UC3, cv::Scalar(0, 127, 127));
+    
+    
+    cv::Mat canvasImage(windowHeight, windowWidth, CV_8UC3, _bg);
+
 
     for (int k = 0, i = 0; i < nRows; i++) {
         int y = i * resizeHeight + (i + 1) * edgeThickness;
