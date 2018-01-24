@@ -13,15 +13,6 @@ The following directory is a test-bed and currently contains:
 
 ### Ad-hoc solution
 
-Resolution: 320x240px
-Patch Size: 40x40px
-Block Size: 40x40px
-Cell Size: 20x20px;
-Patch Step Size: 20px (Overlapping)
-
-Descriptor Size: 12288x1 (768 Cells * 16 Basic Colors)
-
-300ms per Image describing + comparing!
 
 ![Alt text](snapshots/retrieval_quantized_histogram.png?raw=true "Retrieval Results using Grid-based Quantized Color Histograms")
 
