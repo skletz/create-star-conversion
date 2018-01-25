@@ -8,9 +8,11 @@
 //Project dependencies
 #include "segmentation.hpp"
 #include "matching.hpp"
+#include "histmap.hpp"
 
 //External source code
 #include "../libs/imageSegmentation/imageSegmentation.hpp"
+
 
 
 vbs::cvSketch::cvSketch(bool _verbose, bool _display, int _max_width, int _max_height)
@@ -123,7 +125,7 @@ void vbs::cvSketch::run()
 	if (verbose)
 		std::cout << "Run cvSketch ..." << std::endl;
     
-    std::cout.setstate(std::ios::failbit) ;
+    //std::cout.setstate(std::ios::failbit) ;
 
 	//cv::Mat image = cv::imread(in_query, IMREAD_COLOR);
 	//cv::Mat reduced;
@@ -142,8 +144,11 @@ void vbs::cvSketch::run()
 //	display = true;
 // 	search_image_color_segments(in_query, in_dataset);
 
-    
-    search_image_color_histogram(in_query, in_dataset);
+    //search_image_color_histogram(in_query, in_dataset);
+
+
+	search_image_test_histmap(in_query, in_dataset);
+
     if (verbose)
         std::cout << "cvSketch finished ..." << std::endl;
 }
@@ -552,6 +557,9 @@ void vbs::cvSketch::log(const char* fmt, ...)
 
 void vbs::cvSketch::search_image_color_histogram(std::string query_path, std::string dataset_path)
 {
+    
+    vbs::HistMapExtractor* extractor = new vbs::HistMapExtractor(query_path);
+    
     double t;
     t = double(cv::getTickCount());
     
@@ -574,6 +582,9 @@ void vbs::cvSketch::search_image_color_histogram(std::string query_path, std::st
     path query(query_path);
     cv::Mat query_image = cv::imread(query.string(), IMREAD_UNCHANGED); //To read transparent png's
 
+
+    //extractor->process();
+    
     std::string image_type = "";
     if(query_image.type() == 24)
     {
@@ -607,8 +618,19 @@ void vbs::cvSketch::search_image_color_histogram(std::string query_path, std::st
     process_image_hist(query_image, max_width, max_height, basic_colors, r_query_image, q_vis_algo, q_descriptor);
     get_colorchart(basic_colors, basic_colorchart, r_query_image.cols, 50, (r_query_image.cols * r_query_image.rows));
     
-    std::cout << "Descriptor Size: " << q_descriptor.cols << "x" << q_descriptor.rows << std::endl;
-    std::cout << q_descriptor << std::endl;
+    
+
+//    std::cout << "Original Size: " << q_descriptor.cols << ", " << q_descriptor.rows << std::endl;
+//    std::cout << "Original: " << q_descriptor << std::endl;
+    q_descriptor.release();
+    extractor->compute_histmap(query_image, q_descriptor);
+
+    
+//    std::cout << "Extractor Size: " << q_descriptor.cols << ", " << q_descriptor.rows << std::endl;
+//    std::cout << "Extractor: " << q_descriptor << std::endl;
+//    
+//    std::cout << "Descriptor Size: " << q_descriptor.cols << "x" << q_descriptor.rows << std::endl;
+//    std::cout << q_descriptor << std::endl;
 
     cv::cvtColor(r_query_image, r_query_image, CV_BGRA2BGR);
     cv::cvtColor(q_vis_algo, q_vis_algo, CV_BGRA2BGR);
@@ -658,9 +680,11 @@ void vbs::cvSketch::search_image_color_histogram(std::string query_path, std::st
 //            std::cout << "Query Descriptor After: " << q_descriptor << std::endl;
 //        }
         
-        process_image_hist(image, max_width, max_height, basic_colors, r_image, vis_algo, descriptor);
-        //std::cout << "DB Descriptor: " << descriptor << std::endl;
+        //process_image_hist(image, max_width, max_height, basic_colors, r_image, vis_algo, descriptor);
 
+        descriptor.release();
+        extractor->compute_histmap(image, descriptor);
+        
         cv::cvtColor(vis_algo, vis_algo, CV_BGRA2BGR);
         cv::hconcat(r_image, vis_algo, display_result);
 
@@ -762,6 +786,136 @@ void vbs::cvSketch::search_image_color_histogram(std::string query_path, std::st
     
 }
 
+void vbs::cvSketch::search_image_test_histmap(std::string query_path, std::string dataset_path)
+{
+    double t;
+    t = double(cv::getTickCount());
+    
+    using namespace boost::filesystem;
+    const path dir(dataset_path);
+    const recursive_directory_iterator it(dir), end;
+    
+    std::vector<std::string> files;
+    for (auto& entry : boost::make_iterator_range(it, end))
+    {
+        boost::filesystem::path t(entry.path());
+        std::string filepath = t.string();
+        
+        if ((t.filename() != ".DS_Store") && is_regular(entry))
+        {
+            files.push_back(filepath);
+        }
+    }
+
+	path query(query_path);
+	vbs::HistMapExtractor* extractor = new vbs::HistMapExtractor(query.string());
+
+	cv::Mat query_image, query_descriptor;
+	query_image = cv::imread(query.string(), IMREAD_UNCHANGED); //To read transparent png's
+
+	extractor->compute_histmap(query_image, query_descriptor);
+
+	//ostringstream histmap_filename_query;
+	//histmap_filename_query << query.string() << "_" << std::setfill('0') << std::setw(7)  << "histmap.bin";
+	//cout << histmap_filename_query.str() << endl;
+
+	//extractor->writeToFile(histmap_filename_query.str(), query_descriptor);
+	//query_descriptor.release();
+	//extractor->readFromFile(histmap_filename_query.str(), query_descriptor);
+
+
+    cv::destroyAllWindows();
+    std::string winnameQuery = "Query Image: " + query.filename().string();
+    std::string winnameBasicColors= "Default Color Chart";
+    cv::namedWindow(winnameQuery, WINDOW_NORMAL);
+    cv::namedWindow(winnameBasicColors, WINDOW_NORMAL);
+
+	cv::resize(query_image, query_image, cv::Size(320, 240));
+	show_image_BGR(query_image, winnameQuery, 25, 50);
+   
+    std::vector<Match> matches;
+    int max_files = 0;
+    if (nr_input_images == -1) {
+        max_files = int(files.size());
+    }
+    else {
+        max_files = nr_input_images;
+    }
+
+    int max_results = 0;
+    if (top_kresults == -1) {
+        max_results = max_files;
+    }
+    else {
+        max_results = top_kresults;
+    }
+
+	std::vector<cv::Mat> images;
+	cv::Mat db_image, db_descriptor;
+	for (int i = 0; i < max_files; i++)
+	{
+		path db(files.at(i));
+
+		db_image = cv::imread(db.string(), IMREAD_UNCHANGED);
+
+		extractor->compute_histmap(db_image, db_descriptor);
+
+		//ostringstream histmap_filename_db;
+		//histmap_filename_db << db.string() << "_" << std::setfill('0') << std::setw(7) << "histmap.bin";
+		//cout << histmap_filename_db.str() << endl;
+
+		//extractor->writeToFile(histmap_filename_db.str(), db_descriptor);
+		//db_descriptor.release();
+		//extractor->readFromFile(histmap_filename_db.str(), db_descriptor);
+
+
+		float dist = extractor->calculateSimilarity(query_descriptor, db_descriptor);
+
+
+		Match match;
+		match.path = files.at(i);
+		match.dist = (dist);
+
+		cv::resize(db_image, db_image, cv::Size(320, 240));
+
+		stringstream stream;
+		stream << fixed << setprecision(2) << dist;
+		string s = stream.str();
+
+		cv::putText(db_image, s, cvPoint(30, 30), cv::FONT_HERSHEY_COMPLEX_SMALL, 2.0, cv::Scalar(0, 0, 255), 1, CV_AA);
+
+
+		db_image.copyTo(match.image);
+		matches.push_back(match);
+
+		db_image.release();
+		db_descriptor.release();
+	}
+
+	std::sort(matches.begin(), matches.end(), compareMatchesByDist);
+
+    for (int i = 0; i < top_kresults; i++)
+    {
+        images.push_back(matches.at(i).image);
+    }
+    
+    t = (double(cv::getTickCount()) - t) / cv::getTickFrequency();
+    printf("Searching took %i ms %3ix%3i px resoultion; %i colos; %i files \n", int(t * 1000), max_width, max_height, int(extractor->color_palette_rgb.size()), int(files.size()) + 1); //including query image
+    printf("Searching took %i ms per file \n", int(float(t * 1000) / float(files.size())));
+    
+    
+    cv::Mat results = make_canvas(images, 700, 7, cv::Scalar(0, 0, 0));
+    std::string winnameResults = "Retrieval Results Top: " + std::to_string(top_kresults) + " of " + std::to_string(files.size());
+    cv::namedWindow(winnameResults);
+    show_image_BGR(results, winnameResults, (query_image.cols * 2) + 25, 50);
+    
+    std::cout << "Min Distance: " << matches.front().dist;
+    std::cout << "Max Distance: " << matches.back().dist;
+    
+    cv::waitKey(0);
+}
+
+
 void vbs::cvSketch::get_histogram(const cv::Mat& _image, const std::vector<std::pair<cv::Vec3b, float>>& _palette, cv::Mat& _descriptor, cv::Mat& _result_image)
 {
     if(verbose)
@@ -829,7 +983,10 @@ void vbs::cvSketch::get_histogram(const cv::Mat& _image, const std::vector<std::
 			_image(mask).copyTo(patch);
             
             cv::rectangle(intermim_result, mask.tl(), mask.br(), cvScalar(0,0,0), 2);
-
+            
+            cv::imshow("Patch", patch);
+            //cv::waitKey(0);
+            
             get_histograms_patch(patch, iPatchx, iPatchy, cellSizeX, cellSizeY, _palette, subhist, intermim_result, algorithm_result);
 
             if (iPatchx == 0 && iPatchy == 0)
@@ -926,7 +1083,8 @@ void vbs::cvSketch::get_histogram_cell(const cv::Mat& _cell, const std::vector<s
         for (int iRow = 0; iRow < _cell.rows; iRow++)
         {
 //
-            cv::Scalar pixel_bgra = _cell.at<cv::Vec4b>(iCol, iRow);
+			//@TODO Vec4b in case of transparence
+            cv::Scalar pixel_bgra = _cell.at<cv::Vec3b>(iCol, iRow);
 //
 			cv::Scalar pixel_lab = vbs::Segmentation::ScalarBGR2LAB(pixel_bgra[0], pixel_bgra[1], pixel_bgra[2]);
 //
@@ -934,7 +1092,7 @@ void vbs::cvSketch::get_histogram_cell(const cv::Mat& _cell, const std::vector<s
 //            
             if(_cell.channels() == 4 && pixel_bgra[3] == 0)
             {
-                std::cout << "Transparenz: " << pixel_bgra << std::endl;
+                //std::cout << "Transparenz: " << pixel_bgra << std::endl;
                 continue;
             }else
             {
@@ -946,7 +1104,7 @@ void vbs::cvSketch::get_histogram_cell(const cv::Mat& _cell, const std::vector<s
             for(int iColor = 0; iColor < _palette.size(); iColor++)
             {
                 //std::cout << "Palette: " << _palette.at(iColor).first << std::endl;
-                
+                //std::cout << "Color: " << iColor << ": " << _palette.at(iColor).first << std::endl;
                 cv::Vec3b c2 = _palette.at(iColor).first;
                 
                 double l = (c1[0] - c2[0]);
@@ -965,8 +1123,13 @@ void vbs::cvSketch::get_histogram_cell(const cv::Mat& _cell, const std::vector<s
 
             hist.at<float>(0, min_idx) = hist.at<float>(0, min_idx) + 1.0;
         }
+        
+        //std::cout  << std::endl;
+
     }
-    //std::cout << "Hist: " << hist << std::endl;
+    
+//    std::cout << "Cell: " << _cell << std::endl;
+//    std::cout << "SubHist: " << hist << std::endl;
     hist.copyTo(_hist);
 }
 

@@ -57,6 +57,9 @@
     <ClCompile Include="..\..\..\cvsketch\libs\CIEDE2000\CIEDE2000.cpp">
       <Filter>libs\CIEDE2000</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\cvsketch\src\histmap.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\cvsketch\src\cvsketch.hpp">
@@ -82,6 +85,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\cvsketch\libs\CIEDE2000\CIEDE2000.h">
       <Filter>libs\CIEDE2000</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cvsketch\src\histmap.hpp">
+      <Filter>Quelldateien</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -25,6 +25,8 @@
 		7E2E7F82200C8D85000F6F08 /* segmentation.hpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E2E7F7E200C8D85000F6F08 /* segmentation.hpp */; };
 		7E2E7F85200C8DB5000F6F08 /* CIEDE2000.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E2E7F83200C8DB5000F6F08 /* CIEDE2000.cpp */; };
 		7E2E7F86200C8DB5000F6F08 /* CIEDE2000.h in Sources */ = {isa = PBXBuildFile; fileRef = 7E2E7F84200C8DB5000F6F08 /* CIEDE2000.h */; };
+		7E4D0FF22019CE5300128584 /* histmap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E4D0FF02019CE5300128584 /* histmap.cpp */; };
+		7E4D0FF32019CE5300128584 /* histmap.hpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E4D0FF12019CE5300128584 /* histmap.hpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -62,6 +64,8 @@
 		7E2E7F7E200C8D85000F6F08 /* segmentation.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = segmentation.hpp; path = ../../cvsketch/src/segmentation.hpp; sourceTree = "<group>"; };
 		7E2E7F83200C8DB5000F6F08 /* CIEDE2000.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = CIEDE2000.cpp; path = ../../cvsketch/libs/CIEDE2000/CIEDE2000.cpp; sourceTree = "<group>"; };
 		7E2E7F84200C8DB5000F6F08 /* CIEDE2000.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CIEDE2000.h; path = ../../cvsketch/libs/CIEDE2000/CIEDE2000.h; sourceTree = "<group>"; };
+		7E4D0FF02019CE5300128584 /* histmap.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = histmap.cpp; path = ../../cvsketch/src/histmap.cpp; sourceTree = "<group>"; };
+		7E4D0FF12019CE5300128584 /* histmap.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = histmap.hpp; path = ../../cvsketch/src/histmap.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +82,8 @@
 		7E0C52A52008ABB8004EE083 = {
 			isa = PBXGroup;
 			children = (
+				7E4D0FF02019CE5300128584 /* histmap.cpp */,
+				7E4D0FF12019CE5300128584 /* histmap.hpp */,
 				7E2E7F83200C8DB5000F6F08 /* CIEDE2000.cpp */,
 				7E2E7F84200C8DB5000F6F08 /* CIEDE2000.h */,
 				7E2E7F7B200C8D85000F6F08 /* matching.cpp */,
@@ -177,6 +183,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7E4D0FF22019CE5300128584 /* histmap.cpp in Sources */,
+				7E4D0FF32019CE5300128584 /* histmap.hpp in Sources */,
 				7E2E7F85200C8DB5000F6F08 /* CIEDE2000.cpp in Sources */,
 				7E2E7F86200C8DB5000F6F08 /* CIEDE2000.h in Sources */,
 				7E2E7F7F200C8D85000F6F08 /* matching.cpp in Sources */,

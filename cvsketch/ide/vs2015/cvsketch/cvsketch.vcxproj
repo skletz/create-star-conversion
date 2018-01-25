@@ -27,6 +27,7 @@
     <ClCompile Include="..\..\..\cvsketch\libs\seeds-revised\lib\SeedsRevised.cpp" />
     <ClCompile Include="..\..\..\cvsketch\libs\seeds-revised\lib\Tools.cpp" />
     <ClCompile Include="..\..\..\cvsketch\src\cvsketch.cpp" />
+    <ClCompile Include="..\..\..\cvsketch\src\histmap.cpp" />
     <ClCompile Include="..\..\..\cvsketch\src\matching.cpp" />
     <ClCompile Include="..\..\..\cvsketch\src\segmentation.cpp" />
   </ItemGroup>
@@ -37,6 +38,7 @@
     <ClInclude Include="..\..\..\cvsketch\libs\seeds-revised\lib\SeedsRevised.h" />
     <ClInclude Include="..\..\..\cvsketch\libs\seeds-revised\lib\Tools.h" />
     <ClInclude Include="..\..\..\cvsketch\src\cvsketch.hpp" />
+    <ClInclude Include="..\..\..\cvsketch\src\histmap.hpp" />
     <ClInclude Include="..\..\..\cvsketch\src\matching.hpp" />
     <ClInclude Include="..\..\..\cvsketch\src\segmentation.hpp" />
   </ItemGroup>

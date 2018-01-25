@@ -5,7 +5,7 @@
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <LocalDebuggerCommandArguments>--input $(VBS_SKETCH)\data\testbed\test_color_position_rt.jpg --searchin $(VBS_SKETCH)\data\sketch_sample\images --display --verbose </LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>--input $(VBS_SKETCH)\data\testbed\test_transparence_0.png --searchin $(VBS_SKETCH)\data\sketch_sample\images --display --verbose </LocalDebuggerCommandArguments>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
 </Project>

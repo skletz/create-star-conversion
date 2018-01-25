@@ -72,7 +72,7 @@
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "--input /Users/skletz/Dropbox/Programming/CUPCakes/vbssketch/data/testbed/test_color_position_rt.png"
+            argument = "--input /Users/skletz/Dropbox/Programming/CUPCakes/vbssketch/data/testbed/test_transparence.png"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument

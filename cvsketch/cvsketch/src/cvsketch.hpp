@@ -87,7 +87,7 @@ namespace vbs {
         int pad_top = 250;
         int pad_left = 50;
         int nr_input_images = 50;
-        int top_kresults = 30;
+        int top_kresults = 50;
 
         vbs::Segmentation* segmentation;
 		SettingsKmeansCluster* set_kmeans;
@@ -127,9 +127,9 @@ namespace vbs {
          */
         void run();
 
-        
+
         void log(const char* fmt, ...);
-        
+
 		/**
 		 * Search a given image in an set of images using color segmentation approach
 		 *
@@ -141,13 +141,17 @@ namespace vbs {
          *
          */
         void search_image_color_histogram(std::string query_path, std::string dataset_path);
-        
+
+
+        void search_image_test_histmap(std::string query_path, std::string dataset_path);
+
+
         void get_histogram(const cv::Mat& _image, const std::vector<std::pair<cv::Vec3b, float>>& _palette, cv::Mat& _descriptor, cv::Mat& _result_image);
-        
+
         void get_histograms_patch(const cv::Mat& _patch, int posX, int posY, int _cellSizeX, int _cellSizeY, const std::vector<std::pair<cv::Vec3b, float>>& _palette, cv::Mat& _hist, cv::Mat& _intermim_result, cv::Mat& _result_image);
-        
+
         void get_histogram_cell(const cv::Mat& _cell, const std::vector<std::pair<cv::Vec3b, float>>& _palette, cv::Mat& _hist);
-        
+
         /**
          * Callback for setting up kmeans clustering
          *
@@ -174,7 +178,7 @@ namespace vbs {
         void describe_color_segmentation(const cv::Mat& _image, cv::Mat& _color_segments, cv::Mat& _color_labels, std::vector<std::pair<cv::Vec3b, float>>& _palette, cv::Mat& _descriptors);
 
 
-        
+
 		void find_contours(const cv::Mat& _color_segments, const std::vector<std::pair<cv::Vec3b, float>>& _palette,
 			std::vector<std::tuple<cv::Vec3b, float, std::vector<cv::Point>, cv::Rect>>& _output);
 
@@ -191,10 +195,10 @@ namespace vbs {
         void show_image_BGR(const cv::Mat& image, std::string winname, int x = -1, int y = -1);
 
         void process_image(const cv::Mat& image, int width, int height, int colors, cv::Mat& image_withbarchart, std::vector<std::pair<cv::Vec3b, int>>& sorted_colorpalette, cv::Mat& _descriptors);
-        
+
         void process_image_hist(const cv::Mat& _image, int _maxwidth, int _maxheight, std::vector<std::pair<cv::Vec3b, float>>& _palette, cv::Mat& _reduced, cv::Mat& _algovis, cv::Mat& _descriptors);
 
-        
+
         //@TODO change
         static void getColorchart(std::map<cv::Vec3b, int, lessVec3b>& palette, cv::Mat& output, int chartwidth, int chartheight, int area);
         static void getColorchart(std::vector<std::pair<cv::Vec3b, int>>& palette, cv::Mat& output, int chartwidth, int chartheight, int area);
