@@ -62,7 +62,100 @@ namespace vbs{
 
         std::cout << "HistMapExtractor completed." << std::endl;
     }
-    
+ 
+	void HistMapExtractor::compute_histmap_grid(cv::Mat _src, cv::Mat& _dst, int _width, int _height, int _gsize)
+	{
+		cv::Mat reduced_image;
+		cv::resize(_src, reduced_image, cv::Size(_width, _height));
+
+		std::vector<std::pair<cv::Vec3b, float>> palette_lab;
+		for (auto color : HistMapExtractor::color_palette_rgb)
+		{
+			cv::Scalar lab = HistMapExtractor::ScalarBGR2LAB(color.first[2], color.first[1], color.first[0]);
+			cv::Vec3b tmp = cv::Vec3b(lab[0], lab[1], lab[2]);
+			palette_lab.push_back(std::make_pair(tmp, -1.0));
+		}
+
+
+		int patch_size_x = (_width / float(_gsize - 1));
+		int patch_size_y = (_height / float(_gsize - 1));
+
+		int cell_size_x = (patch_size_x / float(2));
+		int cell_size_y = (patch_size_y / float(2));
+
+		int num_colors = int(palette_lab.size());
+		int num_hists_x = (_width / float(patch_size_x) * 2) - 1; //overlapping sliding window cols
+		int num_hists_y = (_height / float(patch_size_y) * 2) - 1; //overlapping sliding window rows
+		int hist_dim = num_hists_x * num_hists_y;
+
+
+
+		cv::Mat descriptor, patch;
+
+
+    	if (_src.channels() == 4)
+		{
+			patch = cv::Mat::zeros(patch_size_y, patch_size_x, CV_8UC4);
+		}
+		else
+		{
+			patch = cv::Mat::zeros(patch_size_y, patch_size_x, CV_8UC3);
+		}
+
+		//each row represents one histogram
+		descriptor = cv::Mat::zeros(hist_dim, num_colors, CV_32F);
+		int counter = 0;
+		for (int iPatchx = 0; iPatchx < _width - cell_size_x; iPatchx = iPatchx + cell_size_x)
+		{
+			for (int iPatchy = 0; iPatchy < _height - cell_size_y; iPatchy = iPatchy + cell_size_y)
+			{
+				cv::Mat subhist(1, num_colors, CV_32F);
+				cv::Rect mask = cv::Rect(iPatchx, iPatchy, patch_size_x, patch_size_y);
+				reduced_image(mask).copyTo(patch);
+				compute_histmap_patch(patch, palette_lab, cell_size_x, cell_size_y, subhist);
+
+				if (iPatchx == 0 && iPatchy == 0)
+					descriptor = subhist;
+				else
+					cv::vconcat(subhist, descriptor, descriptor);
+
+				counter++;
+			}
+		}
+
+		cv::Mat norm_descriptor;
+		cv::normalize(descriptor, norm_descriptor, 1, 0, cv::NORM_L2, -1);
+		norm_descriptor.copyTo(_dst);
+
+	}
+
+	void HistMapExtractor::compute_histmap_patch(const cv::Mat& _patch, std::vector<std::pair<cv::Vec3b, float>>& _palette, int _cstep_x, int _cstep_y, cv::Mat& _hist)
+	{
+
+		int dim = int(_palette.size());
+
+		cv::Mat cell, subhist, hist;
+		hist = cv::Mat::zeros(1, dim, CV_32F);
+		subhist = cv::Mat::zeros(1, dim, CV_32F);
+
+		for (int iCellx = 0; iCellx < _patch.cols; iCellx = iCellx + _cstep_x)
+		{
+			for (int iCelly = 0; iCelly < _patch.rows; iCelly = iCelly + _cstep_y)
+			{
+				cv::Rect mask = cv::Rect(iCellx, iCelly, _cstep_x, _cstep_y);
+				_patch(mask).copyTo(cell);
+
+				compute_histmap_cell(cell, _palette, subhist);
+
+				hist = hist + subhist;
+			}
+
+			subhist.release();
+		}
+
+		hist.copyTo(_hist);
+	}
+
     void HistMapExtractor::compute_histmap(cv::Mat _src, cv::Mat& _dst, int _width, int _height, int _psize, int _csize, int _pstep)
     {
         cv::Mat reduced_image;
@@ -94,7 +187,7 @@ namespace vbs{
         
         //each row represents one histogram
         descriptor = cv::Mat::zeros(hist_dim, num_colors, CV_32F);
-        
+		int counter = 0;
         for (int iPatchx = 0; iPatchx < _width - _pstep; iPatchx = iPatchx + _pstep)
         {
             for (int iPatchy = 0; iPatchy < _height - _pstep; iPatchy = iPatchy + _pstep)
@@ -109,6 +202,8 @@ namespace vbs{
                     descriptor = subhist;
                 else
                     cv::vconcat(subhist, descriptor, descriptor);
+
+				counter++;
             }
         }
         
@@ -157,9 +252,9 @@ namespace vbs{
             {
 				cv::Scalar pixel_bgra;
 				if (_cell.channels() == 4)
-					pixel_bgra = _cell.at<cv::Vec4b>(iCol, iRow);
+					pixel_bgra = _cell.at<cv::Vec4b>(iRow, iCol);
 				else if (_cell.channels() == 3)
-					pixel_bgra = _cell.at<cv::Vec3b>(iCol, iRow);
+					pixel_bgra = _cell.at<cv::Vec3b>(iRow, iCol);
 				else
 					std::cerr << "Error with number of channels: " << _cell.channels() << ", these/this are/is not supported" << std::endl;
 
@@ -264,9 +359,6 @@ namespace vbs{
 			std::cout << "Error with file: " << _filepath << std::endl;
 			std::fflush(stdout);
 		}
-
-		
-        
     }
     
     void HistMapExtractor::readFromFile(const std::string _filepath, cv::Mat& _descriptor)

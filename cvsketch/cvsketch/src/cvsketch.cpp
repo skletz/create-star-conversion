@@ -125,6 +125,17 @@ void vbs::cvSketch::run()
 	if (verbose)
 		std::cout << "Run cvSketch ..." << std::endl;
     
+	//VideoCapture capture;
+	//capture.open(in_query);
+
+	//if(capture.isOpened())
+	//{
+	//	std::cout << "Video is open" << std::endl;
+	//}else
+	//{
+	//	std::cout << "Video is not open" << std::endl;
+	//}
+
     //std::cout.setstate(std::ios::failbit) ;
 
 	//cv::Mat image = cv::imread(in_query, IMREAD_COLOR);
@@ -813,7 +824,7 @@ void vbs::cvSketch::search_image_test_histmap(std::string query_path, std::strin
 	cv::Mat query_image, query_descriptor;
 	query_image = cv::imread(query.string(), IMREAD_UNCHANGED); //To read transparent png's
 
-	extractor->compute_histmap(query_image, query_descriptor);
+	extractor->compute_histmap_grid(query_image, query_descriptor);
 
 	//ostringstream histmap_filename_query;
 	//histmap_filename_query << query.string() << "_" << std::setfill('0') << std::setw(7)  << "histmap.bin";
@@ -828,7 +839,7 @@ void vbs::cvSketch::search_image_test_histmap(std::string query_path, std::strin
     std::string winnameQuery = "Query Image: " + query.filename().string();
     std::string winnameBasicColors= "Default Color Chart";
     cv::namedWindow(winnameQuery, WINDOW_NORMAL);
-    cv::namedWindow(winnameBasicColors, WINDOW_NORMAL);
+    //cv::namedWindow(winnameBasicColors, WINDOW_NORMAL);
 
 	cv::resize(query_image, query_image, cv::Size(320, 240));
 	show_image_BGR(query_image, winnameQuery, 25, 50);
@@ -858,7 +869,7 @@ void vbs::cvSketch::search_image_test_histmap(std::string query_path, std::strin
 
 		db_image = cv::imread(db.string(), IMREAD_UNCHANGED);
 
-		extractor->compute_histmap(db_image, db_descriptor);
+		extractor->compute_histmap_grid(db_image, db_descriptor);
 
 		//ostringstream histmap_filename_db;
 		//histmap_filename_db << db.string() << "_" << std::setfill('0') << std::setw(7) << "histmap.bin";

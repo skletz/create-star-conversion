@@ -29,13 +29,6 @@ namespace vbs {
 
         std::string mImage_path;
 
-        int mPatchSizeX;
-        int mPatchSizeY;
-        int mCellSizeX;
-        int mCellSizeY;
-        int mPatchStepX;
-        int mPatchStepY;
-
     public:
 
         static const std::vector<std::pair<cv::Vec3b, float>> color_palette_rgb;
@@ -47,6 +40,8 @@ namespace vbs {
         void process();
 
         static void compute_histmap(cv::Mat _src, cv::Mat& _dst, int _width = 320, int _height = 240, int _psize = 80, int _csize = 40, int _pstep = 40);
+
+		static void compute_histmap_grid(cv::Mat _src, cv::Mat& _dst, int _width = 320, int _height = 240, int _gsize = 3);
 
         void writeToFile(const std::string& _filepath, const cv::Mat& _descriptor);
 
@@ -65,6 +60,8 @@ namespace vbs {
     private:
 
         static void compute_histmap_patch(const cv::Mat& _patch, std::vector<std::pair<cv::Vec3b, float>>& _palette, int _cstep, cv::Mat& _hist);
+
+		static void compute_histmap_patch(const cv::Mat& _patch, std::vector<std::pair<cv::Vec3b, float>>& _palette, int _cstep_x, int _cstep_y, cv::Mat& _hist);
 
         static void compute_histmap_cell(const cv::Mat& _cell, std::vector<std::pair<cv::Vec3b, float>>& _palette, cv::Mat& _hist);
 
