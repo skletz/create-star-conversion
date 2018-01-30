@@ -839,11 +839,19 @@ void vbs::cvSketch::search_image_test_histmap(std::string query_path, std::strin
     std::string winnameQuery = "Query Image: " + query.filename().string();
     std::string winnameBasicColors= "Default Color Chart";
     cv::namedWindow(winnameQuery, WINDOW_NORMAL);
-    //cv::namedWindow(winnameBasicColors, WINDOW_NORMAL);
+    cv::namedWindow(winnameBasicColors, WINDOW_NORMAL);
 
 	cv::resize(query_image, query_image, cv::Size(320, 240));
 	show_image_BGR(query_image, winnameQuery, 25, 50);
    
+    cv::Mat basic_colorchart;
+
+    std::vector<std::pair<cv::Vec3b, float>> basic_colors;
+    vbs::HistMapExtractor::get_palette_lab(basic_colors);
+    get_colorchart(basic_colors, basic_colorchart, query_image.cols, 50, (query_image.cols * query_image.rows));
+    
+    show_image(basic_colorchart, winnameBasicColors, query_image.cols + 25, 50);
+
     std::vector<Match> matches;
     int max_files = 0;
     if (nr_input_images == -1) {

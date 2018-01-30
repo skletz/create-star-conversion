@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<string>SurgoryDiffJusti;Test Justificaiton</string>
+	<string>ReviewerExp;0</string>
+	<string>SurgoryDifficulty;0</string>
+	<string>OsatsInstrHandl;2</string>
+	<string>TaskGroups;0$Abdominal access|5$Clipping|1$Use of retractors|6$Suturing|2$Use of energy devices|7$Use of suction|3$Grasping and dissection|4$Cutting, transection and stapling</string>
+	<string>OsatsKnowProc;3</string>
+	<string>OsatsKnowInstr;3</string>
+	<string>SurgoryName;Max Mustermann</string>
+	<string>OsatsTimeMotion;1</string>
+	<string>OsatsAssistance;0</string>
+	<string>OsatsFlowPlanning;1</string>
+	<string>OsatsRespectTissue;2</string>
+	<string>SurgoryTitle;Hohl-Surgery</string>
+	<string>ErrorModes;0$Too much force/distance|3$Inadequate visualization|2$Wrong orientation|1$Too little force/distance</string>
+	<string>SurgoryExpCode;0</string>
+	<string>ReviewerName;Lisa Simpson</string>
+</array>
+</plist>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<string>4500;4800;4650;0;3;ÄÖÜNo%20view%20during%20access%2E;150.000000;;</string>
+	<string>5100;5400;5250;2;3;First%20error%2C%20there%20is%20no%20view%2E;170.000000;;</string>
+	<string>11100;11400;11250;3;0;Not%20possible%2E;370.000000;This is an event to the annotation|370.000000;</string>
+	<string>20700;21000;20850;2;3;There%20is%20also%20no%20view%2E;690.000000;This is also an event to the annotation of energy device|690.000000$This is a second event|690.000000$This is a third event|690.000000;</string>
+</array>
+</plist>

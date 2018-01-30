@@ -64,31 +64,19 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "--input /Users/skletz/Dropbox/Programming/CUPCakes/vbssketch/data/sketch_sample/images/0/32707061.jpg --display --verbose"
+            argument = "--input /Users/skletz/Desktop/test_video.mp4"
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "--input /Users/skletz/Desktop/test_video.mp4"
+            argument = "--input /Users/skletz/Dropbox/Programming/CUPCakes/vbssketch/data/sketch_sample/images/0/337009858.jpg"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "--input /Users/skletz/Dropbox/Programming/CUPCakes/vbssketch/data/testbed/test_sketch_4.png"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "--input /Users/skletz/Dropbox/Programming/CUPCakes/vbssketch/data/sketch_sample/images/0/1505881497.jpg"
-            isEnabled = "NO">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "--input /Users/skletz/Dropbox/Programming/CUPCakes/vbssketch/data/testbed/test_transparence.png"
-            isEnabled = "NO">
-         </CommandLineArgument>
-         <CommandLineArgument
             argument = "--input /Users/skletz/Dropbox/Programming/CUPCakes/vbssketch/data/testbed/mountains.jpg"
-            isEnabled = "NO">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "--input --input /Users/skletz/Dropbox/Programming/CUPCakes/vbssketch/data/sketch_sample/images/0/641602006.jpg"
-            isEnabled = "NO">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "--input /Users/skletz/Dropbox/Programming/CUPCakes/vbssketch/data/sketch_sample/images/0/641602006.jpg"
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument

@@ -15,7 +15,6 @@ namespace vbs{
         std::make_pair(cv::Vec3b(254,254,51),1), //yellow
         std::make_pair(cv::Vec3b(208,234,43),1), //ligh_green
         std::make_pair(cv::Vec3b(102,176,50),1), //green
-        std::make_pair(cv::Vec3b(0,161,160),1), //türkis
         std::make_pair(cv::Vec3b(3,145,206),1), //light_blue
         std::make_pair(cv::Vec3b(2,71,254),1), //blue
         std::make_pair(cv::Vec3b(61,1,164),1), //dark_blue
@@ -63,9 +62,23 @@ namespace vbs{
         std::cout << "HistMapExtractor completed." << std::endl;
     }
  
+    void HistMapExtractor::get_palette_lab(std::vector<std::pair<cv::Vec3b, float>>& _palette)
+    {
+        std::vector<std::pair<cv::Vec3b, float>> palette_lab;
+        for (auto color : HistMapExtractor::color_palette_rgb)
+        {
+            cv::Scalar lab = HistMapExtractor::ScalarBGR2LAB(color.first[2], color.first[1], color.first[0]);
+            cv::Vec3b tmp = cv::Vec3b(lab[0], lab[1], lab[2]);
+            palette_lab.push_back(std::make_pair(tmp, -1.0));
+        }
+        
+        _palette.assign(palette_lab.begin(), palette_lab.end());
+    }
+    
 	void HistMapExtractor::compute_histmap_grid(cv::Mat _src, cv::Mat& _dst, int _width, int _height, int _gsize)
 	{
-		cv::Mat reduced_image;
+		cv::Mat src, reduced_image;
+        _src.copyTo(src);
 		cv::resize(_src, reduced_image, cv::Size(_width, _height));
 
 		std::vector<std::pair<cv::Vec3b, float>> palette_lab;
@@ -93,7 +106,7 @@ namespace vbs{
 		cv::Mat descriptor, patch;
 
 
-    	if (_src.channels() == 4)
+    	if (src.channels() == 4)
 		{
 			patch = cv::Mat::zeros(patch_size_y, patch_size_x, CV_8UC4);
 		}
@@ -242,29 +255,28 @@ namespace vbs{
     
     void HistMapExtractor::compute_histmap_cell(const cv::Mat& _cell, std::vector<std::pair<cv::Vec3b, float>>& _palette, cv::Mat& _hist)
     {
-        int dim = int(HistMapExtractor::color_palette_rgb.size());
+        int dim = int(_palette.size());
         
         cv::Mat hist = cv::Mat::zeros(1, dim, CV_32F);
-        
+
         for (int iCol = 0; iCol < _cell.cols; iCol++)
         {
             for (int iRow = 0; iRow < _cell.rows; iRow++)
             {
-				cv::Scalar pixel_bgra;
-				if (_cell.channels() == 4)
-					pixel_bgra = _cell.at<cv::Vec4b>(iRow, iCol);
-				else if (_cell.channels() == 3)
-					pixel_bgra = _cell.at<cv::Vec3b>(iRow, iCol);
-				else
-					std::cerr << "Error with number of channels: " << _cell.channels() << ", these/this are/is not supported" << std::endl;
-
+                cv::Scalar pixel_bgra;
+                if (_cell.channels() == 4)
+                    pixel_bgra = _cell.at<cv::Vec4b>(iRow, iCol);
+                else if (_cell.channels() == 3)
+                    pixel_bgra = _cell.at<cv::Vec3b>(iRow, iCol);
+                else
+                    std::cerr << "Error with number of channels: " << _cell.channels() << " is not supported." << std::endl;
+                
                 cv::Scalar pixel_lab = HistMapExtractor::ScalarBGR2LAB(pixel_bgra[0], pixel_bgra[1], pixel_bgra[2]);
                 
                 cv::Vec4b c1 = cv::Vec4b(pixel_lab[0], pixel_lab[1], pixel_lab[2], pixel_lab[3]);
-   
+                
                 if(_cell.channels() == 3 || _cell.channels() == 4)
                 {
-                 
                     //find most similar color
                     if((_cell.channels() == 4 && pixel_bgra[3] != 0) || _cell.channels() == 3)
                     {
@@ -273,16 +285,12 @@ namespace vbs{
                         for(int iColor = 0; iColor < dim; iColor++)
                         {
                             cv::Vec3b c2 = _palette[iColor].first;
-                            //cv::Scalar lab = HistMapExtractor::ScalarBGR2LAB(rgb[2], rgb[1], rgb[0]);
-                            
-                            //cv::Vec3b c2 = cv::Vec3b(lab[0], lab[1], lab[2]);
-                            //std::cout << "Color: " << iColor << ": " << c2 << std::endl;
                             
                             double l = (c1[0] - c2[0]);
                             double a = (c1[1] - c2[1]);
                             double b = (c1[2] - c2[2]);
                             
-                            double tmp_dist = (0.90 * std::pow(l, 2) + 0.20 * std::pow(a, 2) + 0.20 * std::pow(b, 2));
+                            double tmp_dist = (std::pow(l, 2) + std::pow(a, 2) + std::pow(b, 2));
                             tmp_dist = std::sqrt(tmp_dist);
                             
                             if(tmp_dist < min_dist)
@@ -297,9 +305,9 @@ namespace vbs{
                     
                 }else
                 {
-                    std::cerr << "Channels: " << _cell.channels() << " not supported." << std::endl;
+                    std::cerr << "Number of channels: " << _cell.channels() << " not supported." << std::endl;
                 }
-
+                
             }
         }
         hist.copyTo(_hist);

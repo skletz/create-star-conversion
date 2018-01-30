@@ -1,2 +1,62 @@
-﻿  cvsketch.vcxproj -> E:\Dropbox\Programming\CUPCakes\vbssketch\cvsketch\ide\vs2015\x64\Release\cvsketch.exe
+﻿  cvsketch_demo.cpp
+C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\utility(200): warning C4244: "Initialisierung": Konvertierung von "int" in "float", möglicher Datenverlust
+  e:\dropbox\programming\cupcakes\vbssketch\cvsketch\cvsketch\src\segmentation.hpp(75): note: Siehe Verweis auf die Instanziierung der gerade kompilierten Funktions-template "std::pair<cv::Vec3b,float>::pair<cv::Vec<uchar,3>,int,void,0>(std::pair<cv::Vec<uchar,3>,int> &&) noexcept(false)".
+  e:\dropbox\programming\cupcakes\vbssketch\cvsketch\cvsketch\src\segmentation.hpp(50): note: Siehe Verweis auf die Instanziierung der gerade kompilierten Funktions-template "std::pair<cv::Vec3b,float>::pair<cv::Vec<uchar,3>,int,void,0>(std::pair<cv::Vec<uchar,3>,int> &&) noexcept(false)".
+  cvsketch.cpp
+e:\dropbox\programming\cupcakes\vbssketch\cvsketch\cvsketch\src\../libs/imageSegmentation/imageSegmentation.hpp(92): warning C4244: "Initialisierung": Konvertierung von "int" in "float", möglicher Datenverlust
+e:\dropbox\programming\cupcakes\vbssketch\cvsketch\cvsketch\src\../libs/imageSegmentation/imageSegmentation.hpp(109): warning C4244: "Initialisierung": Konvertierung von "int" in "float", möglicher Datenverlust
+e:\dropbox\programming\cupcakes\vbssketch\cvsketch\cvsketch\src\../libs/imageSegmentation/imageSegmentation.hpp(298): warning C4101: "dy": Unreferenzierte lokale Variable
+e:\dropbox\programming\cupcakes\vbssketch\cvsketch\cvsketch\src\../libs/imageSegmentation/imageSegmentation.hpp(298): warning C4101: "dx": Unreferenzierte lokale Variable
+..\..\..\cvsketch\src\cvsketch.cpp(247): warning C4800: "int": Variable wird auf booleschen Wert ("True" oder "False") gesetzt (Auswirkungen auf Leistungsverhalten möglich)
+..\..\..\cvsketch\src\cvsketch.cpp(382): warning C4800: "int": Variable wird auf booleschen Wert ("True" oder "False") gesetzt (Auswirkungen auf Leistungsverhalten möglich)
+..\..\..\cvsketch\src\cvsketch.cpp(458): warning C4267: "Argument": Konvertierung von "size_t" nach "int", Datenverlust möglich
+..\..\..\cvsketch\src\cvsketch.cpp(505): warning C4244: "Initialisierung": Konvertierung von "double" in "float", möglicher Datenverlust
+..\..\..\cvsketch\src\cvsketch.cpp(506): warning C4244: "Initialisierung": Konvertierung von "double" in "float", möglicher Datenverlust
+..\..\..\cvsketch\src\cvsketch.cpp(507): warning C4244: "Initialisierung": Konvertierung von "double" in "float", möglicher Datenverlust
+..\..\..\cvsketch\src\cvsketch.cpp(752): warning C4244: "=": Konvertierung von "double" in "float", möglicher Datenverlust
+..\..\..\cvsketch\src\cvsketch.cpp(966): warning C4244: "Initialisierung": Konvertierung von "float" in "int", möglicher Datenverlust
+..\..\..\cvsketch\src\cvsketch.cpp(967): warning C4244: "Initialisierung": Konvertierung von "float" in "int", möglicher Datenverlust
+..\..\..\cvsketch\src\cvsketch.cpp(1066): warning C4244: "Argument": Konvertierung von "double" in "uchar", möglicher Datenverlust
+..\..\..\cvsketch\src\cvsketch.cpp(1100): warning C4244: "Argument": Konvertierung von "double" in "uchar", möglicher Datenverlust
+..\..\..\cvsketch\src\cvsketch.cpp(1102): warning C4244: "Argument": Konvertierung von "double" in "uchar", möglicher Datenverlust
+..\..\..\cvsketch\src\cvsketch.cpp(1135): warning C4244: "=": Konvertierung von "double" in "float", möglicher Datenverlust
+..\..\..\cvsketch\src\cvsketch.cpp(1288): warning C4244: "=": Konvertierung von "double" in "float", möglicher Datenverlust
+..\..\..\cvsketch\src\cvsketch.cpp(1366): warning C4244: "Initialisierung": Konvertierung von "float" in "int", möglicher Datenverlust
+..\..\..\cvsketch\src\cvsketch.cpp(1412): warning C4244: "Initialisierung": Konvertierung von "float" in "int", möglicher Datenverlust
+..\..\..\cvsketch\src\cvsketch.cpp(1452): warning C4244: "Initialisierung": Konvertierung von "float" in "int", möglicher Datenverlust
+..\..\..\cvsketch\src\cvsketch.cpp(1498): warning C4244: "Initialisierung": Konvertierung von "float" in "int", möglicher Datenverlust
+..\..\..\cvsketch\src\cvsketch.cpp(1506): warning C4244: "Argument": Konvertierung von "double" in "uchar", möglicher Datenverlust
+..\..\..\cvsketch\src\cvsketch.cpp(1671): warning C4800: "int": Variable wird auf booleschen Wert ("True" oder "False") gesetzt (Auswirkungen auf Leistungsverhalten möglich)
+..\..\..\cvsketch\src\cvsketch.cpp(1695): warning C4305: "Argument": Verkürzung von "double" in "const float"
+..\..\..\cvsketch\src\cvsketch.cpp(1746): warning C4101: "e": Unreferenzierte lokale Variable
+..\..\..\cvsketch\src\cvsketch.cpp(1789): warning C4244: "Initialisierung": Konvertierung von "double" in "int", möglicher Datenverlust
+..\..\..\cvsketch\src\cvsketch.cpp(1790): warning C4244: "Initialisierung": Konvertierung von "double" in "int", möglicher Datenverlust
+C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\utility(200): warning C4244: "Initialisierung": Konvertierung von "int" in "float", möglicher Datenverlust
+  e:\dropbox\programming\cupcakes\vbssketch\cvsketch\cvsketch\src\segmentation.hpp(75): note: Siehe Verweis auf die Instanziierung der gerade kompilierten Funktions-template "std::pair<cv::Vec3b,float>::pair<cv::Vec<uchar,3>,int,void,0>(std::pair<cv::Vec<uchar,3>,int> &&) noexcept(false)".
+  e:\dropbox\programming\cupcakes\vbssketch\cvsketch\cvsketch\src\segmentation.hpp(50): note: Siehe Verweis auf die Instanziierung der gerade kompilierten Funktions-template "std::pair<cv::Vec3b,float>::pair<cv::Vec<uchar,3>,int,void,0>(std::pair<cv::Vec<uchar,3>,int> &&) noexcept(false)".
+  histmap.cpp
+..\..\..\cvsketch\src\histmap.cpp(75): warning C4244: "Argument": Konvertierung von "double" in "uchar", möglicher Datenverlust
+..\..\..\cvsketch\src\histmap.cpp(79): warning C4244: "Initialisierung": Konvertierung von "float" in "int", möglicher Datenverlust
+..\..\..\cvsketch\src\histmap.cpp(80): warning C4244: "Initialisierung": Konvertierung von "float" in "int", möglicher Datenverlust
+..\..\..\cvsketch\src\histmap.cpp(82): warning C4244: "Initialisierung": Konvertierung von "float" in "int", möglicher Datenverlust
+..\..\..\cvsketch\src\histmap.cpp(83): warning C4244: "Initialisierung": Konvertierung von "float" in "int", möglicher Datenverlust
+..\..\..\cvsketch\src\histmap.cpp(86): warning C4244: "Initialisierung": Konvertierung von "float" in "int", möglicher Datenverlust
+..\..\..\cvsketch\src\histmap.cpp(87): warning C4244: "Initialisierung": Konvertierung von "float" in "int", möglicher Datenverlust
+..\..\..\cvsketch\src\histmap.cpp(261): warning C4244: "Argument": Konvertierung von "double" in "uchar", möglicher Datenverlust
+..\..\..\cvsketch\src\histmap.cpp(263): warning C4244: "Argument": Konvertierung von "double" in "uchar", möglicher Datenverlust
+..\..\..\cvsketch\src\histmap.cpp(290): warning C4244: "=": Konvertierung von "double" in "float", möglicher Datenverlust
+..\..\..\cvsketch\src\histmap.cpp(355): warning C4101: "e": Unreferenzierte lokale Variable
+..\..\..\cvsketch\src\histmap.cpp(388): warning C4101: "e": Unreferenzierte lokale Variable
+C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\utility(200): warning C4244: "Initialisierung": Konvertierung von "int" in "float", möglicher Datenverlust
+  ..\..\..\cvsketch\src\histmap.cpp(28): note: Siehe Verweis auf die Instanziierung der gerade kompilierten Funktions-template "std::pair<cv::Vec3b,float>::pair<cv::Vec<uchar,3>,int,void,0>(std::pair<cv::Vec<uchar,3>,int> &&) noexcept(false)".
+  ..\..\..\cvsketch\src\histmap.cpp(8): note: Siehe Verweis auf die Instanziierung der gerade kompilierten Funktions-template "std::pair<cv::Vec3b,float>::pair<cv::Vec<uchar,3>,int,void,0>(std::pair<cv::Vec<uchar,3>,int> &&) noexcept(false)".
+C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\utility(200): warning C4244: "Initialisierung": Konvertierung von "double" in "float", möglicher Datenverlust
+  ..\..\..\cvsketch\src\histmap.cpp(76): note: Siehe Verweis auf die Instanziierung der gerade kompilierten Funktions-template "std::pair<cv::Vec3b,float>::pair<cv::Vec<uchar,3>,double,void,0>(std::pair<cv::Vec<uchar,3>,double> &&) noexcept(false)".
+  ..\..\..\cvsketch\src\histmap.cpp(76): note: Siehe Verweis auf die Instanziierung der gerade kompilierten Funktions-template "std::pair<cv::Vec3b,float>::pair<cv::Vec<uchar,3>,double,void,0>(std::pair<cv::Vec<uchar,3>,double> &&) noexcept(false)".
+  Code wird generiert.
+  30 of 2694 functions ( 1.1%) were compiled, the rest were copied from previous compilation.
+    4 functions were new in current compilation
+    58 functions had inline decision re-evaluated but remain unchanged
+  Codegenerierung ist abgeschlossen.
+  cvsketch.vcxproj -> E:\Dropbox\Programming\CUPCakes\vbssketch\cvsketch\ide\vs2015\x64\Release\cvsketch.exe
   cvsketch.vcxproj -> E:\Dropbox\Programming\CUPCakes\vbssketch\cvsketch\ide\vs2015\x64\Release\cvsketch.pdb (Full PDB)

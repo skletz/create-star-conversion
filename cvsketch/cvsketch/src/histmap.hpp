@@ -56,6 +56,8 @@ namespace vbs {
         void set_imagepath(std::string _imagepath);
 
         std::string get_imagepath();
+        
+        static void get_palette_lab(std::vector<std::pair<cv::Vec3b, float>>& _palette);
 
     private:
 
